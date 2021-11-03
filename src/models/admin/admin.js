@@ -5,8 +5,16 @@ export default function buildMakeAdmin({ Id, adminValidator }) {
     firstName,
     lastName,
     email,
+    about,
   } = {}) {
-    let { error } = adminValidator({ id, neiuId, firstName, lastName, email });
+    let { error } = adminValidator({
+      id,
+      neiuId,
+      firstName,
+      lastName,
+      email,
+      about,
+    });
     if (error) throw new Error(error);
 
     return Object.freeze({
@@ -15,6 +23,7 @@ export default function buildMakeAdmin({ Id, adminValidator }) {
       getFirstName: () => firstName,
       getLastName: () => lastName,
       getEmail: () => email,
+      getAbout: () => about,
     });
   };
 }

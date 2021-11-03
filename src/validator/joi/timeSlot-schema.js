@@ -1,5 +1,6 @@
 import { object, number, string, ref } from "joi";
 import {
+  dateLength,
   idLength,
   semesterIdError,
   dayError,
@@ -12,22 +13,27 @@ import {
 } from "../validationMessages";
 
 export default object().keys({
+  slotId: string()
+    .trim()
+    .length(idLength)
+    .required()
+    .error(() => idError),
   scheduleId: string()
     .trim()
     .length(idLength)
     .required()
     .error(() => idError),
-  tutorId: string()
+  slotDate: string()
     .trim()
-    .length(idLength)
+    .length(dateLength)
     .required()
     .error(() => idError),
-  semesterId: string()
+  sessionStart: string()
     .trim()
     .alphanum()
     .required()
     .error(() => semesterIdError),
-  day: number()
+  sessionEnd: number()
     .integer()
     .positive()
     .min(minDay)
@@ -41,18 +47,4 @@ export default object().keys({
     .max(maxStartEndHour)
     .required()
     .error(() => startEndHourError),
-  endHour: number()
-    .integer()
-    .positive()
-    .greater(ref("startHour"))
-    .max(maxStartEndHour)
-    .required()
-    .error(() => startEndHourError),
-  sessionDuration: number()
-    .integer()
-    .positive()
-    .min(minSessionDuration)
-    .max(maxSessionDuration)
-    .required()
-    .error(() => sessionDurationError),
 });

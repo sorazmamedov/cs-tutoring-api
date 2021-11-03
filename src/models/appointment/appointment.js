@@ -4,20 +4,22 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
     tutorId,
     studentId,
     courseId,
-    date,
+    appointmentDate,
     location,
     canceled = false,
     noShow = false,
+    comment,
   } = {}) {
     let { error } = appointmentValidator({
       appointmentId,
       tutorId,
       studentId,
       courseId,
-      date,
+      appointmentDate,
       location,
       canceled,
       noShow,
+      comment,
     });
     if (error) throw new Error(error);
 
@@ -26,10 +28,11 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       getTutorId: () => tutorId,
       getStudentId: () => studentId,
       getCourseId: () => courseId,
-      getDate: () => date,
+      getAppointmentDate: () => appointmentDate,
       getLocation: () => location,
       isCanceled: () => canceled,
       isNoShow: () => noShow,
+      getComment: () => comment,
       markCanceled: () => {
         canceled = true;
       },

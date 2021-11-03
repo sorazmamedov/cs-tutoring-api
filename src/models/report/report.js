@@ -5,7 +5,7 @@ export default function buildMakeReport({ Id, reportValidator }) {
     studentId,
     courseId,
     submittedOn = Date.now(),
-    message,
+    content,
     status = "pending",
   } = {}) {
     let { error } = reportValidator({
@@ -20,12 +20,12 @@ export default function buildMakeReport({ Id, reportValidator }) {
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getreportId: () => reportId,
+      getReportId: () => reportId,
       getTutorId: () => tutorId,
       getStudentId: () => studentId,
-      getStartDate: () => courseId,
+      getCourseId: () => courseId,
       getSubmittedOn: () => submittedOn,
-      getMessage: () => message,
+      getContent: () => content,
       getStatus: () => status,
       setStatusAsPending: () => {
         status = "pending";

@@ -1,6 +1,6 @@
-import tutorSchema from "./tutor-schema";
-import adminSchema from "./admin-schema";
-import studentSchema from "./student-schema";
+import { adminSchema } from "./admin-schema";
+import { tutorSchema } from "./tutor-schema";
+import { studentSchema } from "./student-schema";
 import { announcementSchema } from "./announcement-schema";
 import { appointmentSchema } from "./appointment-schema";
 import { reportSchema } from "./report-schema";

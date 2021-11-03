@@ -4,12 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npm run clean && babel src -d dist",
+    "now-build": "npm run build",
+    "clean": "rimraf dist",
+    "db": "babel-node ./db/index.js",
+    "dev": "nodemon --exec babel-node ./src/index.js",
+    "start": "npm run clean && npm run build && npm run db && cd dist && node index.js",
+    "test": "jest src --watch",
+    "test:e2e": "jest ./__test__ --runInBand"
   },
+  "type": "module",
   "author": "Serdar Orazmamedov",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.17.1",
     "joi": "^17.4.2",
-    "nanoid": "^3.1.29"
+    "nanoid": "^3.1.29",
+    "sanitize-html": "^2.5.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.16.0",
+    "@babel/core": "^7.16.0",
+    "@babel/node": "^7.16.0",
+    "@babel/preset-env": "^7.16.0",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.14",
+    "rimraf": "^3.0.2"
   }
 }

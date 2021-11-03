@@ -1,23 +1,47 @@
 import { object, number, string } from "joi";
+import {
+  idLength,
+  idError,
+  neiuIdError,
+  neiuIdStart,
+  neiuIdEnd,
+  minFirstnameLength,
+  maxFirstnameLength,
+  minLastnameLength,
+  maxLastnameLength,
+  firstnameError,
+  lastnameError,
+  emailError,
+  minContentLength,
+  maxContentLength,
+  contentError,
+} from "../validationMessages";
 
 export default object().keys({
   id: string()
-    .length(12)
+    .trim()
+    .length(idLength)
     .required()
-    .error(() => "id has to be of length 12"),
+    .error(() => idError),
   neiuId: number()
-    .min(100000)
-    .max(999999)
+    .integer()
+    .positive()
+    .min(neiuIdStart)
+    .max(neiuIdEnd)
     .required()
-    .error(() => "Neiu ID must be a 6 digit number"),
+    .error(() => neiuIdError),
   firstName: string()
     .trim()
+    .min(minFirstnameLength)
+    .max(maxFirstnameLength)
     .required()
-    .error(() => "firstname must be a string"),
+    .error(() => firstnameError),
   lastName: string()
     .trim()
+    .min(minLastnameLength)
+    .max(maxLastnameLength)
     .required()
-    .error(() => "lastname must be a string"),
+    .error(() => lastnameError),
   email: string()
     .trim()
     .email({
@@ -26,5 +50,10 @@ export default object().keys({
       tlds: { allow: ["edu"] },
     })
     .required()
-    .error(() => "Email must be in @neiu.edu domain"),
+    .error(() => emailError),
+  about: string()
+    .trim()
+    .min(minContentLength)
+    .max(maxContentLength)
+    .error(() => contentError),
 });
