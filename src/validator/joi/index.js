@@ -1,14 +1,18 @@
-import { adminSchema } from "./admin-schema";
-import { tutorSchema } from "./tutor-schema";
-import { studentSchema } from "./student-schema";
-import { announcementSchema } from "./announcement-schema";
-import { appointmentSchema } from "./appointment-schema";
-import { reportSchema } from "./report-schema";
-import { courseSchema } from "./course-schema";
-import { scheduleSchema } from "./schedule-schema";
+import adminSchema from "./admin-schema";
+import tutorSchema from "./tutor-schema";
+import studentSchema from "./student-schema";
+import announcementSchema from "./announcement-schema";
+import appointmentSchema from "./appointment-schema";
+import reportSchema from "./report-schema";
+import courseSchema from "./course-schema";
+import scheduleSchema from "./schedule-schema";
 
 let JoiValidator = (payload, schema) => {
   let { error } = schema.validate(payload, { abortEarly: false });
+
+  // let result = schema.validate(payload, { abortEarly: false });
+  // console.log(JSON.stringify(error));
+
   if (error) {
     let message = error.details.map((el) => el.message).join("\n");
     return {

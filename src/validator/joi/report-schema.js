@@ -1,41 +1,32 @@
-import { object, number, string, boolean } from "joi";
-import {
-  idError,
-  idLength,
-  dateError,
-  minDate,
-  courseIdError,
-  minContentLength,
-  maxContentLength,
-  statusPattern,
-} from "../validationMessages";
+import Joi from "joi";
+import { len, errMessages as EM } from "../validationMessages";
 
-export default object().keys({
-  reportId: string()
-    .length(idLength)
+export default Joi.object().keys({
+  reportId: Joi.string()
+    .length(len.idLength)
     .required()
-    .error(() => idError),
-  tutorId: string()
-    .length(idLength)
+    .error(() => EM.idError),
+  tutorId: Joi.string()
+    .length(len.idLength)
     .required()
-    .error(() => idError),
-  studentId: string()
-    .length(idLength)
+    .error(() => EM.idError),
+  studentId: Joi.string()
+    .length(len.idLength)
     .required()
-    .error(() => idError),
-  courseId: string()
+    .error(() => EM.idError),
+  courseId: Joi.string()
     .required()
-    .error(() => courseIdError),
-  submittedOn: number()
+    .error(() => EM.courseIdError),
+  submittedOn: Joi.number()
     .integer()
     .positive()
-    .greater(minDate)
+    .greater(len.minDate)
     .required()
-    .error(() => dateError),
-  content: string()
-    .min(minContentLength)
-    .max(maxContentLength)
+    .error(() => EM.dateError),
+  content: Joi.string()
+    .min(len.minContentLength)
+    .max(len.maxContentLength)
     .required()
-    .error(() => locationError),
-  status: string().pattern(statusPattern),
+    .error(() => EM.locationError),
+  status: Joi.string().pattern(new RegExp(EM.statusPattern)),
 });

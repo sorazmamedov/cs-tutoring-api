@@ -1,4 +1,4 @@
-import { object, number, string, boolean } from "joi";
+import Joi from "joi";
 import {
   idError,
   idLength,
@@ -11,41 +11,46 @@ import {
   minContentLength,
   maxContentLength,
   booleanError,
+  contentError,
 } from "../validationMessages";
 
-export default object().keys({
-  appointmentId: string()
+export default Joi.object().keys({
+  appointmentId: Joi.string()
     .trim()
     .length(idLength)
     .required()
     .error(() => idError),
-  tutorId: string()
+  tutorId: Joi.string()
     .trim()
     .length(idLength)
     .required()
     .error(() => idError),
-  studentId: string()
+  studentId: Joi.string()
     .trim()
     .length(idLength)
     .required()
     .error(() => idError),
-  courseId: string()
+  courseId: Joi.string()
     .trim()
     .required()
     .error(() => courseIdError),
-  appointmentDate: number()
+  appointmentDate: Joi.number()
     .integer()
     .positive()
     .greater(minDate)
     .required()
     .error(() => dateError),
-  location: string()
+  location: Joi.string()
     .trim()
     .min(minLocationLength)
     .max(maxLocationLength)
     .required()
     .error(() => locationError),
-  canceled: boolean().error(() => booleanError),
-  noShow: boolean().error(() => booleanError),
-  comment: string().trim().min(minContentLength).max(maxContentLength).error(),
+  canceled: Joi.boolean().error(() => booleanError),
+  noShow: Joi.boolean().error(() => booleanError),
+  comment: Joi.string()
+    .trim()
+    .min(minContentLength)
+    .max(maxContentLength)
+    .error(() => contentError),
 });

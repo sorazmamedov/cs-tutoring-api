@@ -1,45 +1,10 @@
-import { object, number, string, boolean } from "joi";
-import {
-  idError,
-  idLength,
-  subjectError,
-  contentError,
-  minSubjectLength,
-  maxSubjectLength,
-  minContentLength,
-  maxContentLength,
-  minDate,
-  booleanError,
-} from "../validationErrorMessages";
+import vs from "./validationSchemas";
+import Joi from "joi";
 
-export default object().keys({
-  announcementId: string()
-    .trim()
-    .length(idLength)
-    .required()
-    .error(() => idError),
-  publisherId: string()
-    .trim()
-    .length(idLength)
-    .required()
-    .error(() => idError),
-  createdOn: number()
-    .integer()
-    .positive()
-    .greater(minDate)
-    .required()
-    .error(() => dateError),
-  subject: string()
-    .trim()
-    .min(minSubjectLength)
-    .max(maxSubjectLength)
-    .required()
-    .error(() => subjectError),
-  content: string()
-    .trim()
-    .min(minContentLength)
-    .max(maxContentLength)
-    .required()
-    .error(() => contentError),
-  published: boolean().error(() => booleanError),
-});
+export default Joi.object()
+  .concat(vs.announcementId)
+  .concat(vs.publisherId)
+  .concat(vs.createdOn)
+  .concat(vs.subject)
+  .concat(vs.content)
+  .concat(vs.published);
