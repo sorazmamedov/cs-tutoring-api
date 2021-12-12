@@ -1,10 +1,11 @@
-import vs from "./validationSchemas";
 import Joi from "joi";
+import vs from "./validationSchemas";
 
-export default Joi.object()
-  .concat(vs.nanoid)
-  .concat(vs.neiuId)
-  .concat(vs.firstName)
-  .concat(vs.lastName)
-  .concat(vs.email)
-  .concat(vs.about);
+export default Joi.object().keys({
+  id: vs.nanoid,
+  neiuId: vs.neiuId,
+  firstName: vs.firstName,
+  lastName: vs.lastName,
+  email: vs.email,
+  about: vs.longText,
+});

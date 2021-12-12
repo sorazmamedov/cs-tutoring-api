@@ -6,12 +6,17 @@ import appointmentSchema from "./appointment-schema";
 import reportSchema from "./report-schema";
 import courseSchema from "./course-schema";
 import scheduleSchema from "./schedule-schema";
+import semesterSchema from "./semester-schema";
+import timeSlotValidator from "./timeSlot-schema";
+import timeSlotSchema from "./timeSlot-schema";
 
 let JoiValidator = (payload, schema) => {
-  let { error } = schema.validate(payload, { abortEarly: false });
+  let { error } = schema.validate(payload, {
+    abortEarly: false,
+    convert: false,
+  });
 
-  // let result = schema.validate(payload, { abortEarly: false });
-  // console.log(JSON.stringify(error));
+  console.log(JSON.stringify(error));
 
   if (error) {
     let message = error.details.map((el) => el.message).join("\n");
@@ -31,6 +36,8 @@ let validator = Object.freeze({
   reportValidator: (payload) => JoiValidator(payload, reportSchema),
   courseValidator: (payload) => JoiValidator(payload, courseSchema),
   scheduleValidator: (payload) => JoiValidator(payload, scheduleSchema),
+  semesterValidator: (payload) => JoiValidator(payload, semesterSchema),
+  timeSlotValidator: (payload) => JoiValidator(payload, timeSlotSchema)
 });
 
 module.exports = validator;

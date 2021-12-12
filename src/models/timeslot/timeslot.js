@@ -3,15 +3,15 @@ export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
     slotId = Id.makeId(),
     scheduleId,
     slotDate,
-    sessionStart,
-    sessionEnd,
+    startHour,
+    endHour,
   } = {}) {
     let { error } = timeSlotValidator({
       slotId,
       scheduleId,
       slotDate,
-      sessionStart,
-      sessionEnd,
+      startHour,
+      endHour,
     });
     if (error) throw new Error(error);
 

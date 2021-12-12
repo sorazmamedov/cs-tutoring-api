@@ -7,22 +7,16 @@ const len = Object.freeze({
   neiuIdEnd: 999999,
   minNameLength: 2,
   maxNameLength: 30,
-  minFirstnameLength: 2,
-  maxFirstnameLength: 30,
-  minLastnameLength: 2,
-  maxLastnameLength: 30,
-  minSubjectLength: 10,
-  maxSubjectLength: 100,
-  minContentLength: 10,
-  maxContentLength: 1000,
-  minLocationLength: 2,
-  maxLocationLength: 30,
+  minShortTextLength: 2,
+  maxShortTextLength: 100,
+  minLongTextLength: 10,
+  maxLongTextLength: 1000,
   minYear: 2020,
   minDate: 1577858400000, //(January 1, 2020)
   minDay: 0, //0-Sunday, 1-Monday etc.
   maxDay: 6, //6-Saturday etc. 0-6
-  minStartEndHour: 6, //6am 24 hour format
-  maxStartEndHour: 22, //10pm 24 hour format
+  minStartHour: 6, //6am 24 hour format
+  maxEndHour: 22, //10pm 24 hour format
   minSessionDuration: 20,
   maxSessionDuration: 50,
 });
@@ -53,7 +47,7 @@ const errMessages = Object.freeze({
   sessionDurationError:
     "Session duration must be a number between 20-50 (minutes)!",
   //patterns
-  statusPattern: "/^(pending|sent|error)$/",
+  statusPattern: /^(pending|sent|error)$/,
   // datePattern:
 });
 export { len, errMessages };

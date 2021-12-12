@@ -7,6 +7,8 @@ import {
   reportValidator,
   courseValidator,
   scheduleValidator,
+  semesterValidator,
+  timeSlotValidator,
 } from "./joi";
 
 let validator = Object.freeze({
@@ -18,6 +20,8 @@ let validator = Object.freeze({
   reportValidator: (payload) => reportValidator(payload),
   courseValidator: (payload) => courseValidator(payload),
   scheduleValidator: (payload) => scheduleValidator(payload),
+  semesterValidator: (payload) => semesterValidator(payload),
+  timeSlotValidator: (payload) => timeSlotValidator(payload),
 });
 
 module.exports = validator;

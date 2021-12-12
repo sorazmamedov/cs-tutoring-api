@@ -5,7 +5,7 @@ export default function buildMakeReport({ Id, reportValidator }) {
     studentId,
     courseId,
     submittedOn = Date.now(),
-    content,
+    message,
     status = "pending",
   } = {}) {
     let { error } = reportValidator({

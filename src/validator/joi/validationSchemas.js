@@ -2,172 +2,92 @@ import Joi from "joi";
 import { len, errMessages as EM } from "../validationMessages";
 
 export default Object.freeze({
-  nanoid: Joi.object({
-    id: Joi.string()
-      .trim()
-      .length(len.idLength)
-      .required()
-      .messages({
-        "any.required": `"id" ${EM.isRequired}`,
-        "string.empty": `"id" ${EM.isRequired}`,
-        "string.length": EM.idError,
-        "string.base": EM.idError,
-      }),
-  }),
+  nanoid: Joi.string().trim().length(len.idLength).required(),
 
-  neiuId: Joi.object({
-    neiuId: Joi.number()
-      .integer()
-      .min(len.neiuIdStart)
-      .max(len.neiuIdEnd)
-      .required()
-      .messages({
-        "number.base": EM.neiuIdError,
-        "number.integer": EM.neiuIdError,
-        "number.min": EM.neiuIdError,
-        "number.max": EM.neiuIdError,
-        "any.required": `"neiuId" ${EM.isRequired}`,
-      }),
-  }),
+  neiuId: Joi.number()
+    .integer()
+    .min(len.neiuIdStart)
+    .max(len.neiuIdEnd)
+    .required(),
 
-  firstName: Joi.object({
-    firstName: Joi.string()
-      .trim()
-      .min(len.minFirstnameLength)
-      .max(len.maxFirstnameLength)
-      .required()
-      .messages({
-        "any.required": `"firstName" ${EM.isRequired}`,
-        "string.empty": `"firstName" ${EM.isRequired}`,
-        "string.length": EM.firstnameError,
-        "string.base": EM.firstnameError,
-      }),
-  }),
+  firstName: Joi.string()
+    .trim()
+    .min(len.minNameLength)
+    .max(len.maxNameLength)
+    .required(),
 
-  lastName: Joi.object({
-    lastName: Joi.string()
-      .trim()
-      .min(len.minLastnameLength)
-      .max(len.maxLastnameLength)
-      .required()
-      .messages({
-        "any.required": `"lastName" ${EM.isRequired}`,
-        "string.empty": `"lastName" ${EM.isRequired}`,
-        "string.length": EM.lastnameError,
-        "string.base": EM.lastnameError,
-      }),
-  }),
+  lastName: Joi.string()
+    .trim()
+    .min(len.minNameLength)
+    .max(len.maxNameLength)
+    .required(),
 
-  email: Joi.object({
-    email: Joi.string()
-      .trim()
-      .email({
-        minDomainSegments: 2,
-        maxDomainSegments: 2,
-        tlds: { allow: ["edu"] },
-      })
-      .required()
-      .messages({
-        "any.required": `"email" ${EM.isRequired}`,
-        "string.empty": `"email" ${EM.isRequired}`,
-        "string.email": EM.emailError,
-        "string.base": EM.emailError,
-      }),
-  }),
+  email: Joi.string()
+    .trim()
+    .email({
+      minDomainSegments: 2,
+      maxDomainSegments: 2,
+      tlds: { allow: ["edu"] },
+    })
+    .required(),
 
-  about: Joi.object({
-    about: Joi.string()
-      .trim()
-      .min(len.minContentLength)
-      .max(len.maxContentLength)
-      .messages({
-        "string.empty": `"about" ${EM.noEmpty}`,
-        "string.min": `"about" ${EM.contentError}`,
-        "string.max": `"about" ${EM.contentError}`,
-        "string.base": `"about" ${EM.contentError}`,
-      }),
-  }),
+  date: Joi.number().integer().positive().greater(len.minDate).required(),
 
-  //Announcement
-  announcementId: Joi.object({
-    announcementId: Joi.string()
-      .trim()
-      .length(len.idLength)
-      .required()
-      .messages({
-        "any.required": `"id" ${EM.isRequired}`,
-        "string.empty": `"id" ${EM.isRequired}`,
-        "string.length": EM.idError,
-        "string.base": EM.idError,
-      }),
-  }),
+  shortText: Joi.string()
+    .trim()
+    .min(len.minShortTextLength)
+    .max(len.maxShortTextLength)
+    .required(),
 
-  publisherId: Joi.object({
-    publisherId: Joi.number()
-      .integer()
-      .min(len.neiuIdStart)
-      .max(len.neiuIdEnd)
-      .required()
-      .messages({
-        "number.base": EM.neiuIdError,
-        "number.integer": EM.neiuIdError,
-        "number.min": EM.neiuIdError,
-        "number.max": EM.neiuIdError,
-        "any.required": `"publisherId" ${EM.isRequired}`,
-      }),
-  }),
+  longText: Joi.string()
+    .trim()
+    .min(len.minLongTextLength)
+    .max(len.maxLongTextLength),
 
-  createdOn: Joi.object({
-    createdOn: Joi.number()
-      .integer()
-      .positive()
-      .greater(len.minDate)
-      .required()
-      .messages({
-        "number.base": EM.dateError,
-        "number.positive": EM.dateError,
-        "number.greater": EM.dateError,
-        "number.empty": `"createdOn" ${EM.isRequired}`,
-        "any.required": `"createdOn" ${EM.isRequired}`,
-      }),
-  }),
+  requiredText: Joi.string().trim().required(),
 
-  subject: Joi.object({
-    subject: Joi.string()
-      .trim()
-      .min(len.minSubjectLength)
-      .max(len.maxSubjectLength)
-      .required()
-      .messages({
-        "any.required": `"subject" ${EM.isRequired}`,
-        "string.empty": `"subject" ${EM.isRequired}`,
-        "string.min": EM.subjectError,
-        "string.max": EM.subjectError,
-        "string.base": EM.subjectError,
-      }),
-  }),
+  boolean: Joi.boolean().required(),
 
-  content: Joi.object({
-    content: Joi.string()
-      .trim()
-      .min(len.minContentLength)
-      .max(len.maxContentLength)
-      .required()
-      .messages({
-        "any.required": `"content" ${EM.isRequired}`,
-        "string.empty": `"content" ${EM.isRequired}`,
-        "string.min": EM.contentError,
-        "string.max": EM.contentError,
-        "string.base": EM.contentError,
-      }),
-  }),
+  //Course
 
-  published: Joi.object({
-    published: Joi.boolean()
-      .required()
-      .messages({
-        "boolean.base": EM.booleanError,
-        "any.required": `"published" ${EM.isRequired}`,
-      }),
-  }),
+  //Semester
+  semesterId: Joi.string().trim().alphanum().required(),
+  year: Joi.number().integer().positive().greater(len.minYear).required(),
+  endDate: Joi.number()
+    .integer()
+    .positive()
+    .greater(Joi.ref("startDate"))
+    .required(),
+
+  //Report
+  status: Joi.string().pattern(new RegExp(EM.statusPattern)).required(),
+
+  //Schedule
+  weekday: Joi.number()
+    .integer()
+    .positive()
+    .min(len.minDay)
+    .max(len.maxDay)
+    .required(),
+
+  startHour: Joi.number()
+    .integer()
+    .positive()
+    .min(len.minStartHour)
+    .max(len.maxEndHour - 1)
+    .required(),
+
+  endHour: Joi.number()
+    .integer()
+    .positive()
+    .greater(Joi.ref("startHour"))
+    .max(len.maxEndHour)
+    .required(),
+
+  sessionDuration: Joi.number()
+    .integer()
+    .positive()
+    .min(len.minSessionDuration)
+    .max(len.maxSessionDuration)
+    .required(),
 });

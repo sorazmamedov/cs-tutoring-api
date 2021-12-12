@@ -1,17 +1,15 @@
 import makeAnnouncement from "./";
-import { len, errMessages as EM } from "../../validator/validationMessages";
 
 describe("announcement", () => {
   it("create announcement", () => {
-    const evl = `"about" ${EM.noEmpty}`;
     const announcement = {
-      announcementId: "sssddddddddd",
-      publisherId: 453535,
-      createdOn: 1577858400000,
+      announcementId: "SerdarSerdar",
+      publisherId: "453aaaaaa311",
+      createdOn: 1577858400001,
       subject: "Serdarserdar",
-      content: "razmam",
+      content: "ljvgjchchchchhchc",
+      published: true,
     };
-    expect(() => makeAnnouncement(announcement)).toThrow(evl);
-    // expect(() => makeTutor(admin)).not.toThrow();
+    expect(() => makeAnnouncement(announcement)).not.toThrow();
   });
 });

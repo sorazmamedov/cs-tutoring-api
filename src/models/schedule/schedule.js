@@ -26,9 +26,6 @@ export default function buildMakeSchedule({ Id, scheduleValidator }) {
       getstartHour: () => startHour,
       getEndHour: () => endHour,
       getSessionDuration: () => sessionDuration,
-      //setSessionDuration
-      //setStartHour
-      //setEndHour
     });
   };
 }
