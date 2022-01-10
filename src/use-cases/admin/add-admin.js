@@ -7,7 +7,13 @@ export default function makeAddAdmin({ db }) {
       return exists;
     }
 
-    return db.insert()
+    return db.insert({
+      neiuId: admin.getNeiuId(),
+      firstName: admin.getFirstName(),
+      lastName: admin.getLastName(),
+      email: admin.getEmail(),
+      about: admin.getAbout(),
+    });
 
   };
 }
