@@ -16,8 +16,6 @@ let JoiValidator = (payload, schema) => {
     convert: false,
   });
 
-  console.log(JSON.stringify(error));
-
   if (error) {
     let message = error.details.map((el) => el.message).join("\n");
     return {

@@ -29,6 +29,7 @@ export default Object.freeze({
       maxDomainSegments: 2,
       tlds: { allow: ["edu"] },
     })
+    .regex(/[A-Za-z0-9-]+@neiu.edu$/)
     .required(),
 
   date: Joi.number().integer().positive().greater(len.minDate).required(),
