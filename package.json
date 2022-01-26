@@ -13,13 +13,12 @@
     "test": "jest src --watch",
     "test:e2e": "jest ./__test__ --runInBand"
   },
-  "type": "module",
   "author": "Serdar Orazmamedov",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
     "joi": "^17.4.2",
-    "mongodb": "^4.2.1",
+    "mongodb": "^4.3.1",
     "nanoid": "^3.1.29",
     "sanitize-html": "^2.5.2"
   },
