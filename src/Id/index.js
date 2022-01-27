@@ -1,4 +1,4 @@
-import { nanoid } from "nanoid/async";
+import { nanoid } from "nanoid";
 
 const Id = Object.freeze({
   makeId: nanoid,
