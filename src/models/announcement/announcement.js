@@ -1,6 +1,6 @@
 export default function buildMakeAnnouncement({ Id, announcementValidator }) {
   return function makeAnnouncement({
-    announcementId = Id.makeId(Id.size),
+    announcementId = Id.makeId(),
     publisherId,
     createdOn = Date.now(),
     subject,

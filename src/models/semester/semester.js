@@ -1,6 +1,6 @@
-export default function buildMakeSemester({ semesterValidator }) {
+export default function buildMakeSemester({ Id, semesterValidator }) {
   return function makeSemester({
-    semesterId = semesterName + academicYear,
+    semesterId = Id.makeId(),
     semesterName,
     academicYear,
     startDate,

@@ -1,6 +1,6 @@
 export default function buildMakeTutor({ Id, tutorValidator }) {
   return function makeTutor({
-    id = Id.makeId(Id.size),
+    id = Id.makeId(),
     neiuId,
     firstName,
     lastName,

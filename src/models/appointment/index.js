@@ -1,4 +1,4 @@
-import { Id } from "../../Id";
+import Id from "../../Id";
 import buildMakeAppointment from "./appointment";
 import { appointmentValidator } from "../../validator";
 

@@ -1,6 +1,6 @@
 export default function buildMakeStudent({ Id, studentValidator }) {
   return function makeStudent({
-    id = Id.makeId(Id.size),
+    id = Id.makeId(),
     neiuId,
     firstName,
     lastName,

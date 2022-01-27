@@ -1,4 +1,4 @@
-import { Id } from "../../Id";
+import Id from "../../Id";
 import buildMakeAdmin from "./admin";
 import { adminValidator } from "../../validator";
 

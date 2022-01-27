@@ -1,4 +1,4 @@
-import { Id } from "../../Id";
+import Id from "../../Id";
 import buildMakeStudent from "./student";
 import { studentValidator } from "../../validator";
 

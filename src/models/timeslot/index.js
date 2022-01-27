@@ -1,4 +1,4 @@
-import { Id } from "../../Id";
+import Id from "../../Id";
 import buildMakeTimeSlot from "./timeslot";
 import { timeSlotValidator } from "../../validator";
 

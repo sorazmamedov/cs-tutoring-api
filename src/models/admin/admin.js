@@ -1,6 +1,6 @@
 export default function buildMakeAdmin({ Id, adminValidator }) {
   return function makeAdmin({
-    id = Id.makeId(Id.size),
+    id = Id.makeId(),
     neiuId,
     firstName,
     lastName,

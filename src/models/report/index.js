@@ -1,4 +1,4 @@
-import { Id } from "../../Id";
+import Id from "../../Id";
 import buildMakeReport from "./report";
 import { reportValidator } from "../../validator";
 
