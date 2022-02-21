@@ -7,7 +7,6 @@ import reportSchema from "./report-schema";
 import courseSchema from "./course-schema";
 import scheduleSchema from "./schedule-schema";
 import semesterSchema from "./semester-schema";
-import timeSlotValidator from "./timeSlot-schema";
 import timeSlotSchema from "./timeSlot-schema";
 
 let JoiValidator = (payload, schema) => {
@@ -35,7 +34,7 @@ let validator = Object.freeze({
   courseValidator: (payload) => JoiValidator(payload, courseSchema),
   scheduleValidator: (payload) => JoiValidator(payload, scheduleSchema),
   semesterValidator: (payload) => JoiValidator(payload, semesterSchema),
-  timeSlotValidator: (payload) => JoiValidator(payload, timeSlotSchema)
+  timeSlotValidator: (payload) => JoiValidator(payload, timeSlotSchema),
 });
 
 module.exports = validator;

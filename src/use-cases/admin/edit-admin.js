@@ -5,25 +5,24 @@ export default function makeEditAdmin({ db }) {
       throw new Error("You must supply a valid id.");
     }
 
-    if (!changes.about) {
-      throw new Error('You must supply "about"');
-    }
-
-    const existing = await db.findById({ id });
+    const existing = await db.findById({ id }, db.collections.admin);
     if (!existing) {
       throw new RangeError("Admin not found.");
     }
 
     const admin = makeAdmin({ ...existing, ...changes });
 
-    const updated = await db.update({
-      id: admin.getId(),
-      neiuId: admin.getNeiuId(),
-      firstName: admin.getFirstName(),
-      lastName: admin.getLastName(),
-      email: admin.getEmail(),
-      about: admin.getAbout(),
-    });
+    const updated = await db.update(
+      {
+        id: admin.getId(),
+        neiuId: admin.getNeiuId(),
+        firstName: admin.getFirstName(),
+        lastName: admin.getLastName(),
+        email: admin.getEmail(),
+        about: admin.getAbout(),
+      },
+      db.collections.admin
+    );
 
     return { ...existing, ...updated };
   };

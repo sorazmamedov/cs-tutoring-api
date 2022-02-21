@@ -5,6 +5,8 @@ export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
     slotDate,
     startHour,
     endHour,
+    booked = false,
+    appointmentId,
   } = {}) {
     let { error } = timeSlotValidator({
       slotId,
@@ -12,6 +14,8 @@ export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
       slotDate,
       startHour,
       endHour,
+      booked,
+      appointmentId,
     });
     if (error) throw new Error(error);
 
@@ -21,6 +25,10 @@ export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
       getSlotDate: () => slotDate,
       getSessionStart: () => sessionStart,
       getSessionEnd: () => sessionEnd,
+      isBooked: () => booked,
+      book: () => (booked = true),
+      unBook: () => (booked = false),
+      getAppointmentId: () => appointmentId,
     });
   };
 }

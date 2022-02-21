@@ -2,9 +2,10 @@ import Joi from "joi";
 import vs from "./validationSchemas";
 
 export default Joi.object().keys({
-  courseId: vs.requiredText,
+  id: vs.nanoid,
+  courseCode: vs.shortText,
   courseName: vs.requiredText,
-  semesterId: vs.semesterId,
+  semesterId: vs.nanoid,
   instructorName: vs.requiredText,
   instructorEmail: vs.email,
 });

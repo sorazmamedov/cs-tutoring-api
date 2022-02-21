@@ -1,7 +1,8 @@
 import { nanoid } from "nanoid";
+import { len } from "../validator/validationMessages";
 
 const Id = Object.freeze({
-  makeId: () => nanoid(12),
+  makeId: () => nanoid(len.idLength),
 });
 
 export default Id;

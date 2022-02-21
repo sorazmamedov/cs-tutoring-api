@@ -5,7 +5,7 @@ describe("Schedule", () => {
     const schedule = {
       scheduleId: "reportIddddd",
       tutorId: "453aaaaaa311",
-      semesterId: "012345678910",
+      semesterId: "Fall2021",
       day: 6,
       startHour: 12,
       endHour: 22,

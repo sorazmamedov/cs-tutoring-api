@@ -8,5 +8,5 @@ export default Joi.object().keys({
   day: vs.weekday,
   startHour: vs.startHour,
   endHour: vs.endHour,
-  sessionDuration: vs.sessionDuration,
+  //sessionDuration: vs.sessionDuration,
 });

@@ -7,4 +7,6 @@ export default Joi.object().keys({
   slotDate: vs.date,
   startHour: vs.startHour,
   endHour: vs.endHour,
+  booked: vs.boolean,
+  appointmentId: vs.nanoid,
 });

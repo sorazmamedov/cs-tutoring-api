@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { len, errMessages as EM } from "../validationMessages";
+import { len } from "../validationMessages";
 
 export default Object.freeze({
   nanoid: Joi.string().trim().length(len.idLength).required(),
@@ -52,7 +52,14 @@ export default Object.freeze({
   //Course
 
   //Semester
-  semesterId: Joi.string().trim().alphanum().required(),
+  semesterId: Joi.string()
+    .trim()
+    .pattern(new RegExp(/^(Fall|Spring|Summer)[2-9]\d{3}$/))
+    .required(),
+  semesterName: Joi.string()
+    .trim()
+    .pattern(new RegExp(/^(Fall|Spring|Summer)$/))
+    .required(),
   year: Joi.number().integer().positive().greater(len.minYear).required(),
   endDate: Joi.number()
     .integer()
@@ -61,7 +68,9 @@ export default Object.freeze({
     .required(),
 
   //Report
-  status: Joi.string().pattern(new RegExp(EM.statusPattern)).required(),
+  status: Joi.string()
+    .pattern(new RegExp(/^(pending|sent|error)$/))
+    .required(),
 
   //Schedule
   weekday: Joi.number()

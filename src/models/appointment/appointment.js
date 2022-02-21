@@ -8,7 +8,6 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
     location,
     canceled = false,
     noShow = false,
-    comment,
   } = {}) {
     let { error } = appointmentValidator({
       appointmentId,
@@ -19,7 +18,6 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       location,
       canceled,
       noShow,
-      comment,
     });
     if (error) throw new Error(error);
 
@@ -32,7 +30,6 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       getLocation: () => location,
       isCanceled: () => canceled,
       isNoShow: () => noShow,
-      getComment: () => comment,
       markCanceled: () => {
         canceled = true;
       },

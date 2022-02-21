@@ -4,7 +4,7 @@ export default function makeRemoveAdmin({ db }) {
       throw new Error("You must supply a valid id.");
     }
 
-    const adminToDelete = await db.findById({ id });
+    const adminToDelete = await db.findById({ id }, db.collections.admin);
     if (!adminToDelete) {
       throw new RangeError("Admin not found.");
     }

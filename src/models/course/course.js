@@ -1,13 +1,15 @@
-export default function buildMakeCourse({ courseValidator }) {
+export default function buildMakeCourse({ Id, courseValidator }) {
   return function makeCourse({
-    courseId,
+    id = Id.makeId(),
+    courseCode,
     courseName,
     semesterId,
     instructorName,
     instructorEmail,
   } = {}) {
     let { error } = courseValidator({
-      courseId,
+      id,
+      courseCode,
       courseName,
       semesterId,
       instructorName,
@@ -16,7 +18,8 @@ export default function buildMakeCourse({ courseValidator }) {
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getCourseId: () => courseId,
+      getCourseId: () => id,
+      getCourseCode: () => courseCode,
       getCourseName: () => courseName,
       getSemesterId: () => semesterId,
       getInstructorName: () => instructorName,

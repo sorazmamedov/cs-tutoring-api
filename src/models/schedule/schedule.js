@@ -6,7 +6,6 @@ export default function buildMakeSchedule({ Id, scheduleValidator }) {
     day,
     startHour,
     endHour,
-    sessionDuration,
   } = {}) {
     let { error } = scheduleValidator({
       scheduleId,
@@ -15,7 +14,6 @@ export default function buildMakeSchedule({ Id, scheduleValidator }) {
       day,
       startHour,
       endHour,
-      sessionDuration,
     });
     if (error) throw new Error(error);
 
@@ -25,7 +23,6 @@ export default function buildMakeSchedule({ Id, scheduleValidator }) {
       getSemesterId: () => semesterId,
       getstartHour: () => startHour,
       getEndHour: () => endHour,
-      getSessionDuration: () => sessionDuration,
     });
   };
 }

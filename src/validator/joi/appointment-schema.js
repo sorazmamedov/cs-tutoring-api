@@ -10,5 +10,4 @@ export default Joi.object().keys({
   location: vs.shortText,
   canceled: vs.boolean,
   noShow: vs.boolean,
-  comment: vs.longText,
 });

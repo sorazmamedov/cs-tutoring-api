@@ -1,5 +1,3 @@
-import Id from "../Id";
-
 export default function makeDatabase({ makeDb }) {
   return Object.freeze({
     findAll,
@@ -43,10 +41,7 @@ export default function makeDatabase({ makeDb }) {
     return { id, ...info };
   }
 
-  async function insert(
-    { id: _id = Id.makeId(Id.size), ...commentInfo },
-    collection
-  ) {
+  async function insert({ id: _id, ...commentInfo }, collection) {
     const db = await makeDb();
     const result = await db
       .collection(collection)
