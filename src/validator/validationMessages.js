@@ -2,7 +2,7 @@ const len = Object.freeze({
   //length of a field
   dateLength: 10,
   idLength: 12,
-  neiuIdLength: 6,
+  neiuIdLength: 9,
   neiuIdStart: 100000,
   neiuIdEnd: 999999,
   minNameLength: 2,
@@ -11,8 +11,8 @@ const len = Object.freeze({
   maxShortTextLength: 100,
   minLongTextLength: 10,
   maxLongTextLength: 1000,
-  minYear: 2021,
-  minDate: 1577858400000, //(January 1, 2020)
+  minYear: 2022,
+  minDate: 1641016800000, //(January 1, 2022)
   minDay: 1, //0-Sunday, 1-Monday etc.
   maxDay: 6, //6-Saturday etc. 0-6
   minStartHour: 6, //6am 24 hour format
@@ -26,7 +26,7 @@ const errMessages = Object.freeze({
   isRequired: "is required!",
   noEmpty: "cannot be empty",
   idError: `"id" must be a string of length ${len.idLength}!`,
-  neiuIdError: `"neiuId" must be a 6 digit number between ${len.neiuIdStart} and ${len.neiuIdEnd}!`,
+  neiuIdError: `NEIU ID must be a ${len.neiuIdLength} digit number! example: 000123456`,
   nameError: `must be a string of length: min=${len.minNameLength}, max=${len.maxNameLength}`,
   firstnameError: `Firstname must be a string of length: min=${len.minNameLength}, max=${len.maxNameLength}`, //?
   lastnameError: "Lastname must be a string of length: min=2, max=30", //?

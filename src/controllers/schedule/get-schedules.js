@@ -1,17 +1,17 @@
-export default function makeCreateCourse({ addCourse }) {
-  return async function createCourse(httpRequest) {
+export default function makeGetSchedules({ listSchedules }) {
+  return async function getSchedules(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const courseInfo = httpRequest.body;
-      const created = await addCourse(courseInfo);
-
+      const schedules = await listSchedules({
+        semesterId: httpRequest.query.semesterId,
+      });
       return {
         headers,
-        statusCode: 201,
-        body: { ...created },
+        statusCode: 200,
+        body: schedules,
       };
     } catch (e) {
       return {

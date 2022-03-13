@@ -6,6 +6,7 @@ export default function buildMakeAdmin({ Id, adminValidator }) {
     lastName,
     email,
     about,
+    isActive,
   } = {}) {
     let { error } = adminValidator({
       id,
@@ -14,6 +15,7 @@ export default function buildMakeAdmin({ Id, adminValidator }) {
       lastName,
       email,
       about,
+      isActive,
     });
     if (error) throw new Error(error);
 
@@ -24,6 +26,7 @@ export default function buildMakeAdmin({ Id, adminValidator }) {
       getLastName: () => lastName,
       getEmail: () => email,
       getAbout: () => about,
+      getIsActive: () => isActive,
     });
   };
 }

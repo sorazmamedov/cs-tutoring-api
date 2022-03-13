@@ -1,9 +1,11 @@
 export default function makeDatabase({ makeDb }) {
   return Object.freeze({
+    find,
     findAll,
     findByHash,
     findById,
     insert,
+    insertMany,
     remove,
     update,
     collections: {
@@ -20,10 +22,20 @@ export default function makeDatabase({ makeDb }) {
     },
   });
 
-  async function findAll(collection) {
+  async function find(query, collection) {
     const db = await makeDb();
-    //const query = publishedOnly ? { published: true } : {};
-    const result = await db.collection(collection).find({});
+    const result = await db.collection(collection).findOne({ ...query });
+    let found = null;
+    if (result) {
+      const { _id: id, ...rest } = result;
+      found = { id, ...rest };
+    }
+    return found;
+  }
+  async function findAll(collection, params) {
+    const db = await makeDb();
+    const query = params ? params : {};
+    const result = await db.collection(collection).find(query);
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,
@@ -48,6 +60,18 @@ export default function makeDatabase({ makeDb }) {
       .insertOne({ _id, ...commentInfo });
     const { _id: id, ...insertedInfo } = result;
     return { id, ...insertedInfo };
+  }
+
+  async function insertMany(dataArr, collection) {
+    const db = await makeDb();
+    const data = dataArr.map((item) => {
+      const { id: _id, ...info } = item;
+      return { _id, ...info };
+    });
+
+    const result = await db.collection(collection).insertMany(data);
+
+    return result.insertedCount > 0 ? true : null;
   }
 
   async function update({ id: _id, ...commentInfo }, collection) {

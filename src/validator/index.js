@@ -9,6 +9,7 @@ import {
   scheduleValidator,
   semesterValidator,
   timeSlotValidator,
+  schemas,
 } from "./joi";
 
 let validator = Object.freeze({
@@ -22,6 +23,7 @@ let validator = Object.freeze({
   scheduleValidator: (payload) => scheduleValidator(payload),
   semesterValidator: (payload) => semesterValidator(payload),
   timeSlotValidator: (payload) => timeSlotValidator(payload),
+  schemas,
 });
 
 module.exports = validator;

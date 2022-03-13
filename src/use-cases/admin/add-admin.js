@@ -18,6 +18,7 @@ export default function makeAddAdmin({ db }) {
         lastName: admin.getLastName(),
         email: admin.getEmail(),
         about: admin.getAbout(),
+        isActive: admin.getIsActive(),
       },
       db.collections.admin
     );

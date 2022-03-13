@@ -11,6 +11,18 @@ export default function makeEditSemester({ db }) {
       throw new RangeError("Semester not found.");
     }
 
+    const activeExists = await db.find(
+      { active: true },
+      db.collections.semester
+    );
+    if (existing.active !== changes.active) {
+      if (changes.active && activeExists) {
+        throw new Error(
+          `Only one active semester is allowed at any given time!\nCurrently active: ${activeExists.semesterName} ${activeExists.academicYear}`
+        );
+      }
+    }
+
     const semester = makeSemester({ ...existing, ...changes });
     const updated = await db.update(
       {

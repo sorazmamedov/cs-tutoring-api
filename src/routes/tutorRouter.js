@@ -14,7 +14,7 @@ router.route("/")
     .post(makeCallback(createTutor));
 
 router.route("/:id")
-  .patch(makeCallback(updateTutor))
+  .put(makeCallback(updateTutor))
   .delete(makeCallback(deleteTutor));
 
 module.exports = router;

@@ -2,8 +2,8 @@ import makeTutor from "../../models/tutor";
 export default function makeAddTutor({ db }) {
   return async function addTutor(tutorInfo) {
     const tutor = makeTutor(tutorInfo);
-    const exists = await db.findById(
-      { id: tutor.getId() },
+    const exists = await db.find(
+      {$or: [{ id: tutor.getId()}, {email: tutor.getEmail()}]},
       db.collections.tutor
     );
     if (exists) {
@@ -18,6 +18,8 @@ export default function makeAddTutor({ db }) {
         lastName: tutor.getLastName(),
         email: tutor.getEmail(),
         about: tutor.getAbout(),
+        isActive: tutor.getIsActive(),
+        activeSemesters: tutor.getActiveSemesters(),
       },
       db.collections.tutor
     );

@@ -5,7 +5,7 @@ export default Joi.object().keys({
   id: vs.nanoid,
   semesterName: vs.semesterName,
   academicYear: vs.year,
-  startDate: vs.date,
+  startDate: vs.startDate,
   endDate: vs.endDate,
   active: vs.boolean,
 });

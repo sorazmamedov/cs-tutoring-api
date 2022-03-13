@@ -3,7 +3,7 @@ import vs from "./validationSchemas";
 
 export default Joi.object().keys({
   id: vs.nanoid,
-  courseCode: vs.shortText,
+  section: vs.shortText,
   courseName: vs.requiredText,
   semesterId: vs.nanoid,
   instructorName: vs.requiredText,

@@ -1,13 +1,16 @@
-import Joi from "joi";
+import Joi, { ref } from "joi";
 import { len } from "../validationMessages";
 
 export default Object.freeze({
   nanoid: Joi.string().trim().length(len.idLength).required(),
 
-  neiuId: Joi.number()
-    .integer()
-    .min(len.neiuIdStart)
-    .max(len.neiuIdEnd)
+  activeSemesters: Joi.array().items(
+    Joi.string().trim().length(len.idLength).required()
+  ),
+
+  neiuId: Joi.string()
+    .trim()
+    .pattern(/^\d{9}$/)
     .required(),
 
   firstName: Joi.string()
@@ -49,49 +52,31 @@ export default Object.freeze({
 
   boolean: Joi.boolean().required(),
 
-  //Course
-
-  //Semester
-  semesterId: Joi.string()
-    .trim()
-    .pattern(new RegExp(/^(Fall|Spring|Summer)[2-9]\d{3}$/))
-    .required(),
   semesterName: Joi.string()
     .trim()
-    .pattern(new RegExp(/^(Fall|Spring|Summer)$/))
+    .pattern(new RegExp(/^(Spring|Summer|Fall|Winter)$/))
     .required(),
-  year: Joi.number().integer().positive().greater(len.minYear).required(),
-  endDate: Joi.number()
-    .integer()
-    .positive()
-    .greater(Joi.ref("startDate"))
-    .required(),
+  year: Joi.number().integer().positive().min(len.minYear).required(),
+  startDate: Joi.number().min(len.minDate).required(),
+  endDate: Joi.number().greater(Joi.ref("startDate")).required(),
 
-  //Report
   status: Joi.string()
     .pattern(new RegExp(/^(pending|sent|error)$/))
     .required(),
 
-  //Schedule
-  weekday: Joi.number()
-    .integer()
-    .positive()
-    .min(len.minDay)
-    .max(len.maxDay)
+  weekday: Joi.string()
+    .trim()
+    .pattern(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/)
     .required(),
 
-  startHour: Joi.number()
-    .integer()
-    .positive()
-    .min(len.minStartHour)
-    .max(len.maxEndHour - 1)
+  startHour: Joi.string()
+    .trim()
+    .pattern(/^([1-9]|1[0-2]):[0-5][0-9]\s(a.m.|p.m.)$/)
     .required(),
 
-  endHour: Joi.number()
-    .integer()
-    .positive()
-    .greater(Joi.ref("startHour"))
-    .max(len.maxEndHour)
+  endHour: Joi.string()
+    .trim()
+    .pattern(/^([1-9]|1[0-2]):[0-5][0-9]\s(a.m.|p.m.)$/)
     .required(),
 
   sessionDuration: Joi.number()

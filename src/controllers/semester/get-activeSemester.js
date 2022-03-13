@@ -1,17 +1,15 @@
-export default function makeCreateCourse({ addCourse }) {
-  return async function createCourse(httpRequest) {
+export default function makeGetActiveSemester({ grabActiveSemester }) {
+  return async function getActiveSemester(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const courseInfo = httpRequest.body;
-      const created = await addCourse(courseInfo);
-
+      const semester = await grabActiveSemester();
       return {
         headers,
-        statusCode: 201,
-        body: { ...created },
+        statusCode: 200,
+        body: semester,
       };
     } catch (e) {
       return {

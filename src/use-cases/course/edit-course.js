@@ -16,8 +16,9 @@ export default function makeEditCourse({ db }) {
     const updated = await db.update(
       {
         id: course.getCourseId(),
-        courseCode: course.getCourseCode(),
+        section: course.getSection(),
         courseName: course.getCourseName(),
+        semesterId: course.getSemesterId(),
         instructorName: course.getInstructorName(),
         instructorEmail: course.getInstructorEmail(),
       },

@@ -5,7 +5,9 @@ export default function makeGetTutors({ listTutors }) {
     };
 
     try {
-      const tutors = await listTutors();
+      const tutors = await listTutors({
+        semesterId: httpRequest.query.semesterId,
+      });
       return {
         headers,
         statusCode: 200,

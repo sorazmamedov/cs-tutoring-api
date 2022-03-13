@@ -16,6 +16,7 @@
   "author": "Serdar Orazmamedov",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "joi": "^17.4.2",
     "mongodb": "^4.3.1",

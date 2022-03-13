@@ -11,6 +11,6 @@ router
 
 router.route("/:id")
   // .get(makeCallback(getCourses))
-  .patch(makeCallback(updateCourse));
+  .put(makeCallback(updateCourse));
 
 module.exports = router;

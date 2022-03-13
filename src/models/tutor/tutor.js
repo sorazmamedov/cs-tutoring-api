@@ -6,6 +6,8 @@ export default function buildMakeTutor({ Id, tutorValidator }) {
     lastName,
     email,
     about,
+    isActive = false,
+    activeSemesters = [],
   } = {}) {
     let { error } = tutorValidator({
       id,
@@ -14,6 +16,8 @@ export default function buildMakeTutor({ Id, tutorValidator }) {
       lastName,
       email,
       about,
+      isActive,
+      activeSemesters,
     });
     if (error) throw new Error(error);
 
@@ -24,6 +28,8 @@ export default function buildMakeTutor({ Id, tutorValidator }) {
       getLastName: () => lastName,
       getEmail: () => email,
       getAbout: () => about,
+      getIsActive: () => isActive,
+      getActiveSemesters: () => activeSemesters,
     });
   };
 }

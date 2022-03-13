@@ -1,12 +1,12 @@
-export default function makeCreateCourse({ addCourse }) {
-  return async function createCourse(httpRequest) {
+export default function makeCreateSchedule({ addSchedule }) {
+  return async function createSchedule(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const courseInfo = httpRequest.body;
-      const created = await addCourse(courseInfo);
+      const scheduleInfo = httpRequest.body;
+      const created = await addSchedule(scheduleInfo);
 
       return {
         headers,

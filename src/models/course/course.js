@@ -1,7 +1,7 @@
 export default function buildMakeCourse({ Id, courseValidator }) {
   return function makeCourse({
     id = Id.makeId(),
-    courseCode,
+    section,
     courseName,
     semesterId,
     instructorName,
@@ -9,7 +9,7 @@ export default function buildMakeCourse({ Id, courseValidator }) {
   } = {}) {
     let { error } = courseValidator({
       id,
-      courseCode,
+      section,
       courseName,
       semesterId,
       instructorName,
@@ -19,7 +19,7 @@ export default function buildMakeCourse({ Id, courseValidator }) {
 
     return Object.freeze({
       getCourseId: () => id,
-      getCourseCode: () => courseCode,
+      getSection: () => section,
       getCourseName: () => courseName,
       getSemesterId: () => semesterId,
       getInstructorName: () => instructorName,

@@ -23,6 +23,8 @@ export default function makeEditTutor({ db }) {
         lastName: tutor.getLastName(),
         email: tutor.getEmail(),
         about: tutor.getAbout(),
+        isActive: tutor.getIsActive(),
+        activeSemesters: tutor.getActiveSemesters(),
       },
       db.collections.tutor
     );

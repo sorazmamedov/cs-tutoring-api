@@ -3,6 +3,7 @@ import {
   createSemester,
   updateSemester,
   getSemesters,
+  getActiveSemester
 } from "../controllers/semester";
 import makeCallback from "../express-callback";
 
@@ -14,6 +15,10 @@ router
   .post(makeCallback(createSemester));
 
 router.route("/:id")
-  .patch(makeCallback(updateSemester));
+  .put(makeCallback(updateSemester));
+
+router.route("/active")
+  .get(makeCallback(getActiveSemester))
+
 
 module.exports = router;

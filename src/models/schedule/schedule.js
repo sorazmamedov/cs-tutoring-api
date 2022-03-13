@@ -1,28 +1,35 @@
 export default function buildMakeSchedule({ Id, scheduleValidator }) {
   return function makeSchedule({
-    scheduleId = Id.makeId(),
+    id = Id.makeId(),
     tutorId,
     semesterId,
     day,
     startHour,
     endHour,
+    location = "TBA",
+    isActive = false,
   } = {}) {
     let { error } = scheduleValidator({
-      scheduleId,
+      id,
       tutorId,
       semesterId,
       day,
       startHour,
       endHour,
+      location,
+      isActive,
     });
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getScheduleId: () => scheduleId,
+      getScheduleId: () => id,
       getTutorId: () => tutorId,
       getSemesterId: () => semesterId,
-      getstartHour: () => startHour,
+      getDay: () => day,
+      getStartHour: () => startHour,
       getEndHour: () => endHour,
+      getLocation: () => location,
+      getIsActive: () => isActive,
     });
   };
 }
