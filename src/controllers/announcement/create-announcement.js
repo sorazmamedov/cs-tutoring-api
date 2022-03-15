@@ -1,12 +1,12 @@
-export default function makeCreateSchedule({ addSchedule }) {
-  return async function createSchedule(httpRequest) {
+export default function makeCreateAnnouncement({ addAnnouncement }) {
+  return async function createAnnouncement(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const { ...scheduleInfo } = httpRequest.body;
-      const created = await addSchedule(scheduleInfo);
+      const { ...announcementInfo } = httpRequest.body;
+      const created = await addAnnouncement(announcementInfo);
 
       return {
         headers,

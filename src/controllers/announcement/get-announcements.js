@@ -1,17 +1,17 @@
-export default function makeGetCourses({ listCourses }) {
-  return async function getCourses(httpRequest) {
+export default function makeGetAnnouncements({ listAnnouncements }) {
+  return async function getAnnouncements(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const courses = await listCourses({
+      const announcements = await listAnnouncements({
         semesterId: httpRequest.query.semesterId,
       });
       return {
         headers,
         statusCode: 200,
-        body: courses,
+        body: announcements,
       };
     } catch (e) {
       return {

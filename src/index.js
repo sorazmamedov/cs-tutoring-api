@@ -19,10 +19,11 @@ app.use(express.json());
 // Routes
 app.use(`${apiRoot}/admins`, require("./routes/adminRouter"));
 app.use(`${apiRoot}/students`, require("./routes/studentRouter"));
-app.use(`${apiRoot}/tutors`, require("./routes/tutorRouter"));
 app.use(`${apiRoot}/semesters`, require("./routes/semesterRouter"));
-app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
 app.use(`${apiRoot}/schedules`, require("./routes/scheduleRouter"));
+app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
+app.use(`${apiRoot}/tutors`, require("./routes/tutorRouter"));
+app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
 
 app.use(makeCallback(notFound));
 

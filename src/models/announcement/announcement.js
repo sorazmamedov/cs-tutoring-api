@@ -1,15 +1,17 @@
 export default function buildMakeAnnouncement({ Id, announcementValidator }) {
   return function makeAnnouncement({
-    announcementId = Id.makeId(),
+    id = Id.makeId(),
     publisherId,
+    semesterId,
     createdOn = Date.now(),
     subject,
     content,
     published = false,
   } = {}) {
     let { error } = announcementValidator({
-      announcementId,
+      id,
       publisherId,
+      semesterId,
       createdOn,
       subject,
       content,
@@ -18,8 +20,9 @@ export default function buildMakeAnnouncement({ Id, announcementValidator }) {
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getAnnouncementId: () => announcementId,
+      getId: () => id,
       getPublisherId: () => publisherId,
+      getSemesterId: () => semesterId,
       getCreatedOn: () => createdOn,
       getSubject: () => subject,
       getContent: () => content,

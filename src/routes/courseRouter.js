@@ -1,5 +1,10 @@
 import express from "express";
-import { createCourse, updateCourse, getCourses } from "../controllers/course";
+import {
+  createCourse,
+  updateCourse,
+  getCourses,
+  deleteCourse,
+} from "../controllers/course";
 import makeCallback from "../express-callback";
 
 const router = express.Router();
@@ -9,8 +14,9 @@ router
   .get(makeCallback(getCourses))
   .post(makeCallback(createCourse));
 
-router.route("/:id")
-  // .get(makeCallback(getCourses))
-  .put(makeCallback(updateCourse));
+router
+  .route("/:id")
+  .put(makeCallback(updateCourse))
+  .delete(makeCallback(deleteCourse));
 
 module.exports = router;
