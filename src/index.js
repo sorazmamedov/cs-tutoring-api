@@ -24,6 +24,7 @@ app.use(`${apiRoot}/schedules`, require("./routes/scheduleRouter"));
 app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
 app.use(`${apiRoot}/tutors`, require("./routes/tutorRouter"));
 app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
+app.use(`${apiRoot}/calendars`, require("./routes/calendarRouter"));
 
 app.use(makeCallback(notFound));
 

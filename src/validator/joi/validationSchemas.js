@@ -1,4 +1,4 @@
-import Joi, { ref } from "joi";
+import Joi from "joi";
 import { len } from "../validationMessages";
 
 export default Object.freeze({
@@ -35,8 +35,6 @@ export default Object.freeze({
     .regex(/[A-Za-z0-9-]+@neiu.edu$/)
     .required(),
 
-  date: Joi.number().integer().positive().greater(len.minDate).required(),
-
   shortText: Joi.string()
     .trim()
     .min(len.minShortTextLength)
@@ -56,9 +54,30 @@ export default Object.freeze({
     .trim()
     .pattern(new RegExp(/^(Spring|Summer|Fall|Winter)$/))
     .required(),
+
   year: Joi.number().integer().positive().min(len.minYear).required(),
-  startDate: Joi.number().min(len.minDate).required(),
-  endDate: Joi.number().greater(Joi.ref("startDate")).required(),
+
+  // Dates
+  date: Joi.date().prefs({ convert: true }).min(len.minDate).required(),
+
+  startDate: Joi.date().prefs({ convert: true }).min(len.minDate).required(),
+
+  endDate: Joi.date()
+    .prefs({ convert: true })
+    .greater(Joi.ref("startDate"))
+    .required(),
+
+  start: Joi.date()
+    .prefs({ convert: true })
+    .min(Joi.ref("$min"))
+    .less(Joi.ref("$max"))
+    .required(),
+
+  end: Joi.date()
+    .prefs({ convert: true })
+    .greater(Joi.ref("start"))
+    .less(Joi.ref("$max"))
+    .required(),
 
   status: Joi.string()
     .pattern(new RegExp(/^(pending|sent|error)$/))

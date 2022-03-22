@@ -24,13 +24,14 @@ export default function makeEditSemester({ db }) {
     }
 
     const semester = makeSemester({ ...existing, ...changes });
+
     const updated = await db.update(
       {
         id: semester.getSemesterId(),
         semesterName: semester.getSemesterName(),
         academicYear: semester.getAcademicYear(),
-        startDate: semester.getStartDate(),
-        endDate: semester.getEndDate(),
+        startDate: new Date(semester.getStartDate()),
+        endDate: new Date(semester.getEndDate()),
         active: semester.isActive(),
       },
       db.collections.semester

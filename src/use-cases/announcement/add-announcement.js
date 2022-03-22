@@ -17,7 +17,7 @@ export default function makeAddAnnouncement({ db }) {
         id: announcement.getId(),
         publisherId: announcement.getPublisherId(),
         semesterId: announcement.getSemesterId(),
-        createdOn: announcement.getCreatedOn(),
+        createdOn: new Date(announcement.getCreatedOn()),
         subject: announcement.getSubject(),
         content: announcement.getContent(),
         published: announcement.isPublished(),

@@ -19,6 +19,7 @@ export default function makeDatabase({ makeDb }) {
       schedule: "schedule",
       semester: "semester",
       timeslot: "timeslot",
+      calendar: "calendar",
     },
   });
 

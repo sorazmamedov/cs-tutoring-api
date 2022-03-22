@@ -3,7 +3,7 @@ export default function buildMakeAnnouncement({ Id, announcementValidator }) {
     id = Id.makeId(),
     publisherId,
     semesterId,
-    createdOn = Date.now(),
+    createdOn = new Date(),
     subject,
     content,
     published = false,

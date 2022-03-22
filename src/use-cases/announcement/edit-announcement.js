@@ -11,7 +11,12 @@ export default function makeEditAnnouncement({ db }) {
       throw new RangeError("Announcement not found.");
     }
 
-    const announcement = makeAnnouncement({ ...existing, ...changes });
+    const received = {
+      ...changes,
+      createdOn: new Date(changes.createdOn),
+    };
+
+    const announcement = makeAnnouncement({ ...existing, ...received });
 
     const updated = await db.update(
       {
