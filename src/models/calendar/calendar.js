@@ -1,34 +1,32 @@
 export default function buildMakeCalendar({ Id, calendarValidator }) {
   return function makeCalendar({
     id = Id.makeId(),
+    eventId,
     tutorId,
     semesterId,
     start,
     end,
-    slots,
     repeat,
-    range,
-    context,
   } = {}) {
     let { error } = calendarValidator({
       id,
+      eventId,
       tutorId,
       semesterId,
       start,
       end,
-      slots,
       repeat,
-      range,
-      context,
     });
     if (error) throw new Error(error);
 
     return Object.freeze({
       getCalendarId: () => id,
+      getEventId: () => eventId,
       getTutorId: () => tutorId,
       getSemesterId: () => semesterId,
       getStart: () => start,
       getEnd: () => end,
+      doesRepeat: () => repeat,
     });
   };
 }

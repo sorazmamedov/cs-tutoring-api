@@ -1,30 +1,33 @@
 export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
   return function makeTimeSlot({
-    slotId = Id.makeId(),
-    scheduleId,
-    slotDate,
-    startHour,
-    endHour,
+    id = Id.makeId(),
+    eventId,
+    tutorId,
+    semesterId,
+    start,
+    end,
     booked = false,
     appointmentId,
   } = {}) {
     let { error } = timeSlotValidator({
-      slotId,
-      scheduleId,
-      slotDate,
-      startHour,
-      endHour,
+      id,
+      eventId,
+      tutorId,
+      semesterId,
+      start,
+      end,
       booked,
       appointmentId,
     });
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getSlotId: () => slotId,
-      getScheduleId: () => scheduleId,
-      getSlotDate: () => slotDate,
-      getSessionStart: () => sessionStart,
-      getSessionEnd: () => sessionEnd,
+      getTimeSlotId: () => id,
+      getEventId: () => eventId,
+      getTutorId: () => tutorId,
+      getSemesterId: () => semesterId,
+      getStart: () => start,
+      getEnd: () => end,
       isBooked: () => booked,
       book: () => (booked = true),
       unBook: () => (booked = false),

@@ -7,6 +7,8 @@ export default function makeDatabase({ makeDb }) {
     insert,
     insertMany,
     remove,
+    removeAll,
+    removeRange,
     update,
     collections: {
       admin: "admin",
@@ -86,6 +88,20 @@ export default function makeDatabase({ makeDb }) {
   async function remove({ id: _id }, collection) {
     const db = await makeDb();
     const result = await db.collection(collection).deleteOne({ _id });
+    return result.deletedCount;
+  }
+
+  async function removeAll(query, collection) {
+    const db = await makeDb();
+    const result = await db.collection(collection).deleteMany(query);
+    return result.deletedCount;
+  }
+
+  async function removeRange({ eventId, start, end }, collection) {
+    const db = await makeDb();
+    const baseQuery = { eventId, start: { $gte: start } };
+    const query = end ? { ...baseQuery, end: { $lte: end } } : baseQuery;
+    const result = await db.collection(collection).deleteMany(query);
     return result.deletedCount;
   }
 

@@ -5,8 +5,8 @@ export default function makeCreateCalendar({ addCalendar }) {
     };
 
     try {
-      const calendarInfo = httpRequest.body;
-      const created = await addCalendar(calendarInfo);
+      const eventInfo = httpRequest.body;
+      const created = await addCalendar(eventInfo);
 
       return {
         headers,

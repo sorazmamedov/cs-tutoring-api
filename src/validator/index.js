@@ -10,6 +10,7 @@ import {
   semesterValidator,
   timeSlotValidator,
   calendarValidator,
+  eventValidator,
   schemas,
 } from "./joi";
 
@@ -24,7 +25,8 @@ let validator = Object.freeze({
   scheduleValidator: (payload) => scheduleValidator(payload),
   semesterValidator: (payload) => semesterValidator(payload),
   timeSlotValidator: (payload) => timeSlotValidator(payload),
-  calendarValidator: (payload, context) => calendarValidator(payload, context),
+  calendarValidator: (payload) => calendarValidator(payload),
+  eventValidator: (payload, context) => eventValidator(payload, context),
   schemas,
 });
 

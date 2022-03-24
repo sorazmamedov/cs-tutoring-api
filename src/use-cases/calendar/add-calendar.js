@@ -1,43 +1,95 @@
 import makeCalendar from "../../models/calendar";
-export default function makeAddCalendar({ db }) {
-  return async function addCalendar(calendarInfo) {
-    console.log(calendarInfo);
+import { makeEvent } from "../../models/calendar";
+import { addTimeSlot } from "../timeslot";
 
-    const calendar = makeCalendar(received, {
-      context: {
-        min: new Date(semesterExists.startDate),
-        max: new Date(semesterExists.endDate),
-      },
-    });
+export default function makeAddCalendar({ db, dateFns }) {
+  return async function addCalendar(eventInfo) {
+    // console.log(eventInfo);
+    const semester = await checkSemesterExistence(eventInfo.semesterId, db);
 
-    const semester = await checkSemesterExistence(calendarInfo.semesterId, db);
+    const min = new Date(semester.startDate);
+    const max = new Date(semester.endDate);
 
-    const received = {
-      ...calendarInfo,
-      start: new Date(calendarInfo.start),
-      end: new Date(calendarInfo.end),
-    };
+    const event = makeEvent(eventInfo, { context: { min, max } });
 
-    const exists = await db.findById(
-      { id: calendar.getCalendarId() },
-      db.collections.calendar
-    );
+    const exists = await checkCalendarExistence(event, db, dateFns);
 
     if (exists) {
       return exists;
     }
 
-    return db.insert(
-      {
-        id: calendar.getCalendarId(),
-        tutorId: calendar.getTutorId(),
-        semesterId: calendar.getSemesterId(),
-        start: calendar.getStart(),
-        end: calendar.getEnd(),
-      },
-      db.collections.calendar
-    );
+    try {
+      if (!event.doesRepeat()) {
+        const calendar = createCalendar({ event });
+        const result = await insertCalendar(db, calendar);
+        await createSlots(event);
+        return result;
+      }
+
+      let start = dateFns.parseISO(event.getStart());
+      let end = dateFns.parseISO(event.getEnd());
+      let repeatUntil = dateFns.set(event.getRepeatUntil(), {
+        hours: end.getHours(),
+        minutes: end.getMinutes(),
+      });
+
+      while (!dateFns.isAfter(end, repeatUntil)) {
+        const calendar = createCalendar({ start, end, event });
+        await insertCalendar(db, calendar);
+        start = dateFns.addWeeks(start);
+        end = dateFns.addWeeks(end);
+      }
+
+      await createSlots(event, repeatUntil);
+
+      return { success: "Successfully created!" };
+    } catch (error) {
+      db.removeAll({ eventId: event.getEventId() }, db.collections.calendar);
+      db.removeAll({ eventId: event.getEventId() }, db.collections.timeslot);
+      throw error;
+    }
   };
+}
+
+async function createSlots(event, repeatUntil) {
+  for (const item of event.getSlots()) {
+    await addTimeSlot(
+      {
+        eventId: event.getEventId(),
+        tutorId: event.getTutorId(),
+        semesterId: event.getSemesterId(),
+        start: item.start,
+        end: item.end,
+      },
+      repeatUntil
+    );
+  }
+}
+
+function createCalendar({ start, end, event }) {
+  return makeCalendar({
+    eventId: event.getEventId(),
+    tutorId: event.getTutorId(),
+    semesterId: event.getSemesterId(),
+    start: start ?? new Date(event.getStart()),
+    end: end ?? new Date(event.getEnd()),
+    repeat: event.doesRepeat(),
+  });
+}
+
+function insertCalendar(db, calendar) {
+  return db.insert(
+    {
+      id: calendar.getCalendarId(),
+      eventId: calendar.getEventId(),
+      tutorId: calendar.getTutorId(),
+      semesterId: calendar.getSemesterId(),
+      start: calendar.getStart(),
+      end: calendar.getEnd(),
+      repeat: calendar.doesRepeat(),
+    },
+    db.collections.calendar
+  );
 }
 
 async function checkSemesterExistence(id, db) {
@@ -46,12 +98,16 @@ async function checkSemesterExistence(id, db) {
     throw new Error("You must supply valid semester id!");
   }
 
-  return semester;
+  return semesterExists;
 }
 
-async function checkCalendarExistence(calendar, db) {
+async function checkCalendarExistence(event, db, dateFns) {
   const exists = await db.findById(
-    { id: calendar.getCalendarId() },
+    {
+      eventId: event.getEventId(),
+      start: dateFns.parseISO(event.getStart()),
+      end: dateFns.parseISO(event.getEnd()),
+    },
     db.collections.calendar
   );
 

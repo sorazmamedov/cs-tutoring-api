@@ -6,7 +6,8 @@ export default function makeDeleteCalendar({ removeCalendar }) {
 
     try {
       const id = httpRequest.params.id;
-      const deleted = await removeCalendar({ id });
+      const deleteAll = httpRequest.query?.deleteAll;
+      const deleted = await removeCalendar({ id, deleteAll });
 
       return {
         headers,
