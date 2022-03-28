@@ -8,10 +8,13 @@ export default Object.freeze({
     Joi.string().trim().length(len.idLength).required()
   ),
 
+  roles: Joi.array().items(Joi.number().valid(1960, 1988, 2017)),
+
+  url: Joi.string().uri({ scheme: "https" }),
+
   neiuId: Joi.string()
     .trim()
-    .pattern(/^\d{9}$/)
-    .required(),
+    .pattern(/^\d{9}$/),
 
   firstName: Joi.string()
     .trim()

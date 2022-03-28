@@ -1,31 +1,32 @@
 import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 import notFound from "./controllers/notFound";
 import makeCallback from "./express-callback";
-import cors from "cors";
+import credentials from "./middleware/credentials";
+import corsOptions from "./config/corsOptions";
 import dotenv from "dotenv";
 dotenv.config();
 
 const apiRoot = process.env.DM_BASE_URL;
 const app = express();
 
-const corsOptions = {
-  origin: "http://localhost:3000",
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
+//middlewares
+app.use(credentials);
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use(`${apiRoot}/admins`, require("./routes/adminRouter"));
-app.use(`${apiRoot}/students`, require("./routes/studentRouter"));
+app.use(`${apiRoot}/users`, require("./routes/userRouter"));
 app.use(`${apiRoot}/semesters`, require("./routes/semesterRouter"));
 app.use(`${apiRoot}/schedules`, require("./routes/scheduleRouter"));
 app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
 app.use(`${apiRoot}/tutors`, require("./routes/tutorRouter"));
 app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
 app.use(`${apiRoot}/calendars`, require("./routes/calendarRouter"));
-
+app.use(`${apiRoot}/auth`, require("./routes/authRouter"));
 app.use(makeCallback(notFound));
 
 // listen for requests

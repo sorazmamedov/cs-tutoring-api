@@ -1,5 +1,6 @@
-module.exports = function makeExpressCallback(controller) {
+export default function makeExpressCallback(controller) {
   return (req, res) => {
+    console.log("Cookie: ", req.cookies);
     const httpRequest = {
       body: req.body,
       query: req.query,
@@ -9,8 +10,9 @@ module.exports = function makeExpressCallback(controller) {
       path: req.path,
       headers: {
         "Content-Type": req.get("Content-Type"),
-        Referer: req.get("referer"),
-        "User-Agent": req.get("User-Agent"),
+        Authorization: req.get("Authorization"),
+        // Referer: req.get("referer"),
+        // "User-Agent": req.get("User-Agent"),
       },
     };
 
@@ -19,11 +21,17 @@ module.exports = function makeExpressCallback(controller) {
         if (httpResponse.headers) {
           res.set(httpResponse.headers);
         }
+
+        if (httpResponse.cookie) {
+          const cookie = httpResponse.cookie;
+          res.cookie(cookie.name, cookie.value, cookie.options);
+        }
         res.type("json");
         res.status(httpResponse.statusCode).send(httpResponse.body);
       })
-      .catch((e) =>
-        res.status(500).send({ error: "An unkown error occurred." })
-      );
+      .catch((e) => {
+        console.error(e.stack);
+        res.status(500).send({ error: "An unkown error occurred." });
+      });
   };
-};
+}

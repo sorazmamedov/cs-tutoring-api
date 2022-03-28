@@ -1,19 +1,25 @@
-export default function buildMakeStudent({ Id, studentValidator }) {
-  return function makeStudent({
+export default function buildMakeUser({ Id, userValidator }) {
+  return function makeUser({
     id = Id.makeId(),
     neiuId,
     firstName,
     lastName,
     email,
     about,
+    active = false,
+    roles,
+    picture,
   } = {}) {
-    let { error } = studentValidator({
+    let { error } = userValidator({
       id,
       neiuId,
       firstName,
       lastName,
       email,
       about,
+      active,
+      roles,
+      picture,
     });
     if (error) throw new Error(error);
 
@@ -24,6 +30,9 @@ export default function buildMakeStudent({ Id, studentValidator }) {
       getLastName: () => lastName,
       getEmail: () => email,
       getAbout: () => about,
+      isActive: () => active,
+      getRoles: () => roles,
+      getPicture: () => picture,
     });
   };
 }

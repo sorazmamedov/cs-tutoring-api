@@ -8,5 +8,7 @@ export default Joi.object().keys({
   lastName: vs.lastName,
   email: vs.email,
   about: vs.longText,
-  isActive: vs.boolean,
+  active: vs.boolean,
+  roles: vs.roles,
+  picture: vs.url,
 });

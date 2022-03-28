@@ -11,6 +11,7 @@ export default function makeDatabase({ makeDb }) {
     removeRange,
     update,
     collections: {
+      user: "user",
       admin: "admin",
       tutor: "tutor",
       student: "student",
@@ -61,8 +62,7 @@ export default function makeDatabase({ makeDb }) {
     const result = await db
       .collection(collection)
       .insertOne({ _id, ...commentInfo });
-    const { _id: id, ...insertedInfo } = result;
-    return { id, ...insertedInfo };
+    return result?.insertedId === _id ? { id: _id, ...commentInfo } : null;
   }
 
   async function insertMany(dataArr, collection) {

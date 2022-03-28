@@ -1,14 +1,14 @@
-export default function makeUpdateStudent({ editStudent }) {
-  return async function updateStudent(httpRequest) {
+export default function makeUpdateUser({ editUser }) {
+  return async function updateUser(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const { ...studentInfo } = httpRequest.body;
-      const updated = await editStudent({
+      const { ...userInfo } = httpRequest.body;
+      const updated = await editUser({
         id: httpRequest.params.id,
-        ...studentInfo,
+        ...userInfo,
       });
       return {
         headers,

@@ -1,11 +1,11 @@
-export default function makeCreateStudent({ addStudent }) {
-  return async function createStudent(httpRequest) {
+export default function makeCreateUser({ addUser }) {
+  return async function createUser(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
     try {
-      const { ...studentInfo } = httpRequest.body;
-      const created = await addStudent(studentInfo);
+      const { ...userInfo } = httpRequest.body;
+      const created = await addUser(userInfo);
 
       return {
         headers,

@@ -1,4 +1,4 @@
-import makeStudent from "./";
+import makeStudent from ".";
 
 describe("student", () => {
   it("create student test", () => {

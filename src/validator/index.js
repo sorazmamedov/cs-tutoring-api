@@ -1,7 +1,7 @@
 import {
   adminValidator,
   tutorValidator,
-  studentValidator,
+  userValidator,
   announcementValidator,
   appointmentValidator,
   reportValidator,
@@ -17,7 +17,7 @@ import {
 let validator = Object.freeze({
   adminValidator: (payload) => adminValidator(payload),
   tutorValidator: (payload) => tutorValidator(payload),
-  studentValidator: (payload) => studentValidator(payload),
+  userValidator: (payload) => userValidator(payload),
   announcementValidator: (payload) => announcementValidator(payload),
   appointmentValidator: (payload) => appointmentValidator(payload),
   reportValidator: (payload) => reportValidator(payload),
