@@ -1,6 +1,6 @@
 export default function buildMakeReport({ Id, reportValidator }) {
   return function makeReport({
-    reportId = Id.makeId(),
+    id = Id.makeId(),
     tutorId,
     studentId,
     courseId,
@@ -9,7 +9,7 @@ export default function buildMakeReport({ Id, reportValidator }) {
     status = "pending",
   } = {}) {
     let { error } = reportValidator({
-      reportId,
+      id,
       tutorId,
       studentId,
       courseId,
@@ -20,7 +20,7 @@ export default function buildMakeReport({ Id, reportValidator }) {
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getReportId: () => reportId,
+      getReportId: () => id,
       getTutorId: () => tutorId,
       getStudentId: () => studentId,
       getCourseId: () => courseId,

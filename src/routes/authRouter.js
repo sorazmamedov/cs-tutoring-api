@@ -1,8 +1,10 @@
 import express from "express";
 import makeCallback from "../express-callback";
-import { handleLogin } from "../controllers/authGoogle";
+import { handleLogin, handleLogout } from "../controllers/authGoogle";
 const router = express.Router();
 
-router.route("/google").get(makeCallback(handleLogin));
+router.route("/login").get(makeCallback(handleLogin));
+
+router.route("/logout").get(makeCallback(handleLogout));
 
 module.exports = router;

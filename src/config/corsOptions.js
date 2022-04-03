@@ -9,5 +9,6 @@ export default {
     }
   },
 
+  methods: ["GET", "POST", "PUT", "DELETE"],
   optionsSuccessStatus: 200,
 };

@@ -6,9 +6,11 @@ export default function makeHandleLogin({
   db,
 }) {
   return async function handleLogin(httpRequest) {
+    const headers = {
+      "Content-Type": "application/json",
+    };
     const authHeader = httpRequest.headers.Authorization;
     if (!authHeader?.startsWith("Bearer ")) {
-      console.log("Header does not start with bearer");
       return {
         statusCode: 401,
       };
@@ -16,20 +18,22 @@ export default function makeHandleLogin({
 
     const tokenId = authHeader.split(" ")[1];
 
-    const ticket = await client.verifyIdToken({
-      idToken: tokenId,
-      audience: process.env.CLIENT_ID,
-    });
-
-    const { hd, email, picture, given_name, family_name } = ticket.getPayload();
-
-    if (hd !== "neiu.edu") {
-      return {
-        statusCode: 401,
-      };
-    }
-
     try {
+      const ticket = await client.verifyIdToken({
+        idToken: tokenId,
+        audience: process.env.CLIENT_ID,
+      });
+
+      const { hd, email, picture, given_name, family_name } =
+        ticket.getPayload();
+
+      if (hd !== "neiu.edu") {
+        return {
+          statusCode: 401,
+          body: { error: "Only NEIU email allowed!" },
+        };
+      }
+
       let user = await db.find({ email }, db.collections.user);
       const pictureUrl = picture.split("=")[0];
 
@@ -64,21 +68,23 @@ export default function makeHandleLogin({
       const userInfo = jwt.sign(
         { userInfo: user },
         process.env.COOKIE_TOKEN_SECRET,
-        { expiresIn: 10 }
+        { expiresIn: 1000 }
       );
 
       const cookie = {
-        nam: "jwt",
+        name: "jwt",
         value: userInfo,
         options: {
+          path: "/",
           httpOnly: true,
           sameSite: "None",
+          maxAge: 10000000,
           secure: true,
-          maxAge: 10000,
         },
       };
 
       return {
+        headers,
         cookie,
         statusCode: 201,
         body: { ...user },
@@ -86,14 +92,16 @@ export default function makeHandleLogin({
     } catch (error) {
       if (error.name === "RangeError") {
         return {
+          headers,
           statusCode: 404,
           body: {
-            error: e.message,
+            error: error.message,
           },
         };
       }
 
       return {
+        headers,
         statusCode: 400,
         body: { error: error.message },
       };
