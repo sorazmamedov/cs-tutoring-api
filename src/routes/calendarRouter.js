@@ -1,4 +1,7 @@
 import express from "express";
+import verifyRoles from "../middleware/verifyRoles";
+import Roles from "../config/roles";
+
 import {
   createCalendar,
   updateCalendar,
@@ -17,6 +20,6 @@ router
 router
   .route("/:id")
   .put(makeCallback(updateCalendar))
-  .delete(makeCallback(deleteCalendar));
+  .delete(verifyRoles(Roles.Admin, Roles.Tutor), makeCallback(deleteCalendar));
 
 module.exports = router;

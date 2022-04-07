@@ -21,11 +21,20 @@ export default function makeHandleLogin({
     try {
       const ticket = await client.verifyIdToken({
         idToken: tokenId,
-        audience: process.env.CLIENT_ID,
+        audience: process.env.GOOGLE_CLIENT_ID,
       });
 
-      const { hd, email, picture, given_name, family_name } =
+      const { iss, aud, hd, email, picture, given_name, family_name } =
         ticket.getPayload();
+      if (
+        iss !== "https://accounts.google.com" &&
+        aud !== process.env.GOOGLE_CLIENT_ID
+      ) {
+        return {
+          statusCode: 400,
+          body: { error: "Bad Request" },
+        };
+      }
 
       if (hd !== "neiu.edu") {
         return {
@@ -65,11 +74,9 @@ export default function makeHandleLogin({
         user = { ...created };
       }
 
-      const userInfo = jwt.sign(
-        { userInfo: user },
-        process.env.COOKIE_TOKEN_SECRET,
-        { expiresIn: 1000 }
-      );
+      const userInfo = jwt.sign({ userInfo: user }, process.env.COOKIE_SECRET, {
+        expiresIn: 1000,
+      });
 
       const cookie = {
         name: "jwt",
@@ -78,7 +85,7 @@ export default function makeHandleLogin({
           path: "/",
           httpOnly: true,
           sameSite: "None",
-          maxAge: 10000000,
+          maxAge: 3600000,
           secure: true,
         },
       };

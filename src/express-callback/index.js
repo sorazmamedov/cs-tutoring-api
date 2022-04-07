@@ -8,6 +8,7 @@ export default function makeExpressCallback(controller) {
       method: req.method,
       path: req.path,
       cookies: req.cookies,
+      user: req.user,
       headers: {
         "Content-Type": req.get("Content-Type"),
         Authorization: req.get("Authorization"),
@@ -31,11 +32,11 @@ export default function makeExpressCallback(controller) {
           const { name, options } = httpResponse.clearCookie;
           res.clearCookie(name, options);
         }
-        console.log(httpResponse);
         res.type("json");
         res.status(httpResponse.statusCode).send(httpResponse.body);
       })
       .catch((e) => {
+        console.log(e);
         res.status(500).send({ error: "An unkown error occurred." });
       });
   };

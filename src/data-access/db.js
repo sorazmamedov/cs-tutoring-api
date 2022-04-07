@@ -36,10 +36,16 @@ export default function makeDatabase({ makeDb }) {
     }
     return found;
   }
-  async function findAll(collection, params) {
+  async function findAll(collection, params, fields) {
     const db = await makeDb();
     const query = params ? params : {};
-    const result = await db.collection(collection).find(query);
+    const includeFields = {};
+    if (fields) {
+      fields.map((field) => (includeFields[field] = 1));
+    }
+    const result = await db
+      .collection(collection)
+      .find(query, { projection: includeFields });
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,

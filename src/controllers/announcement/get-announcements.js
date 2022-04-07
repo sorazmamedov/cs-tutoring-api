@@ -7,6 +7,7 @@ export default function makeGetAnnouncements({ listAnnouncements }) {
     try {
       const announcements = await listAnnouncements({
         semesterId: httpRequest.query.semesterId,
+        user: httpRequest.user,
       });
       return {
         headers,
@@ -14,6 +15,16 @@ export default function makeGetAnnouncements({ listAnnouncements }) {
         body: announcements,
       };
     } catch (e) {
+      if (e.name === "RangeError") {
+        return {
+          headers,
+          statusCode: 403,
+          body: {
+            error: e.message,
+          },
+        };
+      }
+
       return {
         headers,
         statusCode: 400,

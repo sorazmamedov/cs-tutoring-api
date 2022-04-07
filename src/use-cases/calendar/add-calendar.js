@@ -4,7 +4,6 @@ import { addTimeSlot } from "../timeslot";
 
 export default function makeAddCalendar({ db, dateFns }) {
   return async function addCalendar(eventInfo) {
-    // console.log(eventInfo);
     const semester = await checkSemesterExistence(eventInfo.semesterId, db);
 
     const min = new Date(semester.startDate);
