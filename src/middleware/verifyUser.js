@@ -29,7 +29,7 @@ export default async function (req, res, next) {
 
     jwt.verify(cookie, process.env.COOKIE_SECRET, (err, decoded) => {
       if (err) {
-        res.sendStatus(403);
+        res.sendStatus(401);
         return;
       }
       if (decoded.userInfo.email !== email) {
