@@ -5,10 +5,6 @@ export default function makeEditTutor({ db }) {
       throw new Error("You must supply a valid id.");
     }
 
-    if (!changes.about) {
-      throw new Error('You must supply "about"');
-    }
-
     const existing = await db.findById({ id }, db.collections.tutor);
     if (!existing) {
       throw new RangeError("Tutor not found.");

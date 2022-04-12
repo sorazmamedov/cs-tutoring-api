@@ -31,7 +31,6 @@ app.use(`${apiRoot}/announcements/public`, require("./routes/announcementRouter"
 app.use(verifyUser);
 app.use(`${apiRoot}/semesters`, require("./routes/semesterRouter"));
 app.use(`${apiRoot}/schedules`, require("./routes/scheduleRouter"));
-app.use(`${apiRoot}/tutors`, require("./routes/tutorRouter"));
 app.use(`${apiRoot}/users`, require("./routes/userRouter"));
 app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
 app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));

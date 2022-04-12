@@ -1,22 +1,28 @@
 import Roles from "../../config/roles";
+import responseTxt from "../../config/responseTxt";
 
 export default function makeListSchedules({ db }) {
   return async function listSchedules({ semesterId: id, user }) {
     const semesterExists = await db.findById({ id }, db.collections.semester);
     if (!semesterExists) {
-      throw new Error("You must supply valid semester id!");
+      throw new Error(responseTxt.invalidId);
     }
 
-    if (!semesterExists.active && !user?.roles.includes(Roles.Admin)) {
-      throw new RangeError("You do not have a permission to the resource!");
+    const isAdmin = user?.roles.includes(Roles.Admin);
+
+    //if the semester is not active ACCESS is not permitted, unless the user is an Admin
+    if (!semesterExists.active && !isAdmin) {
+      throw new Error(responseTxt.accessDenied);
     }
 
-    if (user?.roles.includes(Roles.Admin)) {
+    //If user=Admin then send all schedules
+    if (isAdmin) {
       return await db.findAll(db.collections.schedule, {
         semesterId: id,
       });
     }
 
+    //If any user then send only activated schedules
     if (user) {
       return await db.findAll(db.collections.schedule, {
         semesterId: id,
@@ -24,6 +30,8 @@ export default function makeListSchedules({ db }) {
       });
     }
 
+    //If NO signed in user then only send activated schedules with
+    //4 fields = [day, startHour, endHour, tutor: {firstName, lastName}]
     const result = await db.findAll(
       db.collections.schedule,
       {
@@ -32,18 +40,17 @@ export default function makeListSchedules({ db }) {
       },
       ["tutorId", "day", "startHour", "endHour"]
     );
-    
+
     if (result && result.length !== 0) {
       const schedules = await Promise.all(
         result.map(async (item) => {
           const id = item.tutorId;
-          const tutor = await db.findById({ id }, db.collections.tutor);
+          const tutor = await db.findById({ id }, db.collections.user);
           const schedule = {
-            ...item,
-            tutor: {
-              firstName: tutor.firstName,
-              lastName: tutor.lastName,
-            },
+            day: item.day,
+            startHour: item.startHour,
+            endHour: item.endHour,
+            tutor: `${tutor.firstName} ${tutor.lastName}`,
           };
           return schedule;
         })

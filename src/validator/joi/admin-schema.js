@@ -1,3 +1,3 @@
-import personSchema from "./person-schema";
+import personSchema from "./user-schema";
 
 export default personSchema;

@@ -18,6 +18,16 @@ export default function makeGetSchedules({ listSchedules }) {
       if (e.name === "RangeError") {
         return {
           headers,
+          statusCode: 404,
+          body: {
+            error: e.message,
+          },
+        };
+      }
+
+      if (e?.message === "Access denied") {
+        return {
+          headers,
           statusCode: 403,
           body: {
             error: e.message,

@@ -5,7 +5,7 @@ export default Object.freeze({
   nanoid: Joi.string().trim().length(len.idLength).required(),
 
   activeSemesters: Joi.array().items(
-    Joi.string().trim().length(len.idLength).required()
+    Joi.string().trim().length(len.idLength)
   ),
 
   roles: Joi.array().items(Joi.number().valid(1960, 1988, 2017)),

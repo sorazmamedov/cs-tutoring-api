@@ -1,23 +1,20 @@
 import responseTxt from "../../config/responseTxt";
 
-export default function makeUpdateUser({ editUser }) {
-  return async function updateUser(httpRequest) {
+export default function makeGetTutors({ listUser }) {
+  return async function getTutors(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const { ...changes } = httpRequest.body;
-      const user = httpRequest.user;
-      const updated = await editUser({
-        id: httpRequest.params.id,
-        user,
-        ...changes,
+      const tutors = await listUser({
+        email: httpRequest.params.email,
+        user: httpRequest.user,
       });
       return {
         headers,
         statusCode: 200,
-        body: { ...updated },
+        body: tutors,
       };
     } catch (e) {
       if (e.name === "RangeError") {
@@ -43,7 +40,9 @@ export default function makeUpdateUser({ editUser }) {
       return {
         headers,
         statusCode: 400,
-        body: { error: e.message },
+        body: {
+          error: e.message,
+        },
       };
     }
   };

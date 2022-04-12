@@ -1,3 +1,5 @@
+import responseTxt from "../../config/responseTxt";
+
 export default function makeHandleLogin({
   jwt,
   addUser,
@@ -19,10 +21,14 @@ export default function makeHandleLogin({
     const tokenId = authHeader.split(" ")[1];
 
     try {
-      const ticket = await client.verifyIdToken({
-        idToken: tokenId,
-        audience: process.env.GOOGLE_CLIENT_ID,
-      });
+      const ticket = await client
+        .verifyIdToken({
+          idToken: tokenId,
+          audience: process.env.GOOGLE_CLIENT_ID,
+        })
+        .catch(() => {
+          throw new Error(responseTxt.unauthorized);
+        });
 
       const { iss, aud, hd, email, picture, given_name, family_name } =
         ticket.getPayload();
@@ -54,7 +60,7 @@ export default function makeHandleLogin({
           user.picture !== pictureUrl
         ) {
           const modified = await editUser({
-            ...user,
+            id: user.id,
             firstName: given_name,
             lastName: family_name,
             picture: pictureUrl,
@@ -68,14 +74,13 @@ export default function makeHandleLogin({
           firstName: given_name,
           lastName: family_name,
           picture: pictureUrl,
-          roles: [2017],
         });
 
         user = { ...created };
       }
 
       const userInfo = jwt.sign({ userInfo: user }, process.env.COOKIE_SECRET, {
-        expiresIn: 1000,
+        expiresIn: "1h",
       });
 
       const cookie = {
@@ -104,6 +109,23 @@ export default function makeHandleLogin({
           body: {
             error: error.message,
           },
+        };
+      }
+
+      if (error?.message === responseTxt.accessDenied) {
+        return {
+          headers,
+          statusCode: 403,
+          body: {
+            error: error.message,
+          },
+        };
+      }
+
+      if (error?.message === responseTxt.unauthorized) {
+        return {
+          headers,
+          statusCode: 401,
         };
       }
 

@@ -1,26 +1,30 @@
 import {
   addUser,
   editUser,
+  listUser,
   listUsers,
   removeUser,
 } from "../../use-cases/user";
 
 import makeCreateUser from "./create-user";
-import makeDeleteUser from "./delete-user";
-import makeGetUsers from "./get-users";
 import makeUpdateUser from "./update-user";
+import makeGetUser from "./get-user";
+import makeGetUsers from "./get-users";
+import makeDeleteUser from "./delete-user";
 
-const getUsers = makeGetUsers({ listUsers });
 const createUser = makeCreateUser({ addUser });
 const updateUser = makeUpdateUser({ editUser });
+const getUser = makeGetUser({ listUser });
+const getUsers = makeGetUsers({ listUsers });
 const deleteUser = makeDeleteUser({ removeUser });
 
 const userController = Object.freeze({
-  getUsers,
   createUser,
   updateUser,
+  getUser,
+  getUsers,
   deleteUser,
 });
 
 export default userController;
-export { getUsers, createUser, updateUser, deleteUser };
+export { createUser, updateUser, getUser, getUsers, deleteUser };

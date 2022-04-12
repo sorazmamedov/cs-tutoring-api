@@ -1,5 +1,5 @@
-import adminSchema from "./admin-schema";
-import tutorSchema from "./tutor-schema";
+// import adminSchema from "./admin-schema";
+// import tutorSchema from "./tutor-schema";
 import userSchema from "./user-schema";
 import announcementSchema from "./announcement-schema";
 import appointmentSchema from "./appointment-schema";
@@ -29,8 +29,8 @@ let JoiValidator = (payload, schema, context) => {
 };
 
 let validator = Object.freeze({
-  adminValidator: (payload) => JoiValidator(payload, adminSchema),
-  tutorValidator: (payload) => JoiValidator(payload, tutorSchema),
+  // adminValidator: (payload) => JoiValidator(payload, adminSchema),
+  // tutorValidator: (payload) => JoiValidator(payload, tutorSchema),
   userValidator: (payload) => JoiValidator(payload, userSchema),
   announcementValidator: (payload) => JoiValidator(payload, announcementSchema),
   appointmentValidator: (payload) => JoiValidator(payload, appointmentSchema),

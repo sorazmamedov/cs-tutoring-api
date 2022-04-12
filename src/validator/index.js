@@ -1,6 +1,4 @@
 import {
-  adminValidator,
-  tutorValidator,
   userValidator,
   announcementValidator,
   appointmentValidator,
@@ -15,8 +13,6 @@ import {
 } from "./joi";
 
 let validator = Object.freeze({
-  adminValidator: (payload) => adminValidator(payload),
-  tutorValidator: (payload) => tutorValidator(payload),
   userValidator: (payload) => userValidator(payload),
   announcementValidator: (payload) => announcementValidator(payload),
   appointmentValidator: (payload) => appointmentValidator(payload),

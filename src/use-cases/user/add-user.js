@@ -1,8 +1,12 @@
 import makeUser from "../../models/user";
-export default function makeAddUser({ db }) {
+export default function makeAddUser({ db, Roles }) {
   return async function addUser(userInfo) {
-    const user = makeUser(userInfo);
-    const exists = await db.findById({ id: user.getId() }, db.collections.user);
+    const user = makeUser({ ...userInfo, isActive: false, roles: [Roles.User] });
+    const exists = await db.find(
+      { email: user.getEmail() },
+      db.collections.user
+    );
+
     if (exists) {
       return exists;
     }
@@ -13,11 +17,13 @@ export default function makeAddUser({ db }) {
         neiuId: user.getNeiuId(),
         firstName: user.getFirstName(),
         lastName: user.getLastName(),
+        pronouns: user.getPronouns(),
         email: user.getEmail(),
         about: user.getAbout(),
-        active: user.isActive(),
+        isActive: user.getIsActive(),
         roles: user.getRoles(),
         picture: user.getPicture(),
+        activeSemesters: user.getActiveSemesters(),
       },
       db.collections.user
     );

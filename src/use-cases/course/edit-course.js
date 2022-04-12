@@ -1,14 +1,15 @@
+import responseTxt from "../../config/responseTxt";
 import makeCourse from "../../models/course";
 
 export default function makeEditCourse({ db }) {
   return async function editCourse({ id, ...changes }) {
     if (!id) {
-      throw new Error("You must supply a valid id.");
+      throw new Error(responseTxt.invalidId);
     }
 
     const existing = await db.findById({ id }, db.collections.course);
     if (!existing) {
-      throw new RangeError("Course not found.");
+      throw new RangeError(`Course ${responseTxt.notFound}`);
     }
 
     const course = makeCourse({ ...existing, ...changes });

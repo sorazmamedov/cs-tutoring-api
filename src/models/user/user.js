@@ -1,25 +1,29 @@
 export default function buildMakeUser({ Id, userValidator }) {
   return function makeUser({
     id = Id.makeId(),
-    neiuId,
+    neiuId = "",
     firstName,
     lastName,
+    pronouns = "",
     email,
-    about,
-    active = false,
+    about = "",
+    isActive = false,
     roles,
     picture,
+    activeSemesters = [],
   } = {}) {
     let { error } = userValidator({
       id,
       neiuId,
       firstName,
       lastName,
+      pronouns,
       email,
       about,
-      active,
+      isActive,
       roles,
       picture,
+      activeSemesters,
     });
     if (error) throw new Error(error);
 
@@ -28,11 +32,13 @@ export default function buildMakeUser({ Id, userValidator }) {
       getNeiuId: () => neiuId,
       getFirstName: () => firstName,
       getLastName: () => lastName,
+      getPronouns: () => pronouns,
       getEmail: () => email,
       getAbout: () => about,
-      isActive: () => active,
+      getIsActive: () => isActive,
       getRoles: () => roles,
       getPicture: () => picture,
+      getActiveSemesters: () => activeSemesters,
     });
   };
 }

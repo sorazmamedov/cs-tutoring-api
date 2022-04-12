@@ -8,7 +8,7 @@ export default function makeListAnnouncements({ db }) {
     }
 
     if (!semesterExists.active && !user?.roles.includes(Roles.Admin)) {
-      throw new RangeError("You do not have a permission to the resource!");
+      throw new RangeError("You do not have a permission to access the resource!");
     }
 
     if (user?.roles.includes(Roles.Admin)) {

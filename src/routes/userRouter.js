@@ -1,22 +1,18 @@
 import express from "express";
-import {
-  getUsers,
-  createUser,
-  updateUser,
-  deleteUser,
-} from "../controllers/user";
+import { getUser, getUsers, updateUser } from "../controllers/user";
 import makeCallback from "../express-callback";
+import Roles from "../config/roles";
+import verifyRoles from "../middleware/verifyRoles";
 
 const router = express.Router();
 
+router.route("/").get(makeCallback(getUsers));
 router
-  .route("/")
-  .get(makeCallback(getUsers))
-  .post(makeCallback(createUser));
-
+  .route("/email/:email")
+  .get(verifyRoles(Roles.Admin), makeCallback(getUser));
 router
   .route("/:id")
-  .patch(makeCallback(updateUser))
-  .delete(makeCallback(deleteUser));
+  .get(verifyRoles(Roles.Admin), makeCallback(getUser))
+  .put(makeCallback(updateUser));
 
 module.exports = router;

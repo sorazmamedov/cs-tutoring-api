@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 import client from "../google-client";
+import responseTxt from "../config/responseTxt";
 
 export default async function (req, res, next) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
   const authHeader = req.get("Authorization");
   const cookie = req.cookies?.jwt;
 
@@ -12,10 +16,14 @@ export default async function (req, res, next) {
   const tokenId = authHeader.split(" ")[1];
 
   try {
-    const ticket = await client.verifyIdToken({
-      idToken: tokenId,
-      audience: process.env.CLIENT_ID,
-    });
+    const ticket = await client
+      .verifyIdToken({
+        idToken: tokenId,
+        audience: process.env.CLIENT_ID,
+      })
+      .catch(() => {
+        throw new Error(responseTxt.unauthorized);
+      });
 
     const { iss, aud, email } = ticket.getPayload();
 
@@ -40,6 +48,11 @@ export default async function (req, res, next) {
       next();
     });
   } catch (error) {
-    next(error);
+    if (error?.message === responseTxt.unauthorized) {
+      return {
+        headers,
+        statusCode: 401,
+      };
+    }
   }
 }

@@ -11,22 +11,6 @@ export default function makeEditSchedule({ db }) {
       throw new RangeError("Schedule not found.");
     }
 
-    const semesterExists = await db.findById(
-      { id: changes.semesterId },
-      db.collections.semester
-    );
-    if (!semesterExists) {
-      throw new Error("You must supply valid semester id!");
-    }
-    const tutorExists = await db.findById(
-      { id: changes.tutorId },
-      db.collections.tutor
-    );
-
-    if (!tutorExists) {
-      throw new Error("You must supply valid tutor id!");
-    }
-
     const schedule = makeSchedule({ ...existing, ...changes });
 
     const updated = await db.update(

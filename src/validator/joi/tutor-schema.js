@@ -1,4 +1,4 @@
-import personSchema from "./person-schema";
+import personSchema from "./user-schema";
 import vs from "./validationSchemas";
 
 export default personSchema.keys({

@@ -4,6 +4,7 @@ export default function makeDatabase({ makeDb }) {
     findAll,
     findByHash,
     findById,
+    findByEmail,
     insert,
     insertMany,
     remove,
@@ -12,9 +13,6 @@ export default function makeDatabase({ makeDb }) {
     update,
     collections: {
       user: "user",
-      admin: "admin",
-      tutor: "tutor",
-      student: "student",
       announcement: "announcement",
       appointment: "appointment",
       course: "course",
@@ -55,6 +53,17 @@ export default function makeDatabase({ makeDb }) {
   async function findById({ id: _id }, collection) {
     const db = await makeDb();
     const result = await db.collection(collection).find({ _id });
+    const found = await result.toArray();
+    if (found.length === 0) {
+      return null;
+    }
+    const { _id: id, ...info } = found[0];
+    return { id, ...info };
+  }
+
+  async function findByEmail({ email }, collection) {
+    const db = await makeDb();
+    const result = await db.collection(collection).find({ email });
     const found = await result.toArray();
     if (found.length === 0) {
       return null;
