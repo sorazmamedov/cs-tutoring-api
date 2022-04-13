@@ -1,8 +1,8 @@
-import makeTimeSlot from "../../models/timeslot";
+import makeTimeslot from "../../models/timeslot";
 
-export default function makeAddTimeSlot({ db, dateFns }) {
-  return async function addTimeSlot(slotInfo, repeatUntil) {
-    const timeSlot = makeTimeSlot({
+export default function makeAddTimeslot({ db, dateFns }) {
+  return async function addTimeslot(slotInfo, repeatUntil) {
+    const timeSlot = makeTimeslot({
       ...slotInfo,
       start: new Date(slotInfo.start),
       end: new Date(slotInfo.end),

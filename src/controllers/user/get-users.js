@@ -10,9 +10,7 @@ export default function makeGetUsers({ listUsers }) {
       const users = await listUsers({
         semesterId: httpRequest.query.semesterId,
         role: httpRequest.query.role,
-        // role: "adsfsdf",
         user: httpRequest.user
-        // user: {roles: [1988]}
       });
       return {
         headers,

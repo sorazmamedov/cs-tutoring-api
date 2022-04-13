@@ -1,7 +1,6 @@
 import express from "express";
 import verifyRoles from "../middleware/verifyRoles";
 import Roles from "../config/roles";
-
 import {
   createCalendar,
   updateCalendar,
@@ -14,12 +13,12 @@ const router = express.Router();
 
 router
   .route("/")
-  .get(makeCallback(getCalendars))
-  .post(makeCallback(createCalendar));
+  .get(verifyRoles(Roles.Admin), makeCallback(getCalendars))
+  .post(verifyRoles(Roles.Admin), makeCallback(createCalendar));
 
 router
-  .route("/:id")
-  .put(makeCallback(updateCalendar))
-  .delete(verifyRoles(Roles.Admin, Roles.Tutor), makeCallback(deleteCalendar));
+  .route("/:calId")
+  .put(verifyRoles(Roles.Admin), makeCallback(updateCalendar))
+  .delete(verifyRoles(Roles.Admin), makeCallback(deleteCalendar));
 
 module.exports = router;

@@ -1,5 +1,5 @@
-export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
-  return function makeTimeSlot({
+export default function buildMakeTimeslot({ Id, timeslotValidator }) {
+  return function makeTimeslot({
     id = Id.makeId(),
     eventId,
     tutorId,
@@ -9,7 +9,7 @@ export default function buildMakeTimeSlot({ Id, timeSlotValidator }) {
     booked = false,
     appointmentId,
   } = {}) {
-    let { error } = timeSlotValidator({
+    let { error } = timeslotValidator({
       id,
       eventId,
       tutorId,

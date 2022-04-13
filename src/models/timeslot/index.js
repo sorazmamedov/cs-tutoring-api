@@ -1,7 +1,7 @@
 import Id from "../../Id";
-import buildMakeTimeSlot from "./timeslot";
-import { timeSlotValidator } from "../../validator";
+import buildMakeTimeslot from "./timeslot";
+import { timeslotValidator } from "../../validator";
 
-const makeTimeSlot = buildMakeTimeSlot({ Id, timeSlotValidator });
+const makeTimeslot = buildMakeTimeslot({ Id, timeslotValidator });
 
-export default makeTimeSlot;
+export default makeTimeslot;

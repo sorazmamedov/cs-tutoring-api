@@ -1,6 +1,7 @@
+import responseTxt from "../../config/responseTxt";
 import makeCalendar from "../../models/calendar";
 import { makeEvent } from "../../models/calendar";
-import { addTimeSlot } from "../timeslot";
+import { addTimeslot } from "../timeslot";
 
 export default function makeAddCalendar({ db, dateFns }) {
   return async function addCalendar(eventInfo) {
@@ -52,7 +53,7 @@ export default function makeAddCalendar({ db, dateFns }) {
 
 async function createSlots(event, repeatUntil) {
   for (const item of event.getSlots()) {
-    await addTimeSlot(
+    await addTimeslot(
       {
         eventId: event.getEventId(),
         tutorId: event.getTutorId(),
@@ -94,7 +95,7 @@ function insertCalendar(db, calendar) {
 async function checkSemesterExistence(id, db) {
   const semesterExists = await db.findById({ id }, db.collections.semester);
   if (!semesterExists) {
-    throw new Error("You must supply valid semester id!");
+    throw new Error(responseTxt.invalidSemesterId);
   }
 
   return semesterExists;

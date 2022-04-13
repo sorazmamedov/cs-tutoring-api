@@ -35,6 +35,7 @@ app.use(`${apiRoot}/users`, require("./routes/userRouter"));
 app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
 app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
 app.use(`${apiRoot}/calendars`, require("./routes/calendarRouter"));
+app.use(`${apiRoot}/timeslots`, require("./routes/timeslotRouter"));
 app.use(makeCallback(notFound));
 
 app.use(errorHandler);

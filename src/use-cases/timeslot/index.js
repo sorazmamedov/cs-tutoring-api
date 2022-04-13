@@ -1,24 +1,20 @@
-import makeAddTimeSlot from "./add-timeSlot";
-// import makeEditTimeSlot from "./edit-timeSlot";
-// import makeListTimeSlots from "./list-timeSlots";
-import makeRemoveTimeSlot from "./remove-timeSlot";
+import makeAddTimeslot from "./add-timeslot";
+import makeEditTimeslot from "./edit-timeslot";
+import makeListTimeslots from "./list-timeslots";
+import makeRemoveTimeslot from "./remove-timeslot";
 import db from "../../data-access";
 import dateFns from "../../date";
 
-const addTimeSlot = makeAddTimeSlot({ db, dateFns });
-// const editTimeSlot = makeEditTimeSlot({ db });
-// const listTimeSlots = makeListTimeSlots({ db });
-const removeTimeSlot = makeRemoveTimeSlot({ db });
-const timeSlotService = Object.freeze({
-  addTimeSlot,
-  // editTimeSlot,
-  // listTimeSlots,
-  removeTimeSlot,
+const addTimeslot = makeAddTimeslot({ db, dateFns });
+const editTimeslot = makeEditTimeslot({ db });
+const listTimeslots = makeListTimeslots({ db });
+const removeTimeslot = makeRemoveTimeslot({ db });
+const timeslotService = Object.freeze({
+  addTimeslot,
+  editTimeslot,
+  listTimeslots,
+  removeTimeslot,
 });
 
-export default timeSlotService;
-export {
-  addTimeSlot,
-  // editTimeSlot, listTimeSlots,
-  removeTimeSlot,
-};
+export default timeslotService;
+export { addTimeslot, editTimeslot, listTimeslots, removeTimeslot };

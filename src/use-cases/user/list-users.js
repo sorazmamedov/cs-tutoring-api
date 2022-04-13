@@ -9,7 +9,7 @@ export default function makeListUsers({ db }) {
     const isAdmin = user?.roles.includes(Roles.Admin);
 
     if (!id) {
-      throw new Error(responseTxt.invalidId);
+      throw new Error(responseTxt.invalidSemesterId);
     }
 
     const queryRole = parseInt(role);

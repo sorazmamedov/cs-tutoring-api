@@ -11,6 +11,7 @@ export default function makeDatabase({ makeDb }) {
     removeAll,
     removeRange,
     update,
+    findBetweenDates,
     collections: {
       user: "user",
       announcement: "announcement",
@@ -34,6 +35,7 @@ export default function makeDatabase({ makeDb }) {
     }
     return found;
   }
+
   async function findAll(collection, params, fields) {
     const db = await makeDb();
     const query = params ? params : {};
@@ -44,6 +46,15 @@ export default function makeDatabase({ makeDb }) {
     const result = await db
       .collection(collection)
       .find(query, { projection: includeFields });
+    return (await result.toArray()).map(({ _id: id, ...found }) => ({
+      id,
+      ...found,
+    }));
+  }
+
+  async function findBetweenDates(collection, semesterId, start, end) {
+    const db = await makeDb();
+    const result = await db.collection(collection).find({semesterId, start: {$gte: start}, end: {$lte: end}});
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,

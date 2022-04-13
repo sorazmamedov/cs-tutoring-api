@@ -1,18 +1,22 @@
-export default function makeGetCalendars({ listCalendars }) {
-  return async function getCalendars(httpRequest) {
+import responseTxt from "../../config/responseTxt";
+
+export default function makeGetTimeslots({ listTimeslots }) {
+  return async function getTimeslots(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const calendars = await listCalendars({
+      const timeslots = await listTimeslots({
+        user: httpRequest.user,
         semesterId: httpRequest.query.semesterId,
-        tutorId: httpRequest.user.id,
+        start: httpRequest.query.start,
+        end: httpRequest.query.end,
       });
       return {
         headers,
         statusCode: 200,
-        body: calendars,
+        body: timeslots,
       };
     } catch (e) {
       if (e.name === "RangeError") {
