@@ -2,13 +2,13 @@ import Roles from "../../config/roles";
 import responseTxt from "../../config/responseTxt";
 
 export default function makeListUsers({ db }) {
-  return async function listUsers({ semesterId: id, role, user }) {
+  return async function listUsers({ semesterId, role, user }) {
+    console.log(semesterId, role, user);
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
-    const isAdmin = user?.roles.includes(Roles.Admin);
 
-    if (!id) {
+    if (!semesterId) {
       throw new Error(responseTxt.invalidSemesterId);
     }
 
@@ -23,25 +23,36 @@ export default function makeListUsers({ db }) {
       throw new Error(responseTxt.invalidRoleType);
     }
 
-    const semesterExists = await db.findById({ id }, db.collections.semester);
+    const semesterExists = await db.findById(
+      { id: semesterId },
+      db.collections.semester
+    );
     if (!semesterExists) {
       throw new RangeError(`Semester ${responseTxt.notFound}`);
     }
+
+    const isAdmin = user?.roles.includes(Roles.Admin);
+    const isTutor = user?.roles.includes(Roles.Tutor);
 
     if (!semesterExists.active && !isAdmin) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    if (user) {
+    if (isAdmin) {
       return await db.findAll(db.collections.user, {
-        activeSemesters: id,
+        activeSemesters: semesterId,
         roles: queryRole,
       });
     }
 
-    // return await db.findAll(db.collections.user, { activeSemesters: id }, [
-    //   "firstName",
-    //   "lastName",
-    // ]);
+    if (queryRole === Roles.Tutor) {
+      return await db.findAll(db.collections.user, {
+        isActive: true,
+        activeSemesters: semesterId,
+        roles: queryRole,
+      });
+    }
+
+    throw new Error(responseTxt.accessDenied);
   };
 }

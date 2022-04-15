@@ -7,6 +7,8 @@ export default function makeGetCourses({ listCourses }) {
     try {
       const courses = await listCourses({
         semesterId: httpRequest.query.semesterId,
+        searchTxt: httpRequest.query.searchTxt,
+        user: httpRequest.user
       });
       return {
         headers,

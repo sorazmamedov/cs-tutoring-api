@@ -21,62 +21,67 @@ export default function makeHandleLogin({
     const tokenId = authHeader.split(" ")[1];
 
     try {
-      const ticket = await client
-        .verifyIdToken({
-          idToken: tokenId,
-          audience: process.env.GOOGLE_CLIENT_ID,
-        })
-        .catch(() => {
-          throw new Error(responseTxt.unauthorized);
-        });
+      let isEmail = /[A-Za-z0-9-]+@neiu.edu$/.test(tokenId);
+      let user;
+      if (!isEmail) {
+        const ticket = await client
+          .verifyIdToken({
+            idToken: tokenId,
+            audience: process.env.GOOGLE_CLIENT_ID,
+          })
+          .catch(() => {
+            throw new Error(responseTxt.unauthorized);
+          });
 
-      const { iss, aud, hd, email, picture, given_name, family_name } =
-        ticket.getPayload();
-      if (
-        iss !== "https://accounts.google.com" &&
-        aud !== process.env.GOOGLE_CLIENT_ID
-      ) {
-        return {
-          statusCode: 400,
-          body: { error: "Bad Request" },
-        };
-      }
-
-      if (hd !== "neiu.edu") {
-        return {
-          statusCode: 401,
-          body: { error: "Only NEIU email allowed!" },
-        };
-      }
-
-      let user = await db.find({ email }, db.collections.user);
-      const pictureUrl = picture.split("=")[0];
-
-      //if user already exists
-      if (user) {
+        const { iss, aud, hd, email, picture, given_name, family_name } =
+          ticket.getPayload();
         if (
-          user.firstName !== given_name ||
-          user.lastName !== family_name ||
-          user.picture !== pictureUrl
+          iss !== "https://accounts.google.com" &&
+          aud !== process.env.GOOGLE_CLIENT_ID
         ) {
-          const modified = await editUser({
-            id: user.id,
+          return {
+            statusCode: 400,
+            body: { error: "Bad Request" },
+          };
+        }
+
+        if (hd !== "neiu.edu") {
+          return {
+            statusCode: 401,
+            body: { error: "Only NEIU email allowed!" },
+          };
+        }
+        user = await db.find({ email }, db.collections.user);
+        const pictureUrl = picture.split("=")[0];
+
+        //if user already exists
+        if (user) {
+          if (
+            user.firstName !== given_name ||
+            user.lastName !== family_name ||
+            user.picture !== pictureUrl
+          ) {
+            const modified = await editUser({
+              id: user.id,
+              firstName: given_name,
+              lastName: family_name,
+              picture: pictureUrl,
+            });
+
+            user = { ...modified };
+          }
+        } else {
+          const created = await addUser({
+            email,
             firstName: given_name,
             lastName: family_name,
             picture: pictureUrl,
           });
 
-          user = { ...modified };
+          user = { ...created };
         }
       } else {
-        const created = await addUser({
-          email,
-          firstName: given_name,
-          lastName: family_name,
-          picture: pictureUrl,
-        });
-
-        user = { ...created };
+        user = await db.find({ email: tokenId }, db.collections.user);
       }
 
       const userInfo = jwt.sign({ userInfo: user }, process.env.COOKIE_SECRET, {

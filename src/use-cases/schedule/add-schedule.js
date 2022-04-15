@@ -1,3 +1,4 @@
+import responseTxt from "../../config/responseTxt";
 import makeSchedule from "../../models/schedule";
 export default function makeAddSchedule({ db }) {
   return async function addSchedule(scheduleInfo) {
@@ -8,14 +9,14 @@ export default function makeAddSchedule({ db }) {
       db.collections.semester
     );
     if (!semesterExists) {
-      throw new Error("You must supply valid semester id!");
+      throw new Error(responseTxt.invalidSemesterId);
     }
     const tutorExists = await db.findById(
       { id: schedule.getTutorId() },
-      db.collections.tutor
+      db.collections.user
     );
     if (!tutorExists) {
-      throw new Error("You must supply valid tutor id!");
+      throw new Error(responseTxt.invalidId);
     }
 
     const exists = await db.findById(

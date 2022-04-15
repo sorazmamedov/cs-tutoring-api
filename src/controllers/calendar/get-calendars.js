@@ -7,7 +7,9 @@ export default function makeGetCalendars({ listCalendars }) {
     try {
       const calendars = await listCalendars({
         semesterId: httpRequest.query.semesterId,
-        tutorId: httpRequest.user.id,
+        user: httpRequest.user,
+        start: httpRequest.query.start,
+        end: httpRequest.query.end
       });
       return {
         headers,

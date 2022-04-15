@@ -1,3 +1,5 @@
+import responseTxt from "../../config/responseTxt";
+
 export default function makeUpdateTimeslot({ editTimeslot }) {
   return async function updateTimeslot(httpRequest) {
     const headers = {
@@ -5,10 +7,13 @@ export default function makeUpdateTimeslot({ editTimeslot }) {
     };
 
     try {
-      const { ...timeslotInfo } = httpRequest.body;
+      const { booked, courseId } = httpRequest.body;
       const updated = await editTimeslot({
         id: httpRequest.params.id,
-        ...timeslotInfo,
+        // user: httpRequest.user,
+        user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
+        booked,
+        courseId,
       });
       return {
         headers,
@@ -20,6 +25,26 @@ export default function makeUpdateTimeslot({ editTimeslot }) {
         return {
           headers,
           statusCode: 404,
+          body: {
+            error: e.message,
+          },
+        };
+      }
+
+      if (e?.message === responseTxt.accessDenied) {
+        return {
+          headers,
+          statusCode: 403,
+          body: {
+            error: e.message,
+          },
+        };
+      }
+
+      if (e?.message === responseTxt.unauthorized) {
+        return {
+          headers,
+          statusCode: 401,
           body: {
             error: e.message,
           },

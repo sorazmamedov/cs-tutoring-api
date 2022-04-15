@@ -98,6 +98,10 @@ async function checkSemesterExistence(id, db) {
     throw new Error(responseTxt.invalidSemesterId);
   }
 
+  if (!semesterExists.active) {
+    throw new Error(responseTxt.accessDenied);
+  }
+
   return semesterExists;
 }
 

@@ -26,6 +26,10 @@ export default function makeListTimeslots({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    return await db.findBetweenDates(db.collections.timeslot, semesterId, new Date(start), new Date(end));
+    return await db.findBetweenDates(db.collections.timeslot, {
+      semesterId,
+      start: new Date(start),
+      end: new Date(end),
+    });
   };
 }

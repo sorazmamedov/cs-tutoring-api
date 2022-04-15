@@ -9,12 +9,11 @@ export default function makeAddTimeslot({ db, dateFns }) {
     });
 
     const exists = await checkTimeSlotExistence(timeSlot, db);
+    if (exists) {
+      return exists;
+    }
 
     try {
-      if (exists) {
-        return exists;
-      }
-
       if (!repeatUntil) {
         return insertSlot(db, timeSlot);
       }

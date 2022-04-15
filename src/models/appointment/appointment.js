@@ -1,33 +1,39 @@
 export default function buildMakeAppointment({ Id, appointmentValidator }) {
   return function makeAppointment({
-    appointmentId = Id.makeId(),
+    id = Id.makeId(),
+    slotId,
     tutorId,
     studentId,
     courseId,
-    appointmentDate,
-    location,
+    semesterId,
+    start,
+    end,
     canceled = false,
     noShow = false,
   } = {}) {
     let { error } = appointmentValidator({
-      appointmentId,
+      id,
+      slotId,
       tutorId,
       studentId,
       courseId,
-      appointmentDate,
-      location,
+      start,
+      semesterId,
+      end,
       canceled,
       noShow,
     });
     if (error) throw new Error(error);
 
     return Object.freeze({
-      getAppointmentId: () => appointmentId,
+      getAppointmentId: () => id,
+      getSlotId: () => slotId,
       getTutorId: () => tutorId,
       getStudentId: () => studentId,
       getCourseId: () => courseId,
-      getAppointmentDate: () => appointmentDate,
-      getLocation: () => location,
+      getSemesterId: () => semesterId,
+      getStartDate: () => start,
+      getEndDate: () => end,
       isCanceled: () => canceled,
       isNoShow: () => noShow,
       markCanceled: () => {

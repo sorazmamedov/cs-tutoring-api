@@ -12,6 +12,7 @@ export default function makeDatabase({ makeDb }) {
     removeRange,
     update,
     findBetweenDates,
+    findMatchingCourses,
     collections: {
       user: "user",
       announcement: "announcement",
@@ -52,9 +53,53 @@ export default function makeDatabase({ makeDb }) {
     }));
   }
 
-  async function findBetweenDates(collection, semesterId, start, end) {
+  async function findBetweenDates(
+    collection,
+    { semesterId, start, end, tutorId }
+  ) {
     const db = await makeDb();
-    const result = await db.collection(collection).find({semesterId, start: {$gte: start}, end: {$lte: end}});
+    let result;
+    if (tutorId) {
+      result = await db.collection(collection).find({
+        semesterId,
+        tutorId,
+        start: { $gte: start },
+        end: { $lte: end },
+      });
+    } else {
+      result = await db.collection(collection).find({
+        semesterId,
+        start: { $gte: start },
+        end: { $lte: end },
+      });
+    }
+    return (await result.toArray()).map(({ _id: id, ...found }) => ({
+      id,
+      ...found,
+    }));
+  }
+
+  async function findMatchingCourses(semesterId, searchTxt, fields) {
+    const db = await makeDb();
+    const regex = new RegExp(searchTxt, "i");
+    const projection = {};
+    if (fields) {
+      fields.map((field) => (projection[field] = 1));
+    }
+    const result = await db.collection("course").find(
+      {
+        semesterId,
+        instructorName: { $not: /tba/i },
+        $or: [
+          { section: regex },
+          { courseName: regex },
+          { instructorName: regex },
+          { instructorEmail: regex },
+        ],
+      },
+      { projection }
+    );
+
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,

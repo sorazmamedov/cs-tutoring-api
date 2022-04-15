@@ -14,6 +14,7 @@ export default function makeCreateSchedule({ addSchedule }) {
         body: { ...created },
       };
     } catch (e) {
+      console.log(e);
       return {
         headers,
         statusCode: 400,

@@ -40,6 +40,16 @@ export default function makeUpdateUser({ editUser }) {
         };
       }
 
+      if (e?.message === responseTxt.unauthorized) {
+        return {
+          headers,
+          statusCode: 401,
+          body: {
+            error: e.message,
+          },
+        };
+      }
+
       return {
         headers,
         statusCode: 400,
