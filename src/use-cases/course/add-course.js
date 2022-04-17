@@ -1,11 +1,14 @@
+import responseTxt from "../../config/responseTxt";
 import makeCourse from "../../models/course";
 export default function makeAddCourse({ db }) {
-  return async function addCourse(courseInfo) {
-    if (courseInfo?.data) {
-      await checkSemesterExistence(courseInfo.semesterId, db);
-      const semesterId = courseInfo.semesterId;
+  return async function addCourse({ semesterId, courseInfo, coursesInfo }) {
+    const semesterExists = await checkSemesterExistence(semesterId, db);
+    if (!semesterExists) {
+      throw new Error(responseTxt.invalidSemesterId);
+    }
+    if (coursesInfo && coursesInfo instanceof Array) {
       const courses = await Promise.all(
-        courseInfo.data.map(async (item) => {
+        coursesInfo.map(async (item) => {
           const course = makeCourse({ ...item, semesterId });
           const exists = await checkCourseExistence(course, db);
           if (exists) {
@@ -29,14 +32,7 @@ export default function makeAddCourse({ db }) {
       return { success: "Successfully saved!" };
     }
 
-    const course = makeCourse(courseInfo);
-    const semesterExists = await db.findById(
-      { id: course.getSemesterId() },
-      db.collections.semester
-    );
-    if (!semesterExists) {
-      throw new Error("You must supply valid semester id!");
-    }
+    const course = makeCourse({ ...courseInfo, semesterId });
 
     const exists = await db.findById(
       { id: course.getCourseId() },
@@ -64,10 +60,10 @@ export default function makeAddCourse({ db }) {
 async function checkSemesterExistence(id, db) {
   const semesterExists = await db.findById({ id }, db.collections.semester);
   if (!semesterExists) {
-    throw new Error("You must supply valid semester id!");
+    return false;
   }
 
-  return true;
+  return semesterExists;
 }
 
 async function checkCourseExistence(course, db) {

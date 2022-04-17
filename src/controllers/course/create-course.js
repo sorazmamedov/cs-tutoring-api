@@ -5,8 +5,10 @@ export default function makeCreateCourse({ addCourse }) {
     };
 
     try {
-      const courseInfo = httpRequest.body;
-      const created = await addCourse(courseInfo);
+      const courseInfo = httpRequest.body.course;
+      const coursesInfo = httpRequest.body.courses;
+      const semesterId = httpRequest.params.semesterId;
+      const created = await addCourse({semesterId, courseInfo, coursesInfo});
 
       return {
         headers,

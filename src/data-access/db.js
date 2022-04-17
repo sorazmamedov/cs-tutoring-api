@@ -2,7 +2,6 @@ export default function makeDatabase({ makeDb }) {
   return Object.freeze({
     find,
     findAll,
-    findByHash,
     findById,
     findByEmail,
     insert,
@@ -128,12 +127,12 @@ export default function makeDatabase({ makeDb }) {
     return { id, ...info };
   }
 
-  async function insert({ id: _id, ...commentInfo }, collection) {
+  async function insert({ id: _id, ...insertInfo }, collection) {
     const db = await makeDb();
     const result = await db
       .collection(collection)
-      .insertOne({ _id, ...commentInfo });
-    return result?.insertedId === _id ? { id: _id, ...commentInfo } : null;
+      .insertOne({ _id, ...insertInfo });
+    return result?.insertedId === _id ? { id: _id, ...insertInfo } : null;
   }
 
   async function insertMany(dataArr, collection) {
@@ -148,12 +147,12 @@ export default function makeDatabase({ makeDb }) {
     return result.insertedCount > 0 ? true : null;
   }
 
-  async function update({ id: _id, ...commentInfo }, collection) {
+  async function update({ id: _id, ...updateInfo }, collection) {
     const db = await makeDb();
     const result = await db
       .collection(collection)
-      .updateOne({ _id }, { $set: { ...commentInfo } });
-    return result.modifiedCount > 0 ? { id: _id, ...commentInfo } : null;
+      .updateOne({ _id }, { $set: { ...updateInfo } });
+    return result.modifiedCount > 0 ? { id: _id, ...updateInfo } : null;
   }
 
   async function remove({ id: _id }, collection) {
@@ -174,16 +173,5 @@ export default function makeDatabase({ makeDb }) {
     const query = end ? { ...baseQuery, end: { $lte: end } } : baseQuery;
     const result = await db.collection(collection).deleteMany(query);
     return result.deletedCount;
-  }
-
-  async function findByHash(comment) {
-    const db = await makeDb();
-    const result = await db.collection("comments").find({ hash: comment.hash });
-    const found = await result.toArray();
-    if (found.length === 0) {
-      return null;
-    }
-    const { _id: id, ...insertedInfo } = found[0];
-    return { id, ...insertedInfo };
   }
 }

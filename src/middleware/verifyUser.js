@@ -17,7 +17,6 @@ export default async function (req, res, next) {
 
   try {
     let isEmail = /[A-Za-z0-9-]+@neiu.edu$/.test(tokenId);
-    let user;
     if (!isEmail) {
       const ticket = await client
         .verifyIdToken({
@@ -66,10 +65,8 @@ export default async function (req, res, next) {
     }
   } catch (error) {
     if (error?.message === responseTxt.unauthorized) {
-      return {
-        headers,
-        statusCode: 401,
-      };
+      res.sendStatus(401);
     }
+    // next(error);
   }
 }
