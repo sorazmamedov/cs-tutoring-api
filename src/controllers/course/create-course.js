@@ -16,6 +16,7 @@ export default function makeCreateCourse({ addCourse }) {
         body: { ...created },
       };
     } catch (e) {
+      console.log(e);
       return {
         headers,
         statusCode: 400,

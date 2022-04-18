@@ -1,31 +1,29 @@
+import responseTxt from "../../config/responseTxt";
 import makeSchedule from "../../models/schedule";
 
 export default function makeEditSchedule({ db }) {
   return async function editSchedule({ id, ...changes }) {
     if (!id) {
-      throw new Error("You must supply a valid id.");
+      throw new Error(responseTxt.invalidId);
     }
 
-    const existing = await db.findById({ id }, db.collections.schedule);
+    const existing = await db.schedule.findById({ id });
     if (!existing) {
-      throw new RangeError("Schedule not found.");
+      throw new RangeError(`Schedule ${responseTxt.notFound}`);
     }
 
     const schedule = makeSchedule({ ...existing, ...changes });
 
-    const updated = await db.update(
-      {
-        id: schedule.getScheduleId(),
-        tutorId: schedule.getTutorId(),
-        semesterId: schedule.getSemesterId(),
-        day: schedule.getDay(),
-        startHour: schedule.getStartHour(),
-        endHour: schedule.getEndHour(),
-        location: schedule.getLocation(),
-        isActive: schedule.getIsActive(),
-      },
-      db.collections.schedule
-    );
+    const updated = await db.schedule.update({
+      id: schedule.getScheduleId(),
+      tutorId: schedule.getTutorId(),
+      semesterId: schedule.getSemesterId(),
+      day: schedule.getDay(),
+      startHour: schedule.getStartHour(),
+      endHour: schedule.getEndHour(),
+      location: schedule.getLocation(),
+      isActive: schedule.getIsActive(),
+    });
 
     return { ...existing, ...updated };
   };

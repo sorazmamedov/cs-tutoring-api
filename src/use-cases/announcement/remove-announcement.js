@@ -1,16 +1,18 @@
+import responseTxt from "../../config/responseTxt";
+
 export default function makeRemoveAnnouncement({ db }) {
   return async function removeAnnouncement({ id }) {
     if (!id) {
-      throw new Error("You must supply a valid id!");
+      throw new Error(responseTxt.invalidId);
     }
 
-    const announcementToDelete = await db.findById({ id }, db.collections.announcement);
+    const announcementToDelete = await db.announcement.findById({ id });
     if (!announcementToDelete) {
-      throw new RangeError("Announcement not found.");
+      throw new RangeError(`Announcement ${responseTxt.notFound}`);
     }
 
     return {
-      deletedCount: await db.remove(announcementToDelete, db.collections.announcement),
+      deletedCount: await db.announcement.remove(announcementToDelete),
       message: "announcement deleted.",
     };
   };

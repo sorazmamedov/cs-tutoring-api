@@ -3,7 +3,6 @@ import verifyRoles from "../middleware/verifyRoles";
 import Roles from "../config/roles";
 import {
   createCalendar,
-  updateCalendar,
   getCalendars,
   deleteCalendar,
 } from "../controllers/calendar";
@@ -18,7 +17,6 @@ router
 
 router
   .route("/:calId")
-  .put(verifyRoles(Roles.Tutor), makeCallback(updateCalendar))
   .delete(verifyRoles(Roles.Tutor), makeCallback(deleteCalendar));
 
 module.exports = router;

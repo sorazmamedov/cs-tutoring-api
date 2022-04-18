@@ -16,7 +16,7 @@ export default function makeListTimeslots({ db }) {
     }
 
     const id = semesterId;
-    const semesterExists = await db.findById({ id }, db.collections.semester);
+    const semesterExists = await db.semester.findById({ id });
     if (!semesterExists) {
       throw new RangeError(`Semester ${responseTxt.notFound}`);
     }
@@ -26,7 +26,7 @@ export default function makeListTimeslots({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    return await db.findBetweenDates(db.collections.timeslot, {
+    return await db.timeslot.findBetweenDates({
       semesterId,
       start: new Date(start),
       end: new Date(end),

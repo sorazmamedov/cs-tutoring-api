@@ -1,5 +1,6 @@
 import responseTxt from "../../config/responseTxt";
 import makeCourse from "../../models/course";
+
 export default function makeAddCourse({ db }) {
   return async function addCourse({ semesterId, courseInfo, coursesInfo }) {
     const semesterExists = await checkSemesterExistence(semesterId, db);
@@ -28,37 +29,31 @@ export default function makeAddCourse({ db }) {
         })
       );
 
-      db.insertMany(courses, db.collections.course);
+      db.course.insertMany(courses);
       return { success: "Successfully saved!" };
     }
 
     const course = makeCourse({ ...courseInfo, semesterId });
 
-    const exists = await db.findById(
-      { id: course.getCourseId() },
-      db.collections.course
-    );
+    const exists = await db.course.findById({ id: course.getCourseId() });
 
     if (exists) {
       return exists;
     }
 
-    return db.insert(
-      {
-        id: course.getCourseId(),
-        section: course.getSection(),
-        courseName: course.getCourseName(),
-        semesterId: course.getSemesterId(),
-        instructorName: course.getInstructorName(),
-        instructorEmail: course.getInstructorEmail(),
-      },
-      db.collections.course
-    );
+    return db.course.insert({
+      id: course.getCourseId(),
+      section: course.getSection(),
+      courseName: course.getCourseName(),
+      semesterId: course.getSemesterId(),
+      instructorName: course.getInstructorName(),
+      instructorEmail: course.getInstructorEmail(),
+    });
   };
 }
 
 async function checkSemesterExistence(id, db) {
-  const semesterExists = await db.findById({ id }, db.collections.semester);
+  const semesterExists = await db.semester.findById({ id });
   if (!semesterExists) {
     return false;
   }
@@ -67,10 +62,7 @@ async function checkSemesterExistence(id, db) {
 }
 
 async function checkCourseExistence(course, db) {
-  const exists = await db.findById(
-    { id: course.getCourseId() },
-    db.collections.course
-  );
+  const exists = await db.course.findById({ id: course.getCourseId() });
 
   if (exists) {
     return exists;

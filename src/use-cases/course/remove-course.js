@@ -1,16 +1,18 @@
+import responseTxt from "../../config/responseTxt";
+
 export default function makeRemoveCourse({ db }) {
   return async function removeCourse({ id }) {
     if (!id) {
-      throw new Error("You must supply a valid id!");
+      throw new Error(responseTxt.invalidId);
     }
 
-    const courseToDelete = await db.findById({ id }, db.collections.course);
+    const courseToDelete = await db.course.findById({ id });
     if (!courseToDelete) {
-      throw new RangeError("Course not found.");
+      throw new RangeError(`Course ${responseTxt.notFound}`);
     }
 
     return {
-      deletedCount: await db.remove(courseToDelete, db.collections.course),
+      deletedCount: await db.course.remove(courseToDelete),
       message: "course deleted.",
     };
   };

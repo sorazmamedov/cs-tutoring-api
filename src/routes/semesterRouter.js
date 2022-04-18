@@ -17,10 +17,10 @@ router
   .get(verifyRoles(Roles.Admin), makeCallback(getSemesters))
   .post(verifyRoles(Roles.Admin), makeCallback(createSemester));
 
-router.route("/active").get(makeCallback(getActiveSemester));
-
 router
   .route("/:id")
   .put(verifyRoles(Roles.Admin), makeCallback(updateSemester));
+
+router.route("/active").get(makeCallback(getActiveSemester));
 
 module.exports = router;

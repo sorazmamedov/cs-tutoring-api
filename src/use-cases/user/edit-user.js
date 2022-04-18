@@ -40,28 +40,25 @@ export default function makeEditUser({ db, Roles }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    const existing = await db.findById({ id }, db.collections.user);
+    const existing = await db.user.findById({ id });
     if (!existing) {
       throw new RangeError(`User ${responseTxt.notFound}`);
     }
 
     const modified = makeUser({ ...existing, ...changes });
 
-    const updated = await db.update(
-      {
-        id: modified.getId(),
-        neiuId: modified.getNeiuId(),
-        firstName: modified.getFirstName(),
-        lastName: modified.getLastName(),
-        pronouns: modified.getPronouns(),
-        email: modified.getEmail(),
-        about: modified.getAbout(),
-        isActive: modified.getIsActive(),
-        roles: modified.getRoles(),
-        activeSemesters: modified.getActiveSemesters(),
-      },
-      db.collections.user
-    );
+    const updated = await db.user.update({
+      id: modified.getId(),
+      neiuId: modified.getNeiuId(),
+      firstName: modified.getFirstName(),
+      lastName: modified.getLastName(),
+      pronouns: modified.getPronouns(),
+      email: modified.getEmail(),
+      about: modified.getAbout(),
+      isActive: modified.getIsActive(),
+      roles: modified.getRoles(),
+      activeSemesters: modified.getActiveSemesters(),
+    });
 
     return { ...existing, ...updated };
   };

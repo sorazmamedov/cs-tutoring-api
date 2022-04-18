@@ -3,7 +3,7 @@ import responseTxt from "../../config/responseTxt";
 
 export default function makeListSchedules({ db }) {
   return async function listSchedules({ semesterId: id, user }) {
-    const semesterExists = await db.findById({ id }, db.collections.semester);
+    const semesterExists = await db.semester.findById({ id });
     if (!semesterExists) {
       throw new Error(responseTxt.invalidId);
     }
@@ -17,14 +17,14 @@ export default function makeListSchedules({ db }) {
 
     //If user=Admin then send all schedules
     if (isAdmin) {
-      return await db.findAll(db.collections.schedule, {
+      return await db.schedule.findAll({
         semesterId: id,
       });
     }
 
     //If any user then send only activated schedules
     if (user) {
-      return await db.findAll(db.collections.schedule, {
+      return await db.schedule.findAll({
         semesterId: id,
         isActive: true,
       });
@@ -32,8 +32,7 @@ export default function makeListSchedules({ db }) {
 
     //If NO signed in user then only send activated schedules with
     //4 fields = [day, startHour, endHour, tutor: {firstName, lastName}]
-    const result = await db.findAll(
-      db.collections.schedule,
+    const result = await db.schedule.findAll(
       {
         semesterId: id,
         isActive: true,
@@ -45,7 +44,7 @@ export default function makeListSchedules({ db }) {
       const schedules = await Promise.all(
         result.map(async (item) => {
           const id = item.tutorId;
-          const tutor = await db.findById({ id }, db.collections.user);
+          const tutor = await db.user.findById({ id });
           const schedule = {
             day: item.day,
             startHour: item.startHour,

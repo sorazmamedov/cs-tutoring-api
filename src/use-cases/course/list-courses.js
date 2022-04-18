@@ -7,10 +7,7 @@ export default function makeListCourses({ db }) {
       throw new Error(responseTxt.invalidId);
     }
 
-    const semesterExists = await db.findById(
-      { id: semesterId },
-      db.collections.semester
-    );
+    const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {
       throw new Error(responseTxt.invalidSemesterId);
     }
@@ -21,17 +18,16 @@ export default function makeListCourses({ db }) {
       if (!regex.test(searchTxt)) throw new Error(responseTxt.unsanitized);
 
       //return only courses that match searchTxt and instructorName != "TBA" or "tba"
-      return await db.findMatchingCourses(semesterId, searchTxt, [
-        "id",
-        "section",
-        "courseName",
-        "instructorName",
-      ]);
+      return await db.course.findMatchingCourses({
+        semesterId,
+        searchTxt,
+        fields: ["id", "section", "courseName", "instructorName"],
+      });
     }
 
     if (!user?.roles.includes(Roles.Admin)) {
       throw new Error(responseTxt.accessDenied);
     }
-    return await db.findAll(db.collections.course, { semesterId });
+    return await db.course.findAll({ semesterId });
   };
 }

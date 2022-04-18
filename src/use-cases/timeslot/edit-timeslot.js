@@ -4,19 +4,12 @@ import makeAppointment from "../../models/appointment";
 
 export default function makeEditTimeslot({ db }) {
   return async function editTimeslot({ id, user, booked, courseId }) {
-    console.log("Inside Edit TimeSlot:");
-    console.log("ID: " + id);
-    console.log("Booked: " + booked);
-    console.log("CourseId: " + courseId);
-    console.log("USER: " + user.id + " " + user.roles);
-
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
 
     //Admin cannot book an appointment, only delete
     if (user.roles.includes(Roles.Admin)) {
-      console.log("Because you are an Admin");
       throw new Error(responseTxt.accessDenied);
     }
 
@@ -26,36 +19,27 @@ export default function makeEditTimeslot({ db }) {
 
     //check if booked exists OR both should exist when booking
     if (booked === undefined || (booked && !courseId)) {
-      console.log("missing");
       throw new Error(responseTxt.missingInfo);
     }
 
-    const timeslot = await db.findById({ id }, db.collections.timeslot);
+    const timeslot = await db.timeslot.findById({ id });
     if (!timeslot) {
       throw new RangeError(`Timeslot ${responseTxt.notFound}`);
     }
 
     //semester has to be active
-    const semester = await db.findById(
-      { id: timeslot.semesterId },
-      db.collections.semester
-    );
+    const semester = await db.semester.findById({ id: timeslot.semesterId });
     if (!semester.active) {
-      console.log(
-        "Semester is inactive: " + semester.active + " " + timeslot.semesterId
-      );
       throw new Error(responseTxt.accessDenied);
     }
 
     //throw error if slot is already booked
     if (booked && timeslot.booked) {
-      console.log("It is already booked");
       throw new Error(responseTxt.accessDenied);
     }
 
     //tutor cannot book his/her own slot
     if (timeslot.tutorId === user.id) {
-      console.log("You cannot book your own slot");
       throw new Error(responseTxt.accessDenied);
     }
 
@@ -63,10 +47,7 @@ export default function makeEditTimeslot({ db }) {
     try {
       if (booked) {
         //check if the course exists
-        const course = await db.findById(
-          { id: courseId },
-          db.collections.course
-        );
+        const course = await db.course.findById({ id: courseId });
         if (!course) {
           throw new RangeError(`Course ${responseTxt.notFound}`);
         }
@@ -82,43 +63,33 @@ export default function makeEditTimeslot({ db }) {
           end: new Date(timeslot.end),
         });
 
-        await db.insert(
-          {
-            id: appointment.getAppointmentId(),
-            slotId: appointment.getSlotId(),
-            tutorId: appointment.getTutorId(),
-            studentId: appointment.getStudentId(),
-            courseId: appointment.getCourseId(),
-            semesterId: appointment.getSemesterId(),
-            start: appointment.getStartDate(),
-            end: appointment.getEndDate(),
-            canceled: appointment.isCanceled(),
-            noShow: appointment.isNoShow(),
-          },
-          db.collections.appointment
-        );
+        await db.appointment.insert({
+          id: appointment.getAppointmentId(),
+          slotId: appointment.getSlotId(),
+          tutorId: appointment.getTutorId(),
+          studentId: appointment.getStudentId(),
+          courseId: appointment.getCourseId(),
+          semesterId: appointment.getSemesterId(),
+          start: appointment.getStartDate(),
+          end: appointment.getEndDate(),
+          canceled: appointment.isCanceled(),
+          noShow: appointment.isNoShow(),
+        });
       }
       //Changing booked = false only available thru appointment cancellation
       //Admin or Tutor can only delete the slot
       //when tutor marks appointment as a noShow nothing changes in slot
       //if booked = false =>
 
-      const updated = await db.update(
-        {
-          ...timeslot,
-          booked,
-          appointmentId: booked ? appointment.getAppointmentId() : null,
-        },
-        db.collections.timeslot
-      );
+      const updated = await db.timeslot.update({
+        ...timeslot,
+        booked,
+        appointmentId: booked ? appointment.getAppointmentId() : null,
+      });
 
       return { ...timeslot, ...updated };
     } catch (error) {
-      console.log(error);
-      db.removeAll(
-        { id: appointment.getAppointmentId() },
-        db.collections.appointment
-      );
+      db.appointment.remove({ id: appointment.getAppointmentId() });
       throw error;
     }
   };

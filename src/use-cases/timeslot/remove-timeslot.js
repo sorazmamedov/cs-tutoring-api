@@ -1,20 +1,17 @@
-export default function makeRemoveTimeSlot({ db }) {
-  return async function removeTimeSlot({ eventId, start, end }) {
-    if (!eventId) {
-      throw new Error("You must supply a valid id!");
+import responseTxt from "../../config/responseTxt";
+import Roles from "../../config/roles";
+
+export default function makeRemoveTimeslot({ db }) {
+  return async function removeTimeslot({ id, user }) {
+    if (!id) {
+      throw new Error(responseTxt.invalidId);
     }
 
-    const timeSlot = await db.find({ eventId }, db.collections.timeslot);
-    if (!timeSlot) {
-      throw new RangeError("Timeslot not found.");
+    const timeslot = await db.timeslot.findById({ id });
+    if (!timeslot) {
+      throw new RangeError(`Timeslot ${responseTxt.notFound}`);
     }
 
-    return {
-      deletedCount: await db.removeRange(
-        { eventId, start, end },
-        db.collections.timeslot
-      ),
-      message: "TimeSlot(s) deleted!",
-    };
+    return await db.timeslot.remove({ id });
   };
 }

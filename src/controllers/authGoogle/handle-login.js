@@ -51,7 +51,7 @@ export default function makeHandleLogin({
             body: { error: "Only NEIU email allowed!" },
           };
         }
-        user = await db.find({ email }, db.collections.user);
+        user = await db.user.findByEmail({ email });
         const pictureUrl = picture.split("=")[0];
 
         //if user already exists
@@ -81,7 +81,7 @@ export default function makeHandleLogin({
           user = { ...created };
         }
       } else {
-        user = await db.find({ email: tokenId }, db.collections.user);
+        user = await db.user.findByEmail({ email: tokenId });
       }
 
       const userInfo = jwt.sign({ userInfo: user }, process.env.COOKIE_SECRET, {

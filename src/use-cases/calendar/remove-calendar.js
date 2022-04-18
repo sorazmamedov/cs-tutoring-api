@@ -1,6 +1,6 @@
 import responseTxt from "../../config/responseTxt";
 import ROLES from "../../config/roles";
-import { removeTimeslot } from "../timeslot";
+import { removeTimeslots } from "../timeslot";
 
 export default function makeRemoveCalendar({ db }) {
   return async function removeCalendar({ user, id, calId, deleteAll }) {
@@ -23,10 +23,7 @@ export default function makeRemoveCalendar({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    const calendarToDelete = await db.findById(
-      { id: calId },
-      db.collections.calendar
-    );
+    const calendarToDelete = await db.calendar.findById({ id: calId });
 
     if (!calendarToDelete) {
       throw new RangeError(`Calendar ${responseTxt.notFound}`);
@@ -41,17 +38,12 @@ export default function makeRemoveCalendar({ db }) {
       let eventsDeleted = 0;
 
       if (deleteAll) {
-        slotsDeleted = await removeTimeslot({ eventId, start });
-        eventsDeleted = await db.removeRange(
-          { eventId, start },
-          db.collections.calendar
-        );
+        console.log(deleteAll, eventId);
+        slotsDeleted = await removeTimeslots({ eventId, start });
+        eventsDeleted = await db.calendar.removeRange({ eventId, start });
       } else {
-        slotsDeleted = await removeTimeslot({ eventId, start, end });
-        eventsDeleted = await db.remove(
-          calendarToDelete,
-          db.collections.calendar
-        );
+        slotsDeleted = await removeTimeslots({ eventId, start, end });
+        eventsDeleted = await db.calendar.remove(calendarToDelete);
       }
 
       return {

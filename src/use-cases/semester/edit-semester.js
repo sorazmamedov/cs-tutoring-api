@@ -1,20 +1,18 @@
+import responseTxt from "../../config/responseTxt";
 import makeSemester from "../../models/semester";
 
 export default function makeEditSemester({ db }) {
   return async function editSemester({ id, ...changes }) {
     if (!id) {
-      throw new Error("You must supply a valid id.");
+      throw new Error(responseTxt.invalidId);
     }
 
-    const existing = await db.findById({ id }, db.collections.semester);
+    const existing = await db.semester.findById({ id });
     if (!existing) {
-      throw new RangeError("Semester not found.");
+      throw new RangeError(`Semester ${responseTxt.notFound}`);
     }
 
-    const activeExists = await db.find(
-      { active: true },
-      db.collections.semester
-    );
+    const activeExists = await db.semester.find({ active: true });
     if (existing.active !== changes.active) {
       if (changes.active && activeExists) {
         throw new Error(
@@ -25,17 +23,14 @@ export default function makeEditSemester({ db }) {
 
     const semester = makeSemester({ ...existing, ...changes });
 
-    const updated = await db.update(
-      {
-        id: semester.getSemesterId(),
-        semesterName: semester.getSemesterName(),
-        academicYear: semester.getAcademicYear(),
-        startDate: new Date(semester.getStartDate()),
-        endDate: new Date(semester.getEndDate()),
-        active: semester.isActive(),
-      },
-      db.collections.semester
-    );
+    const updated = await db.semester.update({
+      id: semester.getSemesterId(),
+      semesterName: semester.getSemesterName(),
+      academicYear: semester.getAcademicYear(),
+      startDate: new Date(semester.getStartDate()),
+      endDate: new Date(semester.getEndDate()),
+      active: semester.isActive(),
+    });
 
     return { ...existing, ...updated };
   };

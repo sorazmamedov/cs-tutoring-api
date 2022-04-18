@@ -15,9 +15,9 @@ export default function makeListUser({ db }) {
 
     //if user is student requesting tutr
     if (id) {
-      userExists = await db.findById({ id }, db.collections.user);
+      userExists = await db.user.findById({ id });
     } else {
-      userExists = await db.findByEmail({ email }, db.collections.user);
+      userExists = await db.user.findByEmail({ email });
     }
 
     if (!userExists) {

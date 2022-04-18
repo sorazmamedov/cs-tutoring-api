@@ -6,8 +6,7 @@ export default function makeDeleteTimeslot({ removeTimeslot }) {
 
     try {
       const id = httpRequest.params.id;
-      const deleteAll = httpRequest.query?.deleteAll;
-      const deleted = await removeTimeslot({ id, deleteAll });
+      const deleted = await removeTimeslot({ id });
 
       return {
         headers,

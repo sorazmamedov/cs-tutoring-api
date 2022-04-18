@@ -3,7 +3,6 @@ export default function makeHandleLogout() {
     const headers = {
       "Content-Type": "application/json",
     };
-
     const cookies = httpRequest.cookies;
     if (!cookies?.jwt) return { statusCode: 204 }; //No content
 

@@ -1,11 +1,11 @@
-export default function makeGetActiveSemester({ grabActiveSemester }) {
+export default function makeGetActiveSemester({ listActiveSemester }) {
   return async function getActiveSemester(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const semester = await grabActiveSemester();
+      const semester = await listActiveSemester();
       return {
         headers,
         statusCode: 200,

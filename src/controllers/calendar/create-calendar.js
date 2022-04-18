@@ -1,3 +1,5 @@
+import responseTxt from "../../config/responseTxt";
+
 export default function makeCreateCalendar({ addCalendar }) {
   return async function createCalendar(httpRequest) {
     const headers = {
@@ -44,7 +46,7 @@ export default function makeCreateCalendar({ addCalendar }) {
           },
         };
       }
-      
+
       return {
         headers,
         statusCode: 400,

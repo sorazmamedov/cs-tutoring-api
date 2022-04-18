@@ -22,10 +22,7 @@ export default function makeListUsers({ db }) {
       throw new Error(responseTxt.invalidRoleType);
     }
 
-    const semesterExists = await db.findById(
-      { id: semesterId },
-      db.collections.semester
-    );
+    const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {
       throw new RangeError(`Semester ${responseTxt.notFound}`);
     }
@@ -38,14 +35,14 @@ export default function makeListUsers({ db }) {
     }
 
     if (isAdmin) {
-      return await db.findAll(db.collections.user, {
+      return await db.user.findAll({
         activeSemesters: semesterId,
         roles: queryRole,
       });
     }
 
     if (queryRole === Roles.Tutor) {
-      return await db.findAll(db.collections.user, {
+      return await db.user.findAll({
         isActive: true,
         activeSemesters: semesterId,
         roles: queryRole,

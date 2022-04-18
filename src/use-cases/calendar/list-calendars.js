@@ -14,10 +14,7 @@ export default function makeListCalendars({ db }) {
       throw new Error(responseTxt.invalidSemesterId);
     }
 
-    const semesterExists = await db.findById(
-      { id: semesterId },
-      db.collections.semester
-    );
+    const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {
       throw new Error(`Semester ${responseTxt.notFound}`);
     }
@@ -26,11 +23,11 @@ export default function makeListCalendars({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    return await db.findBetweenDates(db.collections.calendar, {
+    return await db.calendar.findBetweenDates({
       semesterId,
       tutorId: user.id,
       start: new Date(start),
-      end: new Date(end)
+      end: new Date(end),
     });
   };
 }

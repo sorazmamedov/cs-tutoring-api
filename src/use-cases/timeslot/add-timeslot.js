@@ -22,7 +22,7 @@ export default function makeAddTimeslot({ db, dateFns }) {
       let end = timeSlot.getEnd();
 
       while (!dateFns.isAfter(end, repeatUntil)) {
-        const timeSlot = makeTimeSlot({ ...slotInfo, start, end });
+        const timeSlot = makeTimeslot({ ...slotInfo, start, end });
         insertSlot(db, timeSlot);
         start = dateFns.addWeeks(start);
         end = dateFns.addWeeks(end);
@@ -34,28 +34,22 @@ export default function makeAddTimeslot({ db, dateFns }) {
 }
 
 function insertSlot(db, timeSlot) {
-  return db.insert(
-    {
-      id: timeSlot.getTimeSlotId(),
-      eventId: timeSlot.getEventId(),
-      tutorId: timeSlot.getTutorId(),
-      semesterId: timeSlot.getSemesterId(),
-      start: timeSlot.getStart(),
-      end: timeSlot.getEnd(),
-      booked: timeSlot.isBooked(),
-      appointmentId: timeSlot.getAppointmentId(),
-    },
-    db.collections.timeslot
-  );
+  return db.timeslot.insert({
+    id: timeSlot.getTimeSlotId(),
+    eventId: timeSlot.getEventId(),
+    tutorId: timeSlot.getTutorId(),
+    semesterId: timeSlot.getSemesterId(),
+    start: timeSlot.getStart(),
+    end: timeSlot.getEnd(),
+    booked: timeSlot.isBooked(),
+    appointmentId: timeSlot.getAppointmentId(),
+  });
 }
 
 async function checkTimeSlotExistence(timeSlot, db) {
-  const exists = await db.findById(
-    {
-      eventId: timeSlot.getEventId(),
-    },
-    db.collections.timeslot
-  );
+  const exists = await db.timeslot.findById({
+    eventId: timeSlot.getEventId(),
+  });
 
   if (exists) {
     return exists;

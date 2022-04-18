@@ -5,6 +5,11 @@ import { addTimeslot } from "../timeslot";
 
 export default function makeAddCalendar({ db, dateFns }) {
   return async function addCalendar(eventInfo) {
+    const tutor = await db.user.findById({ id: eventInfo.tutorId });
+    if (!tutor?.isActive) {
+      throw new Error(responseTxt.accessDenied);
+    }
+
     const semester = await checkSemesterExistence(eventInfo.semesterId, db);
 
     const min = new Date(semester.startDate);
@@ -44,8 +49,8 @@ export default function makeAddCalendar({ db, dateFns }) {
 
       return { success: "Successfully created!" };
     } catch (error) {
-      db.removeAll({ eventId: event.getEventId() }, db.collections.calendar);
-      db.removeAll({ eventId: event.getEventId() }, db.collections.timeslot);
+      db.calendar.removeAll({ eventId: event.getEventId() });
+      db.timeslot.removeAll({ eventId: event.getEventId() });
       throw error;
     }
   };
@@ -78,22 +83,19 @@ function createCalendar({ start, end, event }) {
 }
 
 function insertCalendar(db, calendar) {
-  return db.insert(
-    {
-      id: calendar.getCalendarId(),
-      eventId: calendar.getEventId(),
-      tutorId: calendar.getTutorId(),
-      semesterId: calendar.getSemesterId(),
-      start: calendar.getStart(),
-      end: calendar.getEnd(),
-      repeat: calendar.doesRepeat(),
-    },
-    db.collections.calendar
-  );
+  return db.calendar.insert({
+    id: calendar.getCalendarId(),
+    eventId: calendar.getEventId(),
+    tutorId: calendar.getTutorId(),
+    semesterId: calendar.getSemesterId(),
+    start: calendar.getStart(),
+    end: calendar.getEnd(),
+    repeat: calendar.doesRepeat(),
+  });
 }
 
 async function checkSemesterExistence(id, db) {
-  const semesterExists = await db.findById({ id }, db.collections.semester);
+  const semesterExists = await db.semester.findById({ id });
   if (!semesterExists) {
     throw new Error(responseTxt.invalidSemesterId);
   }
@@ -106,14 +108,11 @@ async function checkSemesterExistence(id, db) {
 }
 
 async function checkCalendarExistence(event, db, dateFns) {
-  const exists = await db.findById(
-    {
-      eventId: event.getEventId(),
-      start: dateFns.parseISO(event.getStart()),
-      end: dateFns.parseISO(event.getEnd()),
-    },
-    db.collections.calendar
-  );
+  const exists = await db.calendar.findById({
+    eventId: event.getEventId(),
+    start: dateFns.parseISO(event.getStart()),
+    end: dateFns.parseISO(event.getEnd()),
+  });
 
   if (exists) {
     return exists;
