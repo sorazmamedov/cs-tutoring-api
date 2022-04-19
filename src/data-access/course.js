@@ -2,6 +2,7 @@ export default function makeCourseDb({ makeDb }) {
   return Object.freeze({
     findAll,
     findById,
+    findByIdAndProject,
     insert,
     insertMany,
     update,
@@ -27,6 +28,23 @@ export default function makeCourseDb({ makeDb }) {
     }
     const { _id: id, ...info } = found[0];
     return { id, ...info };
+  }
+
+  async function findByIdAndProject({ id: _id, fields }) {
+    const db = await makeDb();
+    const includeFields = {};
+    if (fields) {
+      fields.map((field) => (includeFields[field] = 1));
+    }
+    const result = await db
+      .collection("course")
+      .find({ _id }, { projection: includeFields });
+    const found = await result.toArray();
+    if (found.length === 0) {
+      return null;
+    }
+    const { _id: id, ...info } = found[0];
+    return info;
   }
 
   async function insert({ id: _id, ...courseInfo }) {

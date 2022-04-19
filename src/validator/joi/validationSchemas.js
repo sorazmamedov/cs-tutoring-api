@@ -17,7 +17,11 @@ const neiuId = Joi.string()
 
 const pronouns = Joi.string().allow("").trim().max(100);
 
-const about = Joi.string().allow("").trim().min(len.minLongTextLength).max(len.maxLongTextLength)
+const about = Joi.string()
+  .allow("")
+  .trim()
+  .min(len.minLongTextLength)
+  .max(len.maxLongTextLength);
 
 const firstName = Joi.string()
   .trim()
@@ -48,6 +52,7 @@ const shortText = Joi.string()
   .required();
 
 const longText = Joi.string()
+  .allow("")
   .trim()
   .min(len.minLongTextLength)
   .max(len.maxLongTextLength);

@@ -1,24 +1,20 @@
 import responseTxt from "../../config/responseTxt";
 
-export default function makeUpdateTimeslot({ editTimeslot }) {
-  return async function updateTimeslot(httpRequest) {
+export default function makeGetAppointments({ listAppointments }) {
+  return async function getAppointments(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const { booked, courseId } = httpRequest.body;
-      const updated = await editTimeslot({
-        id: httpRequest.params.id,
+      const appointments = await listAppointments({
         user: httpRequest.user,
-        // user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
-        booked,
-        courseId,
+        semesterId: httpRequest.query.semesterId,
       });
       return {
         headers,
         statusCode: 200,
-        body: { ...updated },
+        body: appointments,
       };
     } catch (e) {
       if (e.name === "RangeError") {
@@ -54,7 +50,9 @@ export default function makeUpdateTimeslot({ editTimeslot }) {
       return {
         headers,
         statusCode: 400,
-        body: { error: e.message },
+        body: {
+          error: e.message,
+        },
       };
     }
   };

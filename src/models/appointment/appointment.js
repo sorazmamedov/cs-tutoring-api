@@ -8,6 +8,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
     semesterId,
     start,
     end,
+    report = "",
     canceled = false,
     noShow = false,
   } = {}) {
@@ -20,6 +21,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       start,
       semesterId,
       end,
+      report,
       canceled,
       noShow,
     });
@@ -34,6 +36,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       getSemesterId: () => semesterId,
       getStartDate: () => start,
       getEndDate: () => end,
+      getReport: () => report,
       isCanceled: () => canceled,
       isNoShow: () => noShow,
       markCanceled: () => {

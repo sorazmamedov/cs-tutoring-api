@@ -1,17 +1,17 @@
 import responseTxt from "../../config/responseTxt";
 
-export default function makeUpdateTimeslot({ editTimeslot }) {
-  return async function updateTimeslot(httpRequest) {
+export default function makeUpdateAppointment({ editAppointment }) {
+  return async function updateAppointment(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
       const { booked, courseId } = httpRequest.body;
-      const updated = await editTimeslot({
+      const updated = await editAppointment({
         id: httpRequest.params.id,
-        user: httpRequest.user,
-        // user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
+        // user: httpRequest.user,
+        user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
         booked,
         courseId,
       });

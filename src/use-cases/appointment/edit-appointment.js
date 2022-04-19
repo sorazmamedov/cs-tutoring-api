@@ -1,4 +1,3 @@
-import dateFns from "../../date";
 import responseTxt from "../../config/responseTxt";
 import Roles from "../../config/roles";
 import makeAppointment from "../../models/appointment";
@@ -26,10 +25,6 @@ export default function makeEditTimeslot({ db }) {
     const timeslot = await db.timeslot.findById({ id });
     if (!timeslot) {
       throw new RangeError(`Timeslot ${responseTxt.notFound}`);
-    }
-
-    if (dateFns.isPast(new Date(timeslot.end))) {
-      throw new Error(responseTxt.expired);
     }
 
     //semester has to be active
@@ -79,7 +74,6 @@ export default function makeEditTimeslot({ db }) {
           end: appointment.getEndDate(),
           canceled: appointment.isCanceled(),
           noShow: appointment.isNoShow(),
-          report: appointment.getReport(),
         });
       }
       //Changing booked = false only available thru appointment cancellation

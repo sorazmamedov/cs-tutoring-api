@@ -2,6 +2,7 @@ export default function makeUserDb({ makeDb }) {
   return Object.freeze({
     find,
     findAll,
+    findByIdAndProject,
     findById,
     findByEmail,
     insert,
@@ -36,6 +37,23 @@ export default function makeUserDb({ makeDb }) {
     }));
   }
 
+  async function findByIdAndProject({ id: _id, fields }) {
+    const db = await makeDb();
+    const includeFields = {};
+    if (fields) {
+      fields.map((field) => (includeFields[field] = 1));
+    }
+    const result = await db
+      .collection("user")
+      .find({ _id }, { projection: includeFields });
+    const found = await result.toArray();
+    if (found.length === 0) {
+      return null;
+    }
+    const { _id: id, ...info } = found[0];
+    return info;
+  }
+
   async function findById({ id: _id }) {
     const db = await makeDb();
     const result = await db.collection("user").find({ _id });
@@ -60,9 +78,7 @@ export default function makeUserDb({ makeDb }) {
 
   async function insert({ id: _id, ...userInfo }) {
     const db = await makeDb();
-    const result = await db
-      .collection("user")
-      .insertOne({ _id, ...userInfo });
+    const result = await db.collection("user").insertOne({ _id, ...userInfo });
     return result?.insertedId === _id ? { id: _id, ...userInfo } : null;
   }
 

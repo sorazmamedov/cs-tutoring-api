@@ -12,4 +12,5 @@ export default Joi.object().keys({
   end: Joi.date().greater(Joi.ref("start")).required(),
   canceled: vs.boolean,
   noShow: vs.boolean,
+  report: vs.longText,
 });

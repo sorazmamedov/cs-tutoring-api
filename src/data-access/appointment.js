@@ -7,7 +7,6 @@ export default function makeAppointmentDb({ makeDb }) {
     insertMany,
     update,
     remove, //
-    findMatchingCourses,
   });
 
   async function find(query) {
@@ -21,16 +20,15 @@ export default function makeAppointmentDb({ makeDb }) {
     return found;
   }
 
-  async function findAll(params, fields) {
+  async function findAll({ semesterId, canceled, userId }) {
     const db = await makeDb();
-    const query = params ? params : {};
-    const includeFields = {};
-    if (fields) {
-      fields.map((field) => (includeFields[field] = 1));
-    }
-    const result = await db
-      .collection("appointment")
-      .find(query, { projection: includeFields });
+    const tutorId = userId;
+    const studentId = userId;
+    const result = await db.collection("appointment").find({
+      semesterId,
+      canceled,
+      $or: [{ tutorId }, { $and: [{ studentId, noShow: false }] }],
+    });
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,
@@ -80,32 +78,5 @@ export default function makeAppointmentDb({ makeDb }) {
     const db = await makeDb();
     const result = await db.collection("appointment").deleteOne({ _id });
     return result.deletedCount;
-  }
-
-  async function findMatchingCourses(semesterId, searchTxt, fields) {
-    const db = await makeDb();
-    const regex = new RegExp(searchTxt, "i");
-    const projection = {};
-    if (fields) {
-      fields.map((field) => (projection[field] = 1));
-    }
-    const result = await db.collection("appointment").find(
-      {
-        semesterId,
-        instructorName: { $not: /tba/i },
-        $or: [
-          { section: regex },
-          { courseName: regex },
-          { instructorName: regex },
-          { instructorEmail: regex },
-        ],
-      },
-      { projection }
-    );
-
-    return (await result.toArray()).map(({ _id: id, ...found }) => ({
-      id,
-      ...found,
-    }));
   }
 }

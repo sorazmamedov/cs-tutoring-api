@@ -5,6 +5,7 @@ import {
   isAfter,
   set,
   addWeeks,
+  isPast,
 } from "date-fns";
 
 export default Object.freeze({
@@ -39,5 +40,11 @@ export default Object.freeze({
     const date = typeof base === "string" ? parseISO(base) : base;
 
     return addWeeks(date, numberOfWeeks);
+  },
+
+  isPast: (base) => {
+    const date = typeof base === "string" ? parseISO(base) : base;
+
+    return isPast(base);
   },
 });

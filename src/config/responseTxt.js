@@ -11,5 +11,6 @@ export default Object.freeze({
   missingInfo: "Missing data.",
   invalidSemesterId: "You must supply valid semester id!",
   unsanitized: "Data does not comply with requirements.",
-  
+  expired: "Slot date is expired!"
+
 });

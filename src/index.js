@@ -33,6 +33,7 @@ app.use(`${apiRoot}/semesters`, require("./routes/semesterRouter"));
 app.use(`${apiRoot}/schedules`, require("./routes/scheduleRouter"));
 app.use(`${apiRoot}/users`, require("./routes/userRouter"));
 app.use(`${apiRoot}/users/:id/calendars`, require("./routes/calendarRouter"));
+app.use(`${apiRoot}/users/:id/appointments`, require("./routes/appointmentRouter"));
 app.use(`${apiRoot}/announcements`, require("./routes/announcementRouter"));
 app.use(`${apiRoot}/courses`, require("./routes/courseRouter"));
 app.use(`${apiRoot}/timeslots`, require("./routes/timeslotRouter"));
