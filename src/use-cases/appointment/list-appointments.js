@@ -59,6 +59,7 @@ export default function makeListAppointments({ db }) {
           end: item.end,
           report: item.report,
           noShow: item.noShow,
+          sent: item.isSent,
         };
       } else {
         return {
@@ -90,13 +91,13 @@ async function getUserInfo(userIds, db) {
 }
 
 async function getCourseInfo(courseIds, db) {
-  const users = {};
+  const courses = {};
   for (const key in courseIds) {
-    users[key] = await db.course.findByIdAndProject({
+    courses[key] = await db.course.findByIdAndProject({
       id: key,
       fields: ["courseName"],
     });
   }
 
-  return users;
+  return courses;
 }

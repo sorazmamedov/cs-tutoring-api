@@ -11,6 +11,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
     report = "",
     canceled = false,
     noShow = false,
+    sent = false,
   } = {}) {
     let { error } = appointmentValidator({
       id,
@@ -24,6 +25,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       report,
       canceled,
       noShow,
+      sent,
     });
     if (error) throw new Error(error);
 
@@ -45,6 +47,7 @@ export default function buildMakeAppointment({ Id, appointmentValidator }) {
       markNoShow: () => {
         noShow = true;
       },
+      isSent: () => sent,
     });
   };
 }

@@ -25,6 +25,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.5.0",
     "nanoid": "^3.1.29",
+    "nodemailer": "^6.7.3",
     "sanitize-html": "^2.5.2"
   },
   "devDependencies": {

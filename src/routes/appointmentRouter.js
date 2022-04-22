@@ -18,7 +18,7 @@ router
   .post(makeCallback(createAppointment));
 
 router
-  .route("/:id")
+  .route("/:apptId")
   .put(makeCallback(updateAppointment))
   .delete(verifyRoles(Roles.Admin, Roles.Tutor), makeCallback(deleteAppointment));
 

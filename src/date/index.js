@@ -6,6 +6,8 @@ import {
   set,
   addWeeks,
   isPast,
+  format,
+  addMinutes,
 } from "date-fns";
 
 export default Object.freeze({
@@ -46,5 +48,17 @@ export default Object.freeze({
     const date = typeof base === "string" ? parseISO(base) : base;
 
     return isPast(base);
+  },
+
+  format: (base, token) => {
+    const date = typeof base === "string" ? parseISO(base) : base;
+
+    return format(date, token);
+  },
+
+  addMinutes: (base, minutes) => {
+    const date = typeof base === "string" ? parseISO(base) : base;
+
+    return addMinutes(date, minutes);
   },
 });

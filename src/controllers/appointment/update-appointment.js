@@ -7,13 +7,14 @@ export default function makeUpdateAppointment({ editAppointment }) {
     };
 
     try {
-      const { booked, courseId } = httpRequest.body;
+      const { report, canceled, noShow } = httpRequest.body;
       const updated = await editAppointment({
-        id: httpRequest.params.id,
-        // user: httpRequest.user,
-        user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
-        booked,
-        courseId,
+        id: httpRequest.params.apptId,
+        user: httpRequest.user,
+        // user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
+        report,
+        canceled,
+        noShow,
       });
       return {
         headers,

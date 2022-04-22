@@ -13,4 +13,5 @@ export default Joi.object().keys({
   canceled: vs.boolean,
   noShow: vs.boolean,
   report: vs.longText,
+  sent: vs.boolean,
 });
