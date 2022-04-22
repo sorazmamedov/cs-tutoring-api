@@ -59,7 +59,7 @@ export default function makeListAppointments({ db }) {
           end: item.end,
           report: item.report,
           noShow: item.noShow,
-          sent: item.isSent,
+          sent: item.sent,
         };
       } else {
         return {

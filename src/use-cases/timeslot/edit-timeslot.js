@@ -80,6 +80,7 @@ export default function makeEditTimeslot({ db }) {
           canceled: appointment.isCanceled(),
           noShow: appointment.isNoShow(),
           report: appointment.getReport(),
+          sent: appointment.isSent(),
         });
       }
       //Changing booked = false only available thru appointment cancellation

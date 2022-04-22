@@ -22,6 +22,7 @@ export default function makeUpdateAppointment({ editAppointment }) {
         body: { ...updated },
       };
     } catch (e) {
+      console.log(e);
       if (e.name === "RangeError") {
         return {
           headers,
