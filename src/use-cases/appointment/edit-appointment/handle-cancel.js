@@ -2,9 +2,14 @@ import dateFns from "../../../date";
 import mailer from "../../../mailer";
 import responseTxt from "../../../config/responseTxt";
 
-export default async function handleCancel({ db, appointment, timeslot, canceled }) {
+export default async function handleCancel({
+  db,
+  appointment,
+  timeslot,
+  canceled,
+}) {
   if (canceled === appointment.canceled) {
-    throw new Error("Nothing to change")
+    throw new Error("Nothing to change");
   }
 
   const hasPassed = dateFns.isPast(appointment.end);
@@ -23,12 +28,14 @@ export default async function handleCancel({ db, appointment, timeslot, canceled
     canceled: true,
   });
 
-  const student = await db.user.findById({
+  const studentPromise = db.user.findById({
     id: appointment.studentId,
   });
-  const tutor = await db.user.findById({ id: appointment.tutorId });
+  const tutorPromise = db.user.findById({ id: appointment.tutorId });
 
-  const to = "sorazmamedov@neiu.edu, pgkimmel@neiu.edu";
+  const [student, tutor] = await Promise.all([studentPromise, tutorPromise]);
+
+  const to = "sorazmamedov@neiu.edu";
   const subject = responseTxt.cancellationTitle;
   const text =
     responseTxt.cancellationTxt +

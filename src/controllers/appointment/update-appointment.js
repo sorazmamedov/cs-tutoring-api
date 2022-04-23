@@ -11,7 +11,6 @@ export default function makeUpdateAppointment({ editAppointment }) {
       const updated = await editAppointment({
         id: httpRequest.params.apptId,
         user: httpRequest.user,
-        // user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
         report,
         canceled,
         noShow,
@@ -22,7 +21,6 @@ export default function makeUpdateAppointment({ editAppointment }) {
         body: { ...updated },
       };
     } catch (e) {
-      console.log(e);
       if (e.name === "RangeError") {
         return {
           headers,

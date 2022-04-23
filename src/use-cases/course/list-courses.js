@@ -28,6 +28,9 @@ export default function makeListCourses({ db }) {
     if (!user?.roles.includes(Roles.Admin)) {
       throw new Error(responseTxt.accessDenied);
     }
+
+    // const count = await db.course.countTotal({ semesterId });
+
     return await db.course.findAll({ semesterId });
   };
 }

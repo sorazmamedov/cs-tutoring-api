@@ -5,10 +5,10 @@ export default async function handleNoShow({
   appointment,
   getCourseInfo,
   getUserInfo,
-  noShow
+  noShow,
 }) {
   if (noShow === appointment.noShow) {
-    throw new Error("Nothing to change")
+    throw new Error("Nothing to change");
   }
 
   //setting to true is allowed after 15mins of start time
@@ -29,8 +29,12 @@ export default async function handleNoShow({
       noShow: true,
     });
 
-    const student = await getUserInfo(updated.studentId, db);
-    const course = await getCourseInfo(updated.courseId, db);
+    const studentPromise = getUserInfo(updated.studentId, db);
+    const coursePromise = getCourseInfo(updated.courseId, db);
+    const [student, course] = await Promise.all([
+      studentPromise,
+      coursePromise,
+    ]);
 
     return {
       id: updated.id,
@@ -55,8 +59,9 @@ export default async function handleNoShow({
     noShow: false,
   });
 
-  const student = await getUserInfo(updated.studentId, db);
-  const course = await getCourseInfo(updated.courseId, db);
+  const studentPromise = getUserInfo(updated.studentId, db);
+  const coursePromise = getCourseInfo(updated.courseId, db);
+  const [student, course] = await Promise.all([studentPromise, coursePromise]);
 
   return {
     id: updated.id,

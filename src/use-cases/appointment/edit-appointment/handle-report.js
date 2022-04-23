@@ -13,7 +13,7 @@ export default async function handleReport({
   }
 
   if (report === appointment.report) {
-    throw new Error("Nothing to change")
+    throw new Error("Nothing to change");
   }
 
   const modified = makeAppointment({ ...appointment, report });
@@ -33,8 +33,9 @@ export default async function handleReport({
     sent: modified.isSent(),
   });
 
-  const student = await getUserInfo(updated.studentId, db);
-  const course = await getCourseInfo(updated.courseId, db);
+  const studentPromise = getUserInfo(updated.studentId, db);
+  const coursePromise = getCourseInfo(updated.courseId, db);
+  const [student, course] = await Promise.all([studentPromise, coursePromise]);
 
   return {
     id: updated.id,

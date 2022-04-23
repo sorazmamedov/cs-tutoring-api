@@ -1,5 +1,6 @@
 export default function makeCourseDb({ makeDb }) {
   return Object.freeze({
+    countTotal,
     findAll,
     findById,
     findByIdAndProject,
@@ -9,6 +10,11 @@ export default function makeCourseDb({ makeDb }) {
     remove,
     findMatchingCourses,
   });
+
+  async function countTotal(query) {
+    const db = await makeDb();
+    return await db.collection("course").countDocuments(query);
+  }
 
   async function findAll({ semesterId }) {
     const db = await makeDb();

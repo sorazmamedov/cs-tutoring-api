@@ -6,6 +6,7 @@ import handleCancel from "./handle-cancel";
 
 export default function makeEditAppointment({ db }) {
   return async function editAppointment({ id, user, report, canceled, noShow }) {
+    console.log(noShow);
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
