@@ -1,6 +1,10 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
+  pool: true,
+  maxMessages: 20,
+  rateDelta: 25000,
+  rateLimit: 30,
   host: "smtp-mail.outlook.com",
   port: 587,
   secure: false,

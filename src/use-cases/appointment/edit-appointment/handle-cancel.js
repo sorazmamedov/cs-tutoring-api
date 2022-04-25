@@ -51,9 +51,9 @@ export default async function handleCancel({
     "PPPP"
   )}</strong>
       </p>`;
-  const response = await mailer.sendMail({ to, subject, text, html });
-  if (response) {
-    mailer.close();
-  }
+  await mailer.sendMail({ to, subject, text, html });
+  // if (response) {
+  //   mailer.close();
+  // }
   return { message: "Appointment has been canceled" };
 }

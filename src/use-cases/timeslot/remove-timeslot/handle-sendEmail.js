@@ -33,10 +33,10 @@ export default async function handleSendEmail({ db, reason, id }) {
             ${student.firstName}
           ${reason}
         </>`;
-      const response = await mailer.sendMail({ to, subject, text, html });
-      if (response) {
-        mailer.close();
-      }
+      await mailer.sendMail({ to, subject, text, html });
+      // if (response) {
+      //   mailer.close();
+      // }
     }
   } catch (error) {
     console.log(error);
