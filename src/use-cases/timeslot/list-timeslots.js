@@ -27,7 +27,6 @@ export default function makeListTimeslots({ db }) {
     }
 
     return await db.timeslot.findBetweenDates({
-      semesterId,
       start: new Date(start),
       end: new Date(end),
     });

@@ -1,32 +1,26 @@
 import responseTxt from "../../config/responseTxt";
-import ROLES from "../../config/roles";
 import { removeTimeslots } from "../timeslot";
 
 export default function makeRemoveCalendar({ db }) {
-  return async function removeCalendar({ user, id, calId, deleteAll }) {
+  return async function removeCalendar({ user, calId, deleteAll }) {
     deleteAll = deleteAll === "true";
 
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
 
-    if (id && user.id !== id) {
-      throw new Error(responseTxt.accessDenied);
-    }
-
     if (!calId) {
       throw new Error(responseTxt.invalidId);
-    }
-
-    const allowedRoles = [ROLES.Admin, ROLES.Tutor];
-    if (!user?.roles.some((role) => allowedRoles.includes(role))) {
-      throw new Error(responseTxt.accessDenied);
     }
 
     const calendarToDelete = await db.calendar.findById({ id: calId });
 
     if (!calendarToDelete) {
       throw new RangeError(`Calendar ${responseTxt.notFound}`);
+    }
+
+    if (calendarToDelete.tutorId !== user.id) {
+      throw new Error(responseTxt.accessDenied);
     }
 
     const eventId = calendarToDelete.eventId;
@@ -38,11 +32,10 @@ export default function makeRemoveCalendar({ db }) {
       let eventsDeleted = 0;
 
       if (deleteAll) {
-        console.log(deleteAll, eventId);
-        slotsDeleted = await removeTimeslots({ eventId, start });
+        removeTimeslots({ user, eventId, start });
         eventsDeleted = await db.calendar.removeRange({ eventId, start });
       } else {
-        slotsDeleted = await removeTimeslots({ eventId, start, end });
+        removeTimeslots({ user, eventId, start, end });
         eventsDeleted = await db.calendar.remove(calendarToDelete);
       }
 
@@ -51,6 +44,7 @@ export default function makeRemoveCalendar({ db }) {
         timeslot: { deletedCount: slotsDeleted.deletedCount },
       };
     } catch (error) {
+      console.log(error);
       throw error;
     }
   };

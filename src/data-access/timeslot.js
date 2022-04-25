@@ -21,19 +21,23 @@ export default function makeTimeslotDb({ makeDb }) {
     return found;
   }
 
-  async function findBetweenDates({ semesterId, start, end, tutorId }) {
+  async function findBetweenDates({ eventId, start, end, tutorId }) {
     const db = await makeDb();
     let result;
     if (tutorId) {
       result = await db.collection("timeslot").find({
-        semesterId,
         tutorId,
+        start: { $gte: start },
+        end: { $lte: end },
+      });
+    } else if (eventId) {
+      result = await db.collection("timeslot").find({
+        eventId,
         start: { $gte: start },
         end: { $lte: end },
       });
     } else {
       result = await db.collection("timeslot").find({
-        semesterId,
         start: { $gte: start },
         end: { $lte: end },
       });

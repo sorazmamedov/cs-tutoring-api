@@ -59,7 +59,7 @@ export default function makeEditAppointment({ db }) {
 
     //canceled provided, only student can cancel the appointment
     if (appointmentExists.studentId === user.id) {
-      return handleCancel({
+      return await handleCancel({
         db,
         appointment: appointmentExists,
         timeslot,
@@ -69,7 +69,7 @@ export default function makeEditAppointment({ db }) {
 
     //noShow provided
     if (noShow !== undefined) {
-      return handleNoShow({
+      return await handleNoShow({
         db,
         appointment: appointmentExists,
         getCourseInfo,
@@ -80,7 +80,7 @@ export default function makeEditAppointment({ db }) {
 
     //report provided
     if (report) {
-      return handleReport({
+      return await handleReport({
         db,
         appointment: appointmentExists,
         getCourseInfo,

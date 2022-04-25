@@ -44,8 +44,10 @@ export default function makeListAppointments({ db }) {
       }
     });
 
-    const users = await getUserInfo(userIds, db);
-    const courses = await getCourseInfo(courseIds, db);
+    const usersPromise = getUserInfo(userIds, db);
+    const coursesPromise = getCourseInfo(courseIds, db);
+
+    const [users, courses] = await Promise.all([usersPromise, coursesPromise])
 
     //remove fields depending on if id matches tutorId field or studentId
     const appointments = await result.map((item) => {

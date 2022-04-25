@@ -7,11 +7,11 @@ export default function makeRemoveTimeslot({ db }) {
       throw new Error(responseTxt.invalidId);
     }
 
-    const timeslot = await db.timeslot.findById({ id });
-    if (!timeslot) {
-      throw new RangeError(`Timeslot ${responseTxt.notFound}`);
+    const appointment = await db.appointment.findById({ id });
+    if (!appointment) {
+      throw new RangeError(`Appointment ${responseTxt.notFound}`);
     }
 
-    return await db.timeslot.remove({ id });
+    return await db.appointment.remove({ id });
   };
 }

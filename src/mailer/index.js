@@ -15,8 +15,7 @@ export default Object.freeze({
   close,
 });
 
-function sendMail({ to, subject, text }) {
-  const html = `<p style="font-size: 15px; color: green; font-weight: 400;">${text}</p>`;
+function sendMail({ to, subject, text, html }) {
   var mailOptions = {
     from: process.env.EMAIL,
     to,
