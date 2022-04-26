@@ -2,7 +2,13 @@ import responseTxt from "../../config/responseTxt";
 import Roles from "../../config/roles";
 
 export default function makeListCourses({ db }) {
-  return async function listCourses({ semesterId, searchTxt, user, page, limit }) {
+  return async function listCourses({
+    semesterId,
+    searchTxt,
+    user,
+    page,
+    limit,
+  }) {
     if (!semesterId) {
       throw new Error(responseTxt.invalidId);
     }
@@ -10,6 +16,14 @@ export default function makeListCourses({ db }) {
     const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {
       throw new Error(responseTxt.invalidSemesterId);
+    }
+
+    if (!user?.roles.includes(Roles.Admin)) {
+      if (!semesterExists.active) {
+        throw new Error(responseTxt.accessDenied);
+      } else if (!searchTxt) {
+        throw new Error("Please provide meaningful text to search with!");
+      }
     }
 
     const regex = /^(?!.*([a-z])\1{2})[a-z0-9@-]+$/i;
@@ -23,10 +37,6 @@ export default function makeListCourses({ db }) {
         searchTxt,
         fields: ["id", "section", "courseName", "instructorName"],
       });
-    }
-
-    if (!user?.roles.includes(Roles.Admin)) {
-      throw new Error(responseTxt.accessDenied);
     }
 
     limit = parseInt(limit) || 8;
