@@ -16,9 +16,9 @@ export default function makeCourseDb({ makeDb }) {
     return await db.collection("course").countDocuments(query);
   }
 
-  async function findAll({ semesterId }) {
+  async function findAll({ semesterId, skip, limit }) {
     const db = await makeDb();
-    const result = await db.collection("course").find({ semesterId });
+    const result = await db.collection("course").find({ semesterId }, { skip, limit });
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,

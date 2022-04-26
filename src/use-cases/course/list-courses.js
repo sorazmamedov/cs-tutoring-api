@@ -2,7 +2,7 @@ import responseTxt from "../../config/responseTxt";
 import Roles from "../../config/roles";
 
 export default function makeListCourses({ db }) {
-  return async function listCourses({ semesterId, searchTxt, user }) {
+  return async function listCourses({ semesterId, searchTxt, user, page, limit }) {
     if (!semesterId) {
       throw new Error(responseTxt.invalidId);
     }
@@ -29,8 +29,18 @@ export default function makeListCourses({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    // const count = await db.course.countTotal({ semesterId });
+    limit = parseInt(limit) || 8;
+    page = parseInt(page) || 1;
+    const skip = (page - 1) * limit;
+    const countPromise = db.course.countTotal({ semesterId });
+    const coursesPromise = db.course.findAll({ semesterId, skip, limit });
 
-    return await db.course.findAll({ semesterId });
+    const [count, courses] = await Promise.all([countPromise, coursesPromise]);
+    const pageCount = Math.ceil(count / limit);
+
+    return {
+      pagination: { limit, count, pageCount },
+      courses,
+    };
   };
 }
