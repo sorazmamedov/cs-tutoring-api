@@ -2,8 +2,8 @@ import responseTxt from "../../config/responseTxt";
 import Roles from "../../config/roles";
 
 export default function makeListAnnouncements({ db }) {
-  return async function listAnnouncements({ semesterId: id, user }) {
-    const semesterExists = await db.semester.findById({ id });
+  return async function listAnnouncements({ semesterId, user }) {
+    const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {
       throw new Error(responseTxt.invalidSemesterId);
     }
@@ -13,11 +13,11 @@ export default function makeListAnnouncements({ db }) {
     }
 
     if (user?.roles.includes(Roles.Admin)) {
-      return await db.announcement.findAll({ semesterId: id });
+      return await db.announcement.findAll({ semesterId });
     }
 
     return await db.announcement.findAll({
-      semesterId: id,
+      semesterId,
       published: true,
     });
   };
