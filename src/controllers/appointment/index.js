@@ -1,3 +1,4 @@
+import responseTxt from "../../config/responseTxt";
 import {
   addAppointment,
   editAppointment,
@@ -11,14 +12,14 @@ import makeGetAppointments from "./get-appointments";
 import makeDeleteAppointment from "./delete-appointment";
 
 const createAppointment = makeCreateAppointment({ addAppointment });
-const updateAppointment = makeUpdateAppointment({ editAppointment });
-const getAppointments = makeGetAppointments({ listAppointments });
 const deleteAppointment = makeDeleteAppointment({ removeAppointment });
+const getAppointments = makeGetAppointments({ listAppointments, responseTxt });
+const updateAppointment = makeUpdateAppointment({ editAppointment, responseTxt });
 const appointmentController = Object.freeze({
   createAppointment,
-  updateAppointment,
-  getAppointments,
   deleteAppointment,
+  getAppointments,
+  updateAppointment,
 });
 
 export default appointmentController;

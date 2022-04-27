@@ -8,7 +8,7 @@ export default function makeAddTimeslot({ db, dateFns }) {
       end: new Date(slotInfo.end),
     });
 
-    const exists = await checkTimeSlotExistence(timeSlot, db);
+    const exists = await checkSlotExistence(timeSlot, db);
     if (exists) {
       return exists;
     }
@@ -46,7 +46,7 @@ function insertSlot(db, timeSlot) {
   });
 }
 
-async function checkTimeSlotExistence(timeSlot, db) {
+async function checkSlotExistence(timeSlot, db) {
   const exists = await db.timeslot.findById({
     eventId: timeSlot.getEventId(),
   });

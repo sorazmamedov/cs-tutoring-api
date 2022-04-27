@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeCourse from "../../models/course";
 
-export default function makeEditCourse({ db }) {
+export default function makeEditCourse({ db, responseTxt }) {
   return async function editCourse({ id, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

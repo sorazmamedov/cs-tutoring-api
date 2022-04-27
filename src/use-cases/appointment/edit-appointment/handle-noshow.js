@@ -1,11 +1,10 @@
-import dateFns from "../../../date";
-
 export default async function handleNoShow({
   db,
   appointment,
   getCourseInfo,
   getUserInfo,
   noShow,
+  dateFns
 }) {
   if (noShow === appointment.noShow) {
     throw new Error("Nothing to change");

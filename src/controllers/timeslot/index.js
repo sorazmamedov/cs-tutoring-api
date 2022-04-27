@@ -1,3 +1,4 @@
+import responseTxt from "../../config/responseTxt";
 import {
   addTimeslot,
   editTimeslot,
@@ -11,9 +12,9 @@ import makeGetTimeslots from "./get-timeslots";
 import makeDeleteTimeslot from "./delete-timeslot";
 
 const createTimeslot = makeCreateTimeslot({ addTimeslot });
-const updateTimeslot = makeUpdateTimeslot({ editTimeslot });
-const getTimeslots = makeGetTimeslots({ listTimeslots });
 const deleteTimeslot = makeDeleteTimeslot({ removeTimeslot });
+const getTimeslots = makeGetTimeslots({ listTimeslots, responseTxt });
+const updateTimeslot = makeUpdateTimeslot({ editTimeslot, responseTxt });
 const timeslotController = Object.freeze({
   createTimeslot,
   updateTimeslot,

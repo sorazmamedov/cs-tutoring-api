@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeDeleteCalendar({ removeCalendar }) {
+export default function makeDeleteCalendar({ removeCalendar, responseTxt }) {
   return async function deleteCalendar(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

@@ -5,12 +5,13 @@ import makeListUsers from "./list-users";
 import makeRemoveUser from "./remove-user";
 import db from "../../data-access";
 import Roles from "../../config/roles";
+import responseTxt from "../../config/responseTxt";
 
 const addUser = makeAddUser({ db, Roles });
-const editUser = makeEditUser({ db, Roles });
-const listUser = makeListUser({ db });
-const listUsers = makeListUsers({ db });
-const removeUser = makeRemoveUser({ db });
+const editUser = makeEditUser({ db, Roles, responseTxt });
+const listUser = makeListUser({ db, Roles, responseTxt });
+const listUsers = makeListUsers({ db, Roles, responseTxt });
+const removeUser = makeRemoveUser({ db, responseTxt });
 
 const userService = Object.freeze({
   addUser,

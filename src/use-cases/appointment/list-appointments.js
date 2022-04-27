@@ -1,7 +1,4 @@
-import Roles from "../../config/roles";
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListAppointments({ db }) {
+export default function makeListAppointments({ db, Roles, responseTxt }) {
   return async function listAppointments({ user, semesterId }) {
     if (!semesterId) {
       throw new Error(responseTxt.invalidSemesterId);

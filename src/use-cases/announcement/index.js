@@ -4,11 +4,13 @@ import makeEditAnnouncement from "./edit-announcement";
 import makeRemoveAnnouncement from "./remove-announcement";
 
 import db from "../../data-access";
+import responseTxt from "../../config/responseTxt";
+import Roles from "../../config/roles";
 
-const addAnnouncement = makeAddAnnouncement({ db });
-const listAnnouncements = makeListAnnouncements({ db });
-const editAnnouncement = makeEditAnnouncement({ db });
-const removeAnnouncement = makeRemoveAnnouncement({ db });
+const addAnnouncement = makeAddAnnouncement({ db, responseTxt });
+const listAnnouncements = makeListAnnouncements({ db, responseTxt, Roles });
+const editAnnouncement = makeEditAnnouncement({ db, responseTxt });
+const removeAnnouncement = makeRemoveAnnouncement({ db, responseTxt });
 
 const announcementService = Object.freeze({
   addAnnouncement,

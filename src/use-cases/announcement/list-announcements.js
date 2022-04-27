@@ -1,7 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-import Roles from "../../config/roles";
-
-export default function makeListAnnouncements({ db }) {
+export default function makeListAnnouncements({ db, responseTxt, Roles }) {
   return async function listAnnouncements({ semesterId, user }) {
     const semesterExists = await db.semester.findById({ id: semesterId });
     if (!semesterExists) {

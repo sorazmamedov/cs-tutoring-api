@@ -1,3 +1,4 @@
+import responseTxt from "../../config/responseTxt";
 import {
   addCalendar,
   editCalendar,
@@ -10,16 +11,16 @@ import makeUpdateCalendar from "./update-calendar";
 import makeGetCalendars from "./get-calendars";
 import makeDeleteCalendar from "./delete-calendar";
 
-const createCalendar = makeCreateCalendar({ addCalendar });
+const createCalendar = makeCreateCalendar({ addCalendar, responseTxt });
+const deleteCalendar = makeDeleteCalendar({ removeCalendar, responseTxt });
+const getCalendars = makeGetCalendars({ listCalendars, responseTxt });
 const updateCalendar = makeUpdateCalendar({ editCalendar });
-const getCalendars = makeGetCalendars({ listCalendars });
-const deleteCalendar = makeDeleteCalendar({ removeCalendar });
 const calendarController = Object.freeze({
   createCalendar,
-  updateCalendar,
-  getCalendars,
   deleteCalendar,
+  getCalendars,
+  updateCalendar,
 });
 
 export default calendarController;
-export { createCalendar, updateCalendar, getCalendars, deleteCalendar };
+export { createCalendar, deleteCalendar, getCalendars, updateCalendar };

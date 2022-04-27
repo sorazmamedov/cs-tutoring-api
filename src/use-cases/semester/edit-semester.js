@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeSemester from "../../models/semester";
 
-export default function makeEditSemester({ db }) {
+export default function makeEditSemester({ db, responseTxt }) {
   return async function editSemester({ id, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

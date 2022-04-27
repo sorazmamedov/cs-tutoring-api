@@ -1,7 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-import Roles from "../../config/roles";
-
-export default function makeListCourses({ db }) {
+export default function makeListCourses({ db, Roles, responseTxt }) {
   return async function listCourses({
     semesterId,
     searchTxt,

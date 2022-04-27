@@ -1,7 +1,4 @@
-import Roles from "../../config/roles";
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListUsers({ db }) {
+export default function makeListUsers({ db, Roles, responseTxt }) {
   return async function listUsers({ semesterId, role, user }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);

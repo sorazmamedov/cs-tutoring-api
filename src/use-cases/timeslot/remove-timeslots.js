@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import { removeTimeslot } from ".";
 
-export default function makeRemoveTimeslots({ db }) {
+export default function makeRemoveTimeslots({ db, responseTxt }) {
   return async function removeTimeslots({ user, eventId, start, end }) {
     try {
       if (!eventId) {
@@ -17,7 +16,6 @@ export default function makeRemoveTimeslots({ db }) {
         start,
         end,
       });
-      console.log(timeslots);
       if (!timeslots.length) {
         return;
       }

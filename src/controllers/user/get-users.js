@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeGetUsers({ listUsers }) {
+export default function makeGetUsers({ listUsers, responseTxt }) {
   return async function getUsers(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

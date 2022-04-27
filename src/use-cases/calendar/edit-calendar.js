@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeCalendar from "../../models/calendar";
 
-export default function makeEditCalendar({ db }) {
+export default function makeEditCalendar({ db, responseTxt }) {
   return async function editCalendar({ id, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

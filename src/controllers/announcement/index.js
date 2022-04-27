@@ -11,9 +11,9 @@ import makeUpdateAnnouncement from "./update-announcement";
 import makeDeleteAnnouncement from "./delete-announcement";
 
 const createAnnouncement = makeCreateAnnouncement({ addAnnouncement });
+const deleteAnnouncement = makeDeleteAnnouncement({ removeAnnouncement });
 const getAnnouncements = makeGetAnnouncements({ listAnnouncements });
 const updateAnnouncement = makeUpdateAnnouncement({ editAnnouncement });
-const deleteAnnouncement = makeDeleteAnnouncement({ removeAnnouncement });
 const announcementController = Object.freeze({
   createAnnouncement,
   getAnnouncements,

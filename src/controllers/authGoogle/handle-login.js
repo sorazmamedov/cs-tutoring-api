@@ -1,11 +1,10 @@
-import responseTxt from "../../config/responseTxt";
-
 export default function makeHandleLogin({
   jwt,
   addUser,
   editUser,
   client,
   db,
+  responseTxt,
 }) {
   return async function handleLogin(httpRequest) {
     const headers = {
@@ -85,7 +84,7 @@ export default function makeHandleLogin({
       }
 
       const userInfo = jwt.sign({ userInfo: user }, process.env.COOKIE_SECRET, {
-        expiresIn: "1h",
+        expiresIn: "2h",
       });
 
       const cookie = {
@@ -95,7 +94,7 @@ export default function makeHandleLogin({
           path: "/",
           httpOnly: true,
           sameSite: "None",
-          maxAge: 3600000,
+          maxAge: 7200000,
           secure: true,
         },
       };

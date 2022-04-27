@@ -1,9 +1,6 @@
-import dateFns from "../../date";
-import responseTxt from "../../config/responseTxt";
-import Roles from "../../config/roles";
 import makeAppointment from "../../models/appointment";
 
-export default function makeEditTimeslot({ db }) {
+export default function makeEditTimeslot({ db, dateFns, Roles, responseTxt }) {
   return async function editTimeslot({ id, user, booked, courseId }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);

@@ -1,20 +1,20 @@
 import {
   addSchedule,
-  editSchedule,
   listSchedules,
+  editSchedule,
 } from "../../use-cases/schedule";
 
 import makeCreateSchedule from "./create-schedule";
-import makeUpdateSchedule from "./update-schedule";
 import makeGetSchedules from "./get-schedules";
+import makeUpdateSchedule from "./update-schedule";
 
 const createSchedule = makeCreateSchedule({ addSchedule });
-const updateSchedule = makeUpdateSchedule({ editSchedule });
 const getSchedules = makeGetSchedules({ listSchedules });
+const updateSchedule = makeUpdateSchedule({ editSchedule });
 const scheduleController = Object.freeze({
   createSchedule,
-  updateSchedule,
   getSchedules,
+  updateSchedule,
 });
 
 export default scheduleController;

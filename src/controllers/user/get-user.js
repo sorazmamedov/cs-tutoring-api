@@ -1,20 +1,18 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeGetTutors({ listUser }) {
-  return async function getTutors(httpRequest) {
+export default function makeGetUser({ listUser, responseTxt }) {
+  return async function getUser(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
     };
 
     try {
-      const tutors = await listUser({
+      const user = await listUser({
         email: httpRequest.params.email,
         user: httpRequest.user,
       });
       return {
         headers,
         statusCode: 200,
-        body: tutors,
+        body: user,
       };
     } catch (e) {
       if (e.name === "RangeError") {

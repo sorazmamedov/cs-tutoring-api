@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeRemoveUser({ db }) {
+export default function makeRemoveUser({ db, responseTxt }) {
   return async function removeUser({ id } = {}) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

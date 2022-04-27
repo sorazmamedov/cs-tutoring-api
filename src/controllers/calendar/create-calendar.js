@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeCreateCalendar({ addCalendar }) {
+export default function makeCreateCalendar({ addCalendar, responseTxt }) {
   return async function createCalendar(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

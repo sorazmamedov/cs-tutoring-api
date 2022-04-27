@@ -1,7 +1,4 @@
-import Roles from "../../config/roles";
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListUser({ db }) {
+export default function makeListUser({ db, Roles, responseTxt }) {
   return async function listUser({ id, email, user }) {
     if (!user || !user?.roles.includes(Roles.Admin)) {
       throw new Error(responseTxt.accessDenied);

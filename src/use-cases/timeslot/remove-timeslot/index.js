@@ -1,9 +1,13 @@
-import responseTxt from "../../../config/responseTxt";
-import Roles from "../../../config/roles";
-import date from "../../../date";
 import handleSendEmail from "./handle-sendEmail";
 
-export default function makeRemoveTimeslot({ db }) {
+export default function makeRemoveTimeslot({
+  db,
+  dateFns,
+  emailTypes,
+  mailer,
+  Roles,
+  responseTxt,
+}) {
   return async function removeTimeslot({ id, user, reason }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);
@@ -23,12 +27,19 @@ export default function makeRemoveTimeslot({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
-    if (date.isPast(timeslot.end)) {
+    if (dateFns.isPast(timeslot.end)) {
       throw new Error("Timeslot has expired!");
     }
 
     if (timeslot.appointmentId) {
-      handleSendEmail({ db, reason, id: timeslot.appointmentId });
+      handleSendEmail({
+        db,
+        dateFns,
+        emailTypes,
+        mailer,
+        reason,
+        id: timeslot.appointmentId,
+      });
     }
 
     return { deleted: await db.timeslot.remove({ id }) };

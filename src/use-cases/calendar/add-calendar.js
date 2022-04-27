@@ -1,9 +1,8 @@
-import responseTxt from "../../config/responseTxt";
 import makeCalendar from "../../models/calendar";
 import { makeEvent } from "../../models/calendar";
 import { addTimeslot } from "../timeslot";
 
-export default function makeAddCalendar({ db, dateFns }) {
+export default function makeAddCalendar({ db, dateFns, responseTxt }) {
   return async function addCalendar(eventInfo) {
     const tutor = await db.user.findById({ id: eventInfo.tutorId });
     if (!tutor?.isActive) {
@@ -11,9 +10,8 @@ export default function makeAddCalendar({ db, dateFns }) {
     }
 
     const semester = await checkSemesterExistence(eventInfo.semesterId, db);
-
-    const min = new Date(semester.startDate);
-    const max = new Date(semester.endDate);
+    const min = semester.startDate;
+    const max = semester.endDate;
 
     const event = makeEvent(eventInfo, { context: { min, max } });
 

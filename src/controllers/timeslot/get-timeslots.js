@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeGetTimeslots({ listTimeslots }) {
+export default function makeGetTimeslots({ listTimeslots, responseTxt }) {
   return async function getTimeslots(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeSchedule from "../../models/schedule";
 
-export default function makeEditSchedule({ db }) {
+export default function makeEditSchedule({ db, responseTxt }) {
   return async function editSchedule({ id, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

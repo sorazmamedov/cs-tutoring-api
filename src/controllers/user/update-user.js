@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeUpdateUser({ editUser }) {
+export default function makeUpdateUser({ editUser, responseTxt }) {
   return async function updateUser(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

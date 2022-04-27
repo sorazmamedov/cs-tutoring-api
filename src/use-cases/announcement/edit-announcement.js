@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeAnnouncement from "../../models/announcement";
 
-export default function makeEditAnnouncement({ db }) {
+export default function makeEditAnnouncement({ db, responseTxt }) {
   return async function editAnnouncement({ id, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

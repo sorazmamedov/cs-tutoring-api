@@ -1,7 +1,4 @@
-import Roles from "../../config/roles";
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListSchedules({ db }) {
+export default function makeListSchedules({ db, Roles, responseTxt }) {
   return async function listSchedules({ semesterId: id, user }) {
     const semesterExists = await db.semester.findById({ id });
     if (!semesterExists) {

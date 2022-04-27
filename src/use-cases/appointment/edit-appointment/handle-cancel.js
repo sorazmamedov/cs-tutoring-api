@@ -1,13 +1,12 @@
-import dateFns from "../../../date";
-import mailer from "../../../mailer";
-import emailTypes from "../../../config/emailTypes";
-import responseTxt from "../../../config/responseTxt";
-
 export default async function handleCancel({
   db,
   appointment,
   timeslot,
   canceled,
+  dateFns,
+  mailer,
+  emailTypes,
+  responseTxt,
 }) {
   if (canceled === appointment.canceled) {
     throw new Error("Nothing to change");

@@ -1,7 +1,4 @@
-import Roles from "../../config/roles";
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListTimeslots({ db }) {
+export default function makeListTimeslots({ db, Roles, responseTxt }) {
   return async function listTimeslots({ user, semesterId, start, end }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);

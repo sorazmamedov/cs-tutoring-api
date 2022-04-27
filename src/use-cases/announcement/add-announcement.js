@@ -1,11 +1,10 @@
-import responseTxt from "../../config/responseTxt";
 import makeAnnouncement from "../../models/announcement";
 
-export default function makeAddAnnouncement({ db }) {
+export default function makeAddAnnouncement({ db, responseTxt }) {
   return async function addAnnouncement(announcementInfo) {
     const announcement = makeAnnouncement(announcementInfo);
 
-    await checkSemesterExistence(announcement.getSemesterId(), db);
+    await checkSemesterExistence(announcement.getSemesterId(), db, responseTxt);
     const exists = await db.announcement.findById({ id: announcement.getId() });
     if (exists) {
       return exists;
@@ -23,7 +22,7 @@ export default function makeAddAnnouncement({ db }) {
   };
 }
 
-async function checkSemesterExistence(id, db) {
+async function checkSemesterExistence(id, db, responseTxt) {
   const semesterExists = await db.semester.findById({ id });
   if (!semesterExists) {
     throw new Error(responseTxt.invalidSemesterId);

@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import { removeTimeslots } from "../timeslot";
 
-export default function makeRemoveCalendar({ db }) {
+export default function makeRemoveCalendar({ db, responseTxt }) {
   return async function removeCalendar({ user, calId, deleteAll }) {
     deleteAll = deleteAll === "true";
 
@@ -23,6 +22,14 @@ export default function makeRemoveCalendar({ db }) {
       throw new Error(responseTxt.accessDenied);
     }
 
+    const semester = await db.semester.findById({
+      id: calendarToDelete.semesterId,
+    });
+    if (!semester.active) {
+      throw new Error(responseTxt.accessDenied);
+    }
+
+
     const eventId = calendarToDelete.eventId;
     const start = new Date(calendarToDelete.start);
     const end = new Date(calendarToDelete.end);
@@ -30,9 +37,8 @@ export default function makeRemoveCalendar({ db }) {
     try {
       let slotsDeleted = 0;
       let eventsDeleted = 0;
-
       if (deleteAll) {
-        removeTimeslots({ user, eventId, start });
+        removeTimeslots({ user, eventId, start, end: semester.endDate });
         eventsDeleted = await db.calendar.removeRange({ eventId, start });
       } else {
         removeTimeslots({ user, eventId, start, end });

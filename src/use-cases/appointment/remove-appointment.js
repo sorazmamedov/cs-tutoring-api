@@ -1,8 +1,5 @@
-import responseTxt from "../../config/responseTxt";
-import Roles from "../../config/roles";
-
-export default function makeRemoveTimeslot({ db }) {
-  return async function removeTimeslot({ id, user }) {
+export default function makeRemoveAppointment({ db, responseTxt }) {
+  return async function removeAppointment({ id, user }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);
     }

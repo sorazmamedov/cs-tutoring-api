@@ -1,10 +1,9 @@
 import makeUser from "../../models/user";
-import responseTxt from "../../config/responseTxt";
 
 const allowedDuringLogin = ["firstName", "lastName", "picture"];
 const changeNotAllowed = ["id", "email"];
 
-export default function makeEditUser({ db, Roles }) {
+export default function makeEditUser({ db, Roles, responseTxt }) {
   return async function editUser({ id, user, ...changes }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

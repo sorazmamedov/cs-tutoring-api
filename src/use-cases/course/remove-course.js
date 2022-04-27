@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeRemoveCourse({ db }) {
+export default function makeRemoveCourse({ db, responseTxt }) {
   return async function removeCourse({ id }) {
     if (!id) {
       throw new Error(responseTxt.invalidId);

@@ -24,11 +24,14 @@ export default function makeAppointmentDb({ makeDb }) {
     const db = await makeDb();
     const tutorId = userId;
     const studentId = userId;
-    const result = await db.collection("appointment").find({
-      semesterId,
-      canceled,
-      $or: [{ tutorId }, { $and: [{ studentId, noShow: false }] }],
-    });
+    const result = await db.collection("appointment").find(
+      {
+        semesterId,
+        canceled,
+        $or: [{ tutorId }, { $and: [{ studentId, noShow: false }] }],
+      },
+      { sort: { start: 1 } }
+    );
     return (await result.toArray()).map(({ _id: id, ...found }) => ({
       id,
       ...found,

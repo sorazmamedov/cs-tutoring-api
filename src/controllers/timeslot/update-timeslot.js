@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeUpdateTimeslot({ editTimeslot }) {
+export default function makeUpdateTimeslot({ editTimeslot, responseTxt }) {
   return async function updateTimeslot(httpRequest) {
     const headers = {
       "Content-Type": "application/json",
@@ -11,7 +9,6 @@ export default function makeUpdateTimeslot({ editTimeslot }) {
       const updated = await editTimeslot({
         id: httpRequest.params.id,
         user: httpRequest.user,
-        // user: { id: "DxMPRs7T8sEK", roles: [2017, 1988] },
         booked,
         courseId,
       });

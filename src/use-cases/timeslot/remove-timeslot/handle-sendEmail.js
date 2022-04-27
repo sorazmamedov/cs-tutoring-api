@@ -1,8 +1,4 @@
-import emailTypes from "../../../config/emailTypes";
-import date from "../../../date";
-import mailer from "../../../mailer";
-
-export default async function handleSendEmail({ db, reason, id }) {
+export default async function handleSendEmail({ db, dateFns, emailTypes, mailer, reason, id }) {
   try {
     const appointment = await db.appointment.findById({ id });
 
@@ -16,22 +12,22 @@ export default async function handleSendEmail({ db, reason, id }) {
         studentPromise,
       ]);
 
-      const to = "sorazmamedov@neiu.edu, sorazmamedov@gmail.com";
+      const to = "sorazmamedov@neiu.edu";
       const subject = emailTypes.CancelTitle;
-      const text = `${emailTypes.Cancel} ${date.format(
+      const text = `${emailTypes.Cancel} ${dateFns.format(
         appointment.start,
         "PPPP"
-      )}.\n${student.firstName}\n${reason}`;
+      )}.\n${student.firstName}\n${reason ? reason : ""}`;
       const html = `
         <p style="font-size: 15px; color: green; font-weight: 400;">
-          ${emailTypes.Cancel} <strong>${date.format(
+          ${emailTypes.Cancel} <strong>${dateFns.format(
         appointment.start,
         "PPPP"
       )}</strong>
         </p>
         <p style="font-size: 15px; font-weight: 300;">
             ${student.firstName}
-          ${reason}
+          ${reason ? reason : ""}
         </>`;
       await mailer.sendMail({ to, subject, text, html });
       // if (response) {

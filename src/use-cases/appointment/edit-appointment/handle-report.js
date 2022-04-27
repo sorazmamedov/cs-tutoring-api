@@ -1,5 +1,4 @@
 import makeAppointment from "../../../models/appointment";
-import responseTxt from "../../../config/responseTxt";
 
 export default async function handleReport({
   db,
@@ -7,6 +6,7 @@ export default async function handleReport({
   getCourseInfo,
   getUserInfo,
   report,
+  responseTxt
 }) {
   if (appointment.sent) {
     throw new Error(responseTxt.accessDenied);

@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeSchedule from "../../models/schedule";
 
-export default function makeAddSchedule({ db }) {
+export default function makeAddSchedule({ db, responseTxt }) {
   return async function addSchedule(scheduleInfo) {
     const schedule = makeSchedule(scheduleInfo);
 

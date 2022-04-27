@@ -1,12 +1,22 @@
-import responseTxt from "../../../config/responseTxt";
-import Roles from "../../../config/roles";
 import handleReport from "./handle-report";
 import handleNoShow from "./handle-noshow";
 import handleCancel from "./handle-cancel";
 
-export default function makeEditAppointment({ db }) {
-  return async function editAppointment({ id, user, report, canceled, noShow }) {
-    console.log(noShow);
+export default function makeEditAppointment({
+  db,
+  dateFns,
+  Roles,
+  responseTxt,
+  mailer,
+  emailTypes,
+}) {
+  return async function editAppointment({
+    id,
+    user,
+    report,
+    canceled,
+    noShow,
+  }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
@@ -64,6 +74,10 @@ export default function makeEditAppointment({ db }) {
         appointment: appointmentExists,
         timeslot,
         canceled,
+        dateFns,
+        mailer,
+        emailTypes,
+        responseTxt,
       });
     }
 
@@ -75,6 +89,7 @@ export default function makeEditAppointment({ db }) {
         getCourseInfo,
         getUserInfo,
         noShow,
+        dateFns,
       });
     }
 
@@ -86,6 +101,7 @@ export default function makeEditAppointment({ db }) {
         getCourseInfo,
         getUserInfo,
         report,
+        responseTxt,
       });
     }
 

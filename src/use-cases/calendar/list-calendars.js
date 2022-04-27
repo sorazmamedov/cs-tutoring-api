@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeListCalendars({ db }) {
+export default function makeListCalendars({ db, responseTxt }) {
   return async function listCalendars({ semesterId, user, start, end }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);

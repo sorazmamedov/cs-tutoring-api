@@ -1,7 +1,6 @@
-import responseTxt from "../../config/responseTxt";
 import makeCourse from "../../models/course";
 
-export default function makeAddCourse({ db }) {
+export default function makeAddCourse({ db, responseTxt }) {
   return async function addCourse({ semesterId, courseInfo, coursesInfo }) {
     const semesterExists = await checkSemesterExistence(semesterId, db);
     if (!semesterExists) {

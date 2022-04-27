@@ -1,6 +1,4 @@
-import responseTxt from "../../config/responseTxt";
-
-export default function makeUpdateAppointment({ editAppointment }) {
+export default function makeUpdateAppointment({ editAppointment, responseTxt }) {
   return async function updateAppointment(httpRequest) {
     const headers = {
       "Content-Type": "application/json",

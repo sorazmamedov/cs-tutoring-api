@@ -11,9 +11,9 @@ import makeGetSemesters from "./get-semesters";
 import makeGetActiveSemester from "./get-activeSemester";
 
 const createSemester = makeCreateSemester({ addSemester });
-const updateSemester = makeUpdateSemester({ editSemester });
-const getSemesters = makeGetSemesters({ listSemesters });
 const getActiveSemester = makeGetActiveSemester({ listActiveSemester });
+const getSemesters = makeGetSemesters({ listSemesters });
+const updateSemester = makeUpdateSemester({ editSemester });
 const semesterController = Object.freeze({
   createSemester,
   updateSemester,
