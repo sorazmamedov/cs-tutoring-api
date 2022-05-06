@@ -39,13 +39,13 @@ export default async function handleCancel({
 
   const to = "sorazmamedov@neiu.edu";
   const subject = emailTypes.CancelTitle;
-  const text = `${emailTypes.Cancel} ${date.format(
+  const text = `${emailTypes.Cancel} ${dateFns.format(
     appointment.start,
     "PPPP"
   )}.`;
   const html = `
       <p style="font-size: 15px; color: green; font-weight: 400;">
-        ${emailTypes.Cancel} <strong>${date.format(
+        ${emailTypes.Cancel} <strong>${dateFns.format(
     appointment.start,
     "PPPP"
   )}</strong>

@@ -25,9 +25,9 @@ export default function makeEditTimeslot({ db, dateFns, Roles, responseTxt }) {
       throw new RangeError(`Timeslot ${responseTxt.notFound}`);
     }
 
-    if (dateFns.isPast(new Date(timeslot.end))) {
-      throw new Error(responseTxt.expired);
-    }
+    // if (dateFns.isPast(new Date(timeslot.end))) {
+    //   throw new Error(responseTxt.expired);
+    // }
 
     //semester has to be active
     const semester = await db.semester.findById({ id: timeslot.semesterId });
