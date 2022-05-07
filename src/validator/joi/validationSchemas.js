@@ -42,7 +42,7 @@ const email = Joi.string()
     maxDomainSegments: 2,
     tlds: { allow: ["edu"] },
   })
-  .regex(/[A-Za-z0-9-]+@neiu.edu$/)
+  .regex(/[A-Za-z0-9-]+@mindtek.edu$/)
   .required();
 
 const shortText = Joi.string()
@@ -92,10 +92,6 @@ const end = Joi.date()
   .less(Joi.ref("$max"))
   .required();
 
-const status = Joi.string()
-  .pattern(new RegExp(/^(pending|sent|error)$/))
-  .required();
-
 const weekday = Joi.string()
   .trim()
   .pattern(/^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$/)
@@ -140,7 +136,6 @@ export default Object.freeze({
   endDate,
   start,
   end,
-  status,
   weekday,
   startHour,
   endHour,
@@ -169,7 +164,6 @@ export {
   endDate,
   start,
   end,
-  status,
   weekday,
   startHour,
   endHour,

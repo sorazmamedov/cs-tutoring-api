@@ -4,8 +4,6 @@ export default async function handleCancel({
   timeslot,
   canceled,
   dateFns,
-  mailer,
-  emailTypes,
   responseTxt,
 }) {
   if (canceled === appointment.canceled) {
@@ -30,29 +28,5 @@ export default async function handleCancel({
 
   await Promise.all([slotPromise, appointmentPromise]);
 
-  const studentPromise = db.user.findById({
-    id: appointment.studentId,
-  });
-  const tutorPromise = db.user.findById({ id: appointment.tutorId });
-
-  const [student, tutor] = await Promise.all([studentPromise, tutorPromise]);
-
-  const to = "sorazmamedov@neiu.edu";
-  const subject = emailTypes.CancelTitle;
-  const text = `${emailTypes.Cancel} ${dateFns.format(
-    appointment.start,
-    "PPPP"
-  )}.`;
-  const html = `
-      <p style="font-size: 15px; color: green; font-weight: 400;">
-        ${emailTypes.Cancel} <strong>${dateFns.format(
-    appointment.start,
-    "PPPP"
-  )}</strong>
-      </p>`;
-  await mailer.sendMail({ to, subject, text, html });
-  // if (response) {
-  //   mailer.close();
-  // }
   return { message: "Appointment has been canceled" };
 }

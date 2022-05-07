@@ -2,9 +2,9 @@ const len = Object.freeze({
   //length of a field
   dateLength: 10,
   idLength: 12,
-  neiuIdLength: 9,
-  neiuIdStart: 100000,
-  neiuIdEnd: 999999,
+  mindtekIdLength: 9,
+  mindtekIdStart: 100000,
+  mindtekIdEnd: 999999,
   minNameLength: 2,
   maxNameLength: 30,
   minShortTextLength: 2,
@@ -26,7 +26,7 @@ const errMessages = Object.freeze({
   isRequired: "is required!",
   noEmpty: "cannot be empty",
   idError: `"id" must be a string of length ${len.idLength}!`,
-  neiuIdError: `NEIU ID must be a ${len.neiuIdLength} digit number! example: 000123456`,
+  mindtekIdError: `Mindtek ID must be a ${len.mindtekIdLength} digit number! example: 000123456`,
   nameError: `must be a string of length: min=${len.minNameLength}, max=${len.maxNameLength}`,
   firstnameError: `Firstname must be a string of length: min=${len.minNameLength}, max=${len.maxNameLength}`, //?
   lastnameError: "Lastname must be a string of length: min=2, max=30", //?
@@ -40,7 +40,7 @@ const errMessages = Object.freeze({
   booleanError: "Must be a boolean!",
   subjectError: `Must be a string of length: min=${len.minSubjectLength} max=${len.maxSubjectLength} characters!`,
   contentError: `Must be a string of length: min=${len.minContentLength} max=${len.maxContentLength} characters!`,
-  emailError: "Email must be in neiu.edu (ex: johndoe@neiu.edu) domain!",
+  emailError: "Email must be in mindtek.edu (ex: johndoe@mindtek.edu) domain!",
   academicYearError: "Year is required and must be a positive integer!",
   dayError: "Day must be a number between 0-6, 0-Sunday, 1-Monday and so on!",
   startEndHourError: "Hour must be a number between 6-22 (6am-10pm)!",

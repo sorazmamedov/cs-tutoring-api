@@ -7,8 +7,6 @@ export default function makeEditAppointment({
   dateFns,
   Roles,
   responseTxt,
-  mailer,
-  emailTypes,
 }) {
   return async function editAppointment({
     id,
@@ -75,8 +73,6 @@ export default function makeEditAppointment({
         timeslot,
         canceled,
         dateFns,
-        mailer,
-        emailTypes,
         responseTxt,
       });
     }

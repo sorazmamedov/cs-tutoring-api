@@ -6,8 +6,6 @@ import db from "../../data-access";
 import dateFns from "../../date";
 import Roles from "../../config/roles";
 import responseTxt from "../../config/responseTxt";
-import mailer from "../../mailer";
-import emailTypes from "../../config/emailTypes";
 
 const addAppointment = makeAddAppointment({ db, dateFns });
 const editAppointment = makeEditAppointment({
@@ -15,8 +13,6 @@ const editAppointment = makeEditAppointment({
   dateFns,
   Roles,
   responseTxt,
-  mailer,
-  emailTypes,
 });
 const listAppointments = makeListAppointments({ db, Roles, responseTxt });
 const removeAppointment = makeRemoveAppointment({ db, responseTxt });

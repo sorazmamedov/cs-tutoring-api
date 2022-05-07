@@ -1,7 +1,6 @@
 import userSchema from "./user-schema";
 import announcementSchema from "./announcement-schema";
 import appointmentSchema from "./appointment-schema";
-import reportSchema from "./report-schema";
 import courseSchema from "./course-schema";
 import scheduleSchema from "./schedule-schema";
 import semesterSchema from "./semester-schema";
@@ -30,7 +29,6 @@ let validator = Object.freeze({
   userValidator: (payload) => JoiValidator(payload, userSchema),
   announcementValidator: (payload) => JoiValidator(payload, announcementSchema),
   appointmentValidator: (payload) => JoiValidator(payload, appointmentSchema),
-  reportValidator: (payload) => JoiValidator(payload, reportSchema),
   courseValidator: (payload) => JoiValidator(payload, courseSchema),
   scheduleValidator: (payload) => JoiValidator(payload, scheduleSchema),
   semesterValidator: (payload) => JoiValidator(payload, semesterSchema),

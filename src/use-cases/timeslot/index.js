@@ -7,8 +7,6 @@ import db from "../../data-access";
 import dateFns from "../../date";
 import Roles from "../../config/roles";
 import responseTxt from "../../config/responseTxt";
-import emailTypes from "../../config/emailTypes";
-import mailer from "../../mailer";
 
 const addTimeslot = makeAddTimeslot({ db, dateFns });
 const editTimeslot = makeEditTimeslot({ db, dateFns, Roles, responseTxt });
@@ -16,8 +14,6 @@ const listTimeslots = makeListTimeslots({ db, Roles, responseTxt });
 const removeTimeslot = makeRemoveTimeslot({
   db,
   dateFns,
-  emailTypes,
-  mailer,
   Roles,
   responseTxt,
 });

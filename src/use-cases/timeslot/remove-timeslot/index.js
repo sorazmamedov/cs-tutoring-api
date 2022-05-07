@@ -3,12 +3,10 @@ import handleSendEmail from "./handle-sendEmail";
 export default function makeRemoveTimeslot({
   db,
   dateFns,
-  emailTypes,
-  mailer,
   Roles,
   responseTxt,
 }) {
-  return async function removeTimeslot({ id, user, reason }) {
+  return async function removeTimeslot({ id, user }) {
     if (!user) {
       throw new Error(responseTxt.unauthorized);
     }
@@ -34,10 +32,6 @@ export default function makeRemoveTimeslot({
     if (timeslot.appointmentId) {
       handleSendEmail({
         db,
-        dateFns,
-        emailTypes,
-        mailer,
-        reason,
         id: timeslot.appointmentId,
       });
     }

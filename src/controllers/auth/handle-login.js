@@ -13,7 +13,7 @@ export default function makeHandleLogin({ jwt, db, responseTxt }) {
     const tokenId = authHeader.split(" ")[1];
     console.log(tokenId);
     try {
-      let isEmail = /[A-Za-z0-9-]+@neiu.edu$/.test(tokenId);
+      let isEmail = /[A-Za-z0-9-]+@mindtek.edu$/.test(tokenId);
       let user;
       if (!isEmail) {
         return {
